@@ -67,7 +67,7 @@ public class DeveloperCommand implements CommandExecutor {
 							ChatColor color = ChatColor.RED;
 							if(Core.getInstance().getUserManager().getUser(player).getActiveAbilities().contains(ability))
 								color = ChatColor.GREEN;
-							list += color + ability.getName().replace(" ", "_").toLowerCase() + " ";
+							list += ability.getScarcity().getColor() + "[" + color + ability.getName().replace(" ", "_").toLowerCase() + ability.getScarcity().getColor() + "] ";
 						}
 							
 					player.sendMessage("Select an ability. List: " + list);

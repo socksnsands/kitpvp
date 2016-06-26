@@ -7,7 +7,9 @@ import org.bukkit.Bukkit;
 import org.kitpvp.ability.abilities.FeatherBoots;
 import org.kitpvp.ability.abilities.FlameAura;
 import org.kitpvp.ability.abilities.Flash;
+import org.kitpvp.ability.abilities.Jesus;
 import org.kitpvp.ability.abilities.QuickShot;
+import org.kitpvp.ability.abilities.Shocker;
 import org.kitpvp.core.Core;
 import org.kitpvp.unlockable.Unlockable.Scarcity;
 
@@ -40,11 +42,15 @@ public class UnlockableManager {
 		unlockables.add(new FlameAura());
 		unlockables.add(new QuickShot());
 		unlockables.add(new Flash());
+		unlockables.add(new Shocker());
+		unlockables.add(new Jesus());
 	}
 	
 	private void registerAllListeners(){
 		//If an ability implements Listener..
 		Bukkit.getServer().getPluginManager().registerEvents(new FeatherBoots(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Shocker(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Jesus(), Core.getInstance());
 	}
 	
 	public Scarcity getRandom(){

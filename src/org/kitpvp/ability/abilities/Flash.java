@@ -16,7 +16,7 @@ public class Flash extends Ability {
 	public Flash() {
 		super("Flash", "Instantly flash 4 blocks forwards!", Material.BLAZE_ROD, Scarcity.PURPLE);
 		super.setClickedItem(new ItemStack(Material.BLAZE_ROD));
-		super.setCooldown(12*20);a
+		super.setCooldown(12*20);
 	}
 	
 	@SuppressWarnings("deprecation")

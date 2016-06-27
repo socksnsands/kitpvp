@@ -52,6 +52,10 @@ public abstract class Ability extends Unlockable {
 		this.clickedItem = clickedItem;
 	}
 	
+	protected void setClickedItem(Material clickedItem){
+		this.clickedItem = new ItemStack(clickedItem);
+	}
+	
 	final protected AbilityUseEvent callEvent(Player player, Ability ability){
 		AbilityUseEvent event = new AbilityUseEvent(player, ability);
 		Bukkit.getServer().getPluginManager().callEvent(event);

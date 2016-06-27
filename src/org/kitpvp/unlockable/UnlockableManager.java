@@ -12,6 +12,7 @@ import org.kitpvp.ability.abilities.Flash;
 import org.kitpvp.ability.abilities.Jesus;
 import org.kitpvp.ability.abilities.QuickShot;
 import org.kitpvp.ability.abilities.Shocker;
+import org.kitpvp.ability.abilities.WindStorm;
 import org.kitpvp.core.Core;
 import org.kitpvp.unlockable.Unlockable.Scarcity;
 
@@ -47,6 +48,7 @@ public class UnlockableManager {
 		unlockables.add(new Shocker());
 		unlockables.add(new Jesus());
 		unlockables.add(new Bash());
+		unlockables.add(new WindStorm());
 	}
 	private void registerAllListeners() {
 		//If an ability implements Listener..

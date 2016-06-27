@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +17,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.kitpvp.ability.Ability;
 import org.kitpvp.core.Core;
+import org.kitpvp.util.ParticleEffect;
 
 public class Jesus extends Ability implements Listener {
 
@@ -56,17 +58,18 @@ public class Jesus extends Ability implements Listener {
 	private void playJesusEffect(final Player player){
 		player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 4*20, 0));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 4*20, 40));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 4*20, 40));
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 1);
 		for(int i = 0; i < 10; i++){
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable(){
 
 				@Override
 				public void run() {
-					player.getWorld().playEffect(player.getLocation().clone().add(0,2,0), Effect.CLOUD, 1);
+					ParticleEffect.CLOUD.display(0, 0, 0, 0, 3, player.getLocation().clone().add(0,-.5,0), 100);
 				}
 				
 			}, i*8);
 		}
-		player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 4*20, 40));
 	}
 
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
+import org.kitpvp.ability.abilities.Bash;
 import org.kitpvp.ability.abilities.FeatherBoots;
 import org.kitpvp.ability.abilities.FlameAura;
 import org.kitpvp.ability.abilities.Flash;
@@ -44,13 +46,15 @@ public class UnlockableManager {
 		unlockables.add(new Flash());
 		unlockables.add(new Shocker());
 		unlockables.add(new Jesus());
+		unlockables.add(new Bash());
 	}
-	
-	private void registerAllListeners(){
+	private void registerAllListeners() {
 		//If an ability implements Listener..
-		Bukkit.getServer().getPluginManager().registerEvents(new FeatherBoots(), Core.getInstance());
-		Bukkit.getServer().getPluginManager().registerEvents(new Shocker(), Core.getInstance());
-		Bukkit.getServer().getPluginManager().registerEvents(new Jesus(), Core.getInstance());
+		PluginManager pm = Bukkit.getServer().getPluginManager();
+		pm.registerEvents(new FeatherBoots(), Core.getInstance());
+		pm.registerEvents(new Shocker(), Core.getInstance());
+		pm.registerEvents(new Jesus(), Core.getInstance());
+		pm.registerEvents(new Bash(), Core.getInstance());
 	}
 	
 	public Scarcity getRandom(){

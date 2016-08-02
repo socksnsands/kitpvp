@@ -1,8 +1,8 @@
-name: Kitpvp
-version: 1.0
+name: kitpvp
+version: 1.2
 author: _Ug
-description: Kitpvp.org plugin
+description: kitpvp.org plugin
 main: org.kitpvp.core.Core
 commands:
   dev:
-    description: Developer access command
+    description: Developer command!

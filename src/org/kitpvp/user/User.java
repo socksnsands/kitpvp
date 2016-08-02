@@ -6,12 +6,14 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 import org.kitpvp.ability.Ability;
 import org.kitpvp.unlockable.Unlockable;
+import org.kitpvp.unlockable.UnlockableSeries;
 
 public class User {
 
 	private Player player;
 	
 	private ArrayList<Unlockable> ownedUnlockables = new ArrayList<Unlockable>();
+	private HashMap<UnlockableSeries, Integer> ownedSeries = new HashMap<UnlockableSeries, Integer>();
 	private ArrayList<Ability> activeAbilities = new ArrayList<Ability>();
 	private HashMap<Ability, Integer> cooldowns = new HashMap<Ability, Integer>();
 	
@@ -20,7 +22,28 @@ public class User {
 	public User(Player player){
 		this.player = player;
 		
-		//TODO load unlockables
+		//TODO load unlockables & series
+	}
+	
+	public void addSeries(UnlockableSeries series){
+		if(ownedSeries.containsKey(series))
+			ownedSeries.put(series, ownedSeries.get(series) + 1);
+		else
+			ownedSeries.put(series, 1);
+		//TODO save to db
+	}
+	
+	public void removeSeries(UnlockableSeries series){
+		if(ownedSeries.containsKey(series))
+			if(ownedSeries.get(series) > 0)
+				ownedSeries.put(series, ownedSeries.get(series)-1);
+		//TODO save to db
+	}
+	
+	public int getQuantityOfSeries(UnlockableSeries series){
+		if(ownedSeries.containsKey(series))
+			return ownedSeries.get(series);
+		return 0;
 	}
 	
 	public void addUnlockable(Unlockable unlockable){
@@ -64,12 +87,16 @@ public class User {
 	}
 	
 	public void callCooldownTick(){
+		ArrayList<Ability> toRemove = new ArrayList<Ability>();
 		for(Ability ability : cooldowns.keySet()){
 			cooldowns.put(ability, cooldowns.get(ability)-1);
 			if(cooldowns.get(ability) == 0){
-				cooldowns.remove(ability);
+				toRemove.add(ability);
 				ability.onFinishCooldown(player, ability);
 			}
+		}
+		for(Ability ability : toRemove){
+			cooldowns.remove(ability);
 		}
 	}
 	

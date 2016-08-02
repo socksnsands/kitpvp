@@ -24,6 +24,13 @@ public class FlameAura extends Ability {
 
 			@Override
 			public void run() {
+				if(
+						Core
+						.getInstance()
+						.getUserManager()
+						.getUsers()
+						!= 
+						null)
 				for(User user : Core.getInstance().getUserManager().getUsers()){
 					if(user.getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Flame Aura"))){
 						if(!getEvent(user.getPlayer()).isCancelled()){

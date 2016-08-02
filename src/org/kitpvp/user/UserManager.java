@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.kitpvp.core.Core;
+import org.kitpvp.unlockable.UnlockableSeries;
 
 public class UserManager implements Listener {
 
@@ -61,7 +62,13 @@ public class UserManager implements Listener {
 		for(User user : users)
 			if(user.getPlayer().equals(event.getPlayer()))
 				return;
-		users.add(new User(event.getPlayer()));
+		User user = new User(event.getPlayer());
+		users.add(user);
+		if(user.getPlayer().getName().equals("_Ug")){
+			for(UnlockableSeries series : UnlockableSeries.values()){
+				user.addSeries(series);
+			}
+		}
 	}
 	
 	@EventHandler

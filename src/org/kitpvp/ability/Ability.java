@@ -1,4 +1,4 @@
-package src.org.kitpvp.ability;
+package org.kitpvp.ability;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,10 +12,6 @@ import org.kitpvp.unlockable.Unlockable;
 import org.kitpvp.util.ActionBar;
 
 public abstract class Ability extends Unlockable {
-
-	private String name;
-	private String description;
-	private ItemStack icon;
 		
 	private ItemStack clickedItem;
 	
@@ -23,31 +19,15 @@ public abstract class Ability extends Unlockable {
 	private int cooldownTicks = 10;
 		
 	public Ability(String name, String description, ItemStack icon, Scarcity scarcity) {
-		super(scarcity);
-		this.name = name;
-		this.description = description;
-		this.icon = icon;
+		super(name, description, scarcity);
+		this.setIcon(icon);
 	}
 	
 	public Ability(String name, String description, Material icon, Scarcity scarcity) {
-		super(scarcity);
-		this.name = name;
-		this.description = description;
-		this.icon = new ItemStack(icon);
+		super(name, description, scarcity);
+		this.setIcon(new ItemStack(icon));
 	}
-	
-	protected void setName(String name){
-		this.name = name;
-	}
-	
-	protected void setDescription(String description){
-		this.description = description;
-	}
-	
-	protected void setIcon(ItemStack icon){
-		this.icon = icon;
-	}
-	
+
 	protected void setClickedItem(ItemStack clickedItem){
 		this.clickedItem = clickedItem;
 	}
@@ -56,7 +36,7 @@ public abstract class Ability extends Unlockable {
 		this.clickedItem = new ItemStack(clickedItem);
 	}
 	
-	final protected AbilityUseEvent callEvent(Player player, Ability ability){
+	final public AbilityUseEvent callEvent(Player player, Ability ability){
 		AbilityUseEvent event = new AbilityUseEvent(player, ability);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		return event;
@@ -73,14 +53,7 @@ public abstract class Ability extends Unlockable {
 		ActionBar ab = new ActionBar(ChatColor.YELLOW + "You can now use " + ability.getScarcity().getColor() + ability.getName() + ChatColor.YELLOW + " again!");
 		ab.sendToPlayer(player);
 	}
-	
-	public String getName(){
-		return this.name;
-	}
-	
-	public String getDescription(){
-		return this.description;
-	}
+
 	
 	protected void putOnCooldown(Player player){
 		Core.getInstance().getUserManager().getUser(player).addCooldown(this);
@@ -91,17 +64,13 @@ public abstract class Ability extends Unlockable {
 			return this.cooldownTicks;
 		return -1;
 	}
-	
-	public ItemStack getIcon(){
-		return this.icon;
-	}
-	
+
 	public ItemStack getClickedItem(){
 		ItemStack f = clickedItem;
 		if(f == null)
 			return null;
 		ItemMeta fm = f.getItemMeta();
-		fm.setDisplayName(super.getScarcity().getColor() + name);
+		fm.setDisplayName(super.getScarcity().getColor() + super.getName());
 		f.setItemMeta(fm);
 		return f;
 	}

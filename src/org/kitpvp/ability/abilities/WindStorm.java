@@ -9,7 +9,10 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -63,12 +66,14 @@ public class WindStorm extends Ability implements Listener {
 										loc.getWorld().playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
 									for(Player p : Bukkit.getServer().getOnlinePlayers()){
 										if(!p.equals(player)){
+											double dist = p.getLocation().distance(location);
+											if(dist <= 4.5){
 											p.damage(2);
-											double dist = p.getLocation().distance(loc);
 											int h = (int) (3-dist <= 0 ? 0 : 3-dist);
 											int l = (int) (-3-dist >= 0 ? 0 : -3-dist);
 											p.setVelocity(new Vector(random.nextInt(h-l)+l, (random.nextInt(h-l)+l)/2, random.nextInt(h-l)+l));
 										}
+									}
 									}
 								}
 							}

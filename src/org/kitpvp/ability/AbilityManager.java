@@ -37,9 +37,8 @@ public class AbilityManager implements Listener {
 	public Ability getAbility(String name){
 		for(Unlockable unlockable : Core.getInstance().getUnlockableManager().getRegisteredUnlockables()){
 			if(unlockable instanceof Ability){
-				Ability ability = (Ability) unlockable;
-				if(ability.getName().equalsIgnoreCase(name)){
-					return ability;
+				if(unlockable.getName().equalsIgnoreCase(name)){
+					return (Ability) unlockable;
 				}
 			}
 		}

@@ -12,7 +12,7 @@ import org.kitpvp.ability.Ability;
 public class Totem extends Ability {
 
 	public Totem() {
-		super("Totem", "Create totem buffs!", Material.ARMOR_STAND, Scarcity.RED);
+		super("Totem", "Create totem buffs!", Material.ARMOR_STAND, Scarcity.RED, 10);
 		super.setCooldown(15 * 20);
 		super.setClickedItem(new ItemStack(Material.IRON_BARDING));
 	}

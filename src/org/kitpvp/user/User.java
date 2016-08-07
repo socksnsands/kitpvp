@@ -1,28 +1,72 @@
 package org.kitpvp.user;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.kitpvp.ability.Ability;
+import org.kitpvp.core.Core;
+import org.kitpvp.loadout.Loadout;
 import org.kitpvp.unlockable.Unlockable;
 import org.kitpvp.unlockable.UnlockableSeries;
+import org.kitpvp.user.rank.Rank;
+import org.kitpvp.util.ItemManager;
 
 public class User {
 
 	private Player player;
 	
-	private ArrayList<Unlockable> ownedUnlockables = new ArrayList<Unlockable>();
+	private HashMap<Unlockable, Integer> ownedUnlockables = new HashMap<Unlockable, Integer>();
 	private HashMap<UnlockableSeries, Integer> ownedSeries = new HashMap<UnlockableSeries, Integer>();
 	private ArrayList<Ability> activeAbilities = new ArrayList<Ability>();
 	private HashMap<Ability, Integer> cooldowns = new HashMap<Ability, Integer>();
+	private ArrayList<Loadout> loadouts = new ArrayList<Loadout>();
+	
+	private Rank rank;
+	
+	private int balance = 0;
+	
+	private int maxLoadouts = 3;
 	
 	private boolean isSafe = true;
 	
 	public User(Player player){
 		this.player = player;
 		
-		//TODO load unlockables & series
+		rank = Rank.DEFAULT;
+		//TODO load unlockables & series & balance & loadouts & rank
+	}
+	
+	public Rank getRank(){
+		return this.rank;
+	}
+	
+	public void setRank(Rank rank){
+		this.rank = rank;
+		//TODO save to config
+	}
+	
+	public void resetInventory(){
+		player.getInventory().clear();
+		player.setHealth(20);
+		player.setFoodLevel(20);
+		player.getActivePotionEffects().clear();
+		player.setFlying(false);
+		player.setFallDistance(0);
+		player.setFireTicks(0);
+		player.setGameMode(GameMode.ADVENTURE);
+		player.getInventory().setHelmet(new ItemStack(Material.AIR));
+		player.getInventory().setChestplate(new ItemStack(Material.AIR));
+		player.getInventory().setLeggings(new ItemStack(Material.AIR));
+		player.getInventory().setBoots(new ItemStack(Material.AIR));
 	}
 	
 	public void addSeries(UnlockableSeries series){
@@ -31,6 +75,20 @@ public class User {
 		else
 			ownedSeries.put(series, 1);
 		//TODO save to db
+	}
+	
+	public void removeMoney(int amount){
+		this.balance -= amount;
+		if(this.balance < 0)
+			this.balance = 0;
+	}
+	
+	public void addMoney(int amount){
+		this.balance += amount;
+	}
+	
+	public int getBalance(){
+		return this.balance;
 	}
 	
 	public void removeSeries(UnlockableSeries series){
@@ -47,17 +105,22 @@ public class User {
 	}
 	
 	public void addUnlockable(Unlockable unlockable){
-		if(!ownedUnlockables.contains(unlockable)){
+		if(this.ownedUnlockables.containsKey(unlockable))
+			this.ownedUnlockables.put(unlockable, this.ownedUnlockables.get(unlockable) + 1);
+		else
+			this.ownedUnlockables.put(unlockable, 1);
 			//TODO save unlockable to db
-			ownedUnlockables.add(unlockable);
-		}
 	}
 	
 	public void removeUnlockable(Unlockable unlockable){
-		if(ownedUnlockables.contains(unlockable)){
-			//TODO remove unlockable from db
-			ownedUnlockables.remove(unlockable);
+		if(ownedUnlockables.containsKey(unlockable)){
+			if(ownedUnlockables.get(unlockable) > 1){
+				ownedUnlockables.put(unlockable, ownedUnlockables.get(unlockable) - 1);
+			}else{
+				ownedUnlockables.remove(unlockable);
+			}
 		}
+		//TODO remove unlockable from db
 	}
 	
 	public ArrayList<Ability> getActiveAbilities(){
@@ -80,6 +143,44 @@ public class User {
 	
 	public void setSafe(boolean safe){
 		this.isSafe = safe;
+	}
+	
+	public void giveSpawnInventory(){
+		this.resetInventory();
+		
+		Inventory inv = player.getInventory();
+		ItemManager im = Core.getInstance().getItemManager();
+		inv.setItem(0, im.getFFAItem());
+		inv.setItem(8, im.getUnlockableOpener());
+	}
+	
+	public void openKitSelector(){
+		Inventory inv = Bukkit.getServer().createInventory(player, 9, ChatColor.UNDERLINE + "Kit Selector");
+		for(Loadout loadout : this.loadouts){
+			inv.addItem(loadout.getSelectableIcon());
+		}
+		player.openInventory(inv);
+	}
+	
+	public void openKitEditor(){
+		Inventory ke = Bukkit.getServer().createInventory(player, 9, ChatColor.UNDERLINE + "Kit Editor");
+		for(int i = 0; i < ((this.loadouts.size() > 9) ? 9 : this.loadouts.size()); i++){
+			Loadout loadout = this.loadouts.get(i);
+			ArrayList<String> lore = new ArrayList<>();
+			lore.add("");
+			lore.add(ChatColor.GRAY + "Abilities:");
+			for(Ability ability : loadout.getAbilities()){
+				lore.add(ChatColor.GRAY + " - " + ability.getScarcity().getColor() + ability.getName());
+			}
+			ke.addItem(Core.getInstance().getItemManager().createItem(ChatColor.translateAlternateColorCodes('&', loadout.getName()), Material.PISTON_BASE,(byte) 0, 1, lore));
+		}
+		if(this.loadouts.size() < this.maxLoadouts){
+			int d = this.maxLoadouts - this.loadouts.size();
+			for(int i = 0; i < d; i++){
+				ke.setItem(ke.firstEmpty(), Core.getInstance().getItemManager().createItem(ChatColor.GRAY + ChatColor.UNDERLINE.toString() + "Empty", Material.ANVIL, (byte)0, 1, Arrays.asList("", ChatColor.GRAY + "Click to create loadout!")));
+			}
+		}
+		player.openInventory(ke);
 	}
 	
 	public boolean isSafe(){
@@ -111,7 +212,49 @@ public class User {
 	}
 	
 	public ArrayList<Unlockable> getOwnedUnlockables(){
+		ArrayList<Unlockable> unlockables = new ArrayList<Unlockable>();
+		for(Unlockable unlockable: this.ownedUnlockables.keySet())
+			unlockables.add(unlockable);
+		return unlockables;
+	}
+	
+	public HashMap<Unlockable, Integer> getOwnedUnlockablesAsHashmap(){
 		return this.ownedUnlockables;
+	}
+	
+	public void addLoadout(Loadout loadout){
+		if(!this.loadouts.contains(loadout))
+			this.loadouts.add(loadout);
+	}
+	
+	public ArrayList<Loadout> getLoadouts(){
+		return this.loadouts;
+	}
+	
+	public boolean hasLoadout(String name){
+		for(Loadout loadout : this.loadouts){
+			if(ChatColor.stripColor(loadout.getName()).equalsIgnoreCase(name)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Loadout getLoadout(String name){
+		for(Loadout loadout : this.loadouts){
+			if(ChatColor.stripColor(loadout.getName()).equalsIgnoreCase(name)){
+				return loadout;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Ability> getOwnedAbilities(){
+		ArrayList<Ability> abilities = new ArrayList<Ability>();
+		for(Unlockable unlockable : this.ownedUnlockables.keySet())
+			if(unlockable instanceof Ability)
+				abilities.add((Ability)unlockable);
+		return abilities;
 	}
 	
 }

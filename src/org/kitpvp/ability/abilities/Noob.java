@@ -12,7 +12,7 @@ public class Noob extends Ability implements Listener {
 	private static String name = "Noob";
 	
 	public Noob() {
-		super(name, "Prevents you from dropping essentials!", Material.MUSHROOM_SOUP, Scarcity.WHITE);
+		super(name, "Prevents you from dropping essentials!", Material.MUSHROOM_SOUP, Scarcity.WHITE, 3);
 	}
 	
 	@EventHandler

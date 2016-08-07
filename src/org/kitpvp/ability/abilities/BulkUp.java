@@ -11,7 +11,7 @@ import org.kitpvp.ability.Ability;
 public class BulkUp extends Ability {
 
 	public BulkUp() {
-		super("Bulk Up", "Gain 4 Absorbation Hearts!", Material.GOLD_CHESTPLATE, Scarcity.BLUE);
+		super("Bulk Up", "Gain 4 Absorbation Hearts!", Material.GOLD_CHESTPLATE, Scarcity.BLUE, 10);
 		super.setClickedItem(new ItemStack(Material.GOLD_BLOCK));
 		super.setCooldown(20 * 20);
 	}

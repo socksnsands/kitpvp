@@ -25,20 +25,34 @@ import org.kitpvp.ability.Ability;
 import org.kitpvp.ability.abilities.AntiStomper;
 import org.kitpvp.ability.abilities.Aphrodite;
 import org.kitpvp.ability.abilities.BulkUp;
+import org.kitpvp.ability.abilities.DamageLaser;
+import org.kitpvp.ability.abilities.DarkLaser;
+import org.kitpvp.ability.abilities.EarthLaser;
+import org.kitpvp.ability.abilities.ElectricLaser;
 import org.kitpvp.ability.abilities.FeatherBoots;
+import org.kitpvp.ability.abilities.FireLaser;
 import org.kitpvp.ability.abilities.FlameAura;
 import org.kitpvp.ability.abilities.Flash;
+import org.kitpvp.ability.abilities.FrostLaser;
 import org.kitpvp.ability.abilities.Frosty;
+import org.kitpvp.ability.abilities.Hades;
 import org.kitpvp.ability.abilities.Ignite;
 import org.kitpvp.ability.abilities.Jesus;
+import org.kitpvp.ability.abilities.MythicalLaser;
 import org.kitpvp.ability.abilities.Noob;
+import org.kitpvp.ability.abilities.ParalysisLaser;
+import org.kitpvp.ability.abilities.Poseidon;
 import org.kitpvp.ability.abilities.QuickShot;
 import org.kitpvp.ability.abilities.Shocker;
 import org.kitpvp.ability.abilities.SnowballShotgun;
 import org.kitpvp.ability.abilities.Stomper;
+import org.kitpvp.ability.abilities.SwapLaser;
+import org.kitpvp.ability.abilities.Switcher;
 import org.kitpvp.ability.abilities.Totem;
 import org.kitpvp.ability.abilities.Trampoline;
+import org.kitpvp.ability.abilities.Vovl;
 import org.kitpvp.ability.abilities.WindStorm;
+import org.kitpvp.ability.abilities.Zeus;
 import org.kitpvp.core.Core;
 import org.kitpvp.unlockable.Unlockable.Scarcity;
 import org.kitpvp.user.User;
@@ -101,9 +115,23 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new SnowballShotgun());
 		unlockables.add(new AntiStomper());
 		unlockables.add(new Stomper());
-		unlockables.add(new Trampoline());
+//		unlockables.add(new Trampoline());
 		unlockables.add(new Aphrodite());
 		unlockables.add(new Noob());
+		unlockables.add(new DamageLaser());
+		unlockables.add(new DarkLaser());
+		unlockables.add(new FireLaser());
+		unlockables.add(new FrostLaser());
+		unlockables.add(new MythicalLaser());
+		unlockables.add(new ParalysisLaser());
+		unlockables.add(new SwapLaser());
+		unlockables.add(new Switcher());
+		unlockables.add(new Zeus());
+		unlockables.add(new Poseidon());
+		unlockables.add(new Hades());
+		unlockables.add(new Vovl());
+		unlockables.add(new ElectricLaser());
+		unlockables.add(new EarthLaser());
 	}
 
 	public Unlockable getUnlockable(String name) {
@@ -143,7 +171,7 @@ public class UnlockableManager implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new Stomper(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Trampoline(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Aphrodite(), Core.getInstance());
-
+		Bukkit.getServer().getPluginManager().registerEvents(new Switcher(), Core.getInstance());
 	}
 
 	public Scarcity getRandom() {
@@ -274,6 +302,7 @@ public class UnlockableManager implements Listener {
 						fw.setFireworkMeta(meta);
 						
 						//TODO give the user the ability
+						Core.getInstance().getUserManager().getUser(player).addUnlockable(ability);
 						Core.getInstance().getUserManager().getUser(player).removeSeries(series);
 					}
 				}

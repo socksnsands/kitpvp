@@ -21,7 +21,7 @@ public class Frosty extends Ability implements Listener {
 	private static String name = "Frosty";
 	
 	public Frosty() {
-		super(name, "Chance at freezing enemies on hit!", Material.SNOW_BALL, Scarcity.PURPLE);
+		super(name, "Chance at freezing enemies on hit!", Material.SNOW_BALL, Scarcity.PURPLE, 10);
 	}
 	
 	@EventHandler

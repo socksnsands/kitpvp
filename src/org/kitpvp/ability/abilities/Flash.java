@@ -14,7 +14,7 @@ import org.kitpvp.ability.Ability;
 public class Flash extends Ability {
 
 	public Flash() {
-		super("Flash", "Instantly flash 4 blocks forwards!", Material.BLAZE_ROD, Scarcity.PURPLE);
+		super("Flash", "Instantly flash 4 blocks forwards!", Material.BLAZE_ROD, Scarcity.PURPLE, 8);
 		super.setClickedItem(new ItemStack(Material.BLAZE_ROD));
 		super.setCooldown(12*20);
 	}

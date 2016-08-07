@@ -17,15 +17,18 @@ public abstract class Ability extends Unlockable {
 	
 	private boolean hasCooldown = false;
 	private int cooldownTicks = 10;
+	private int points;
 		
-	public Ability(String name, String description, ItemStack icon, Scarcity scarcity) {
+	public Ability(String name, String description, ItemStack icon, Scarcity scarcity, int points) {
 		super(name, description, scarcity);
 		this.setIcon(icon);
+		this.points = points;
 	}
 	
-	public Ability(String name, String description, Material icon, Scarcity scarcity) {
+	public Ability(String name, String description, Material icon, Scarcity scarcity, int points) {
 		super(name, description, scarcity);
 		this.setIcon(new ItemStack(icon));
+		this.points = points;
 	}
 
 	protected void setClickedItem(ItemStack clickedItem){
@@ -63,6 +66,10 @@ public abstract class Ability extends Unlockable {
 		if(hasCooldown)
 			return this.cooldownTicks;
 		return -1;
+	}
+	
+	public int getPoints(){
+		return this.points;
 	}
 
 	public ItemStack getClickedItem(){

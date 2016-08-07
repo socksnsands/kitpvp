@@ -20,7 +20,7 @@ public class Shocker extends Ability implements Listener {
 	private ArrayList<Player> shockedPlayers = new ArrayList<Player>();
 	
 	public Shocker() {
-		super("Shocker", "Small chance to shock players (disabling abilities and shaking screen)", Material.DEAD_BUSH, Scarcity.RED);
+		super("Shocker", "Small chance to shock players (disabling abilities and shaking screen)", Material.DEAD_BUSH, Scarcity.RED, 12);
 	}
 	
 	@EventHandler

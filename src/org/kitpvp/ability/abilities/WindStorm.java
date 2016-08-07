@@ -27,7 +27,7 @@ import org.kitpvp.util.ParticleEffect;
 public class WindStorm extends Ability implements Listener {
 
 	public WindStorm() {
-		super("Wind Storm", "Summon a storm of deadly winds!", Material.WOOL, Scarcity.DARK_RED);
+		super("Wind Storm", "Summon a storm of deadly winds!", Material.WOOL, Scarcity.DARK_RED, 16);
 		super.setClickedItem(Material.SUGAR);
 		super.setCooldown(60*20);
 	}
@@ -71,7 +71,7 @@ public class WindStorm extends Ability implements Listener {
 											p.damage(2);
 											int h = (int) (3-dist <= 0 ? 0 : 3-dist);
 											int l = (int) (-3-dist >= 0 ? 0 : -3-dist);
-											p.setVelocity(new Vector(random.nextInt(h-l)+l, (random.nextInt(h-l)+l)/2, random.nextInt(h-l)+l));
+											p.setVelocity(new Vector(random.nextInt(h-l)+l, (random.nextInt(h-l)+l), random.nextInt(h-l)+l));
 										}
 									}
 									}
@@ -107,8 +107,9 @@ public class WindStorm extends Ability implements Listener {
 					if(random.nextInt(15) == 0){
 						FallingBlock fs = block.getWorld().spawnFallingBlock(block.clone().add(0,1,0), block.getBlock().getType(), block.getBlock().getData());
 						fs.setDropItem(false);
-						fs.setVelocity(new Vector((random.nextDouble())-.5, (random.nextDouble()*1.8), (random.nextDouble()) -.5));
+						fs.setVelocity(new Vector((random.nextDouble())-.5, (random.nextDouble()*1.4), (random.nextDouble()) -.5));
 						fs.setCustomName("no_land");
+						fs.setDropItem(false);
 						block.getBlock().setType(block.getBlock().getType());
 					}
 				}

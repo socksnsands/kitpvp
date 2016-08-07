@@ -45,6 +45,17 @@ public class AbilityManager implements Listener {
 		return null;
 	}
 	
+	public boolean isAbility(String name){
+		for(Unlockable unlockable : Core.getInstance().getUnlockableManager().getRegisteredUnlockables()){
+			if(unlockable instanceof Ability){
+				if(unlockable.getName().equalsIgnoreCase(name)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event){
 		if(Core.getInstance().getUserManager().isLoadedUser(event.getPlayer())){

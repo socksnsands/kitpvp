@@ -14,7 +14,7 @@ import org.kitpvp.core.Core;
 public class FeatherBoots extends Ability implements Listener {
 	
 	public FeatherBoots() {
-		super("Feather Boots", "Take 1/4 original fall damage!", new ItemStack(Material.FEATHER), Scarcity.WHITE);
+		super("Feather Boots", "Take 1/4 original fall damage!", new ItemStack(Material.FEATHER), Scarcity.WHITE, 4);
 	}
 	
 	@EventHandler

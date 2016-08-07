@@ -2,7 +2,7 @@ package org.kitpvp.unlockable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;a
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,11 +13,13 @@ import org.kitpvp.core.Core;
 public enum UnlockableSeries {
 	
 	STARTER_ABILITY (ChatColor.YELLOW + "Starter", "Starter series", Arrays.asList("Noob"), Material.CHEST),
-	GOD_ABILITY (ChatColor.RED + "Gods", "Premium series", Arrays.asList("Jesus", "Aphrodite"), Material.CHEST),
+	GOD_ABILITY (ChatColor.RED + "Gods", "Premium series", Arrays.asList("Jesus", "Aphrodite", "Poseidon", "Zeus", "Hades", "Vovl"), Material.CHEST),
 	HEIGHTS_ABILITY (ChatColor.RED + "Heights", "Premium series", Arrays.asList("Anti-Stomper", "Stomper", "Trampoline"), Material.CHEST),
 	SUPERHERO_ABILITY (ChatColor.RED + "Superhero", "Premium series", Arrays.asList("Flash", "Flame Aura", "Bulk Up", "Wind Storm"), Material.CHEST),
 	STAFF_ALL_ABILITY (ChatColor.GOLD + "Staff", "Staff only series", Arrays.asList("Jesus", "Bulk Up", "Feather Boots", "Flame Aura", "Flash", "Ignite", "Quick Shot", "Shocker", "Totem", "Wind Storm", "Frosty", "Snowball Shotgun"), Material.ENDER_CHEST),
-	WINTER_ABILITY (ChatColor.AQUA + "Winter", "Limited edition: Winter 2016", Arrays.asList("Frosty", "Snowball Shotgun"), Material.SNOW_BLOCK);
+	DEV_ABILITY(ChatColor.BLUE + "Dev", "Dev testing series", Arrays.asList("Jesus", "Swap Laser"), Material.CHEST),
+	WINTER_ABILITY (ChatColor.AQUA + "Winter", "Limited edition: Winter 2016", Arrays.asList("Frosty", "Snowball Shotgun", "Frost Laser"), Material.SNOW_BLOCK),
+	LASER_ABILITY (ChatColor.RED + "Laser", "Premium series", Arrays.asList("Frost Laser", "Fire Laser", "Paralysis Laser", "Dark Laser", "Mythical Laser", "Damage Laser", "Swap Laser", "Electric Laser", "Earth Laser"), Material.CHEST);
 	
 	private String display;
 	private String description;

@@ -1,5 +1,7 @@
 package org.kitpvp.util;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -11,12 +13,23 @@ public class ItemManager {
 		
 	}
 	
+	public ItemStack createItem(String name, Material material, byte data, int amount, List<String> lore){
+		ItemStack item = new ItemStack(material, amount, data);
+		ItemMeta im = item.getItemMeta();
+		if(name != "")
+			im.setDisplayName(name);
+		if(lore != null)
+			im.setLore(lore);
+		item.setItemMeta(im);
+		return item;
+	}
+	
+	public ItemStack getFFAItem(){
+		return this.createItem(ChatColor.GREEN + "FFA " + ChatColor.GRAY + "(Right click)", Material.COMPASS, (byte)0, 1, null);
+	}
+	
 	public ItemStack getUnlockableOpener(){
-		ItemStack uO = new ItemStack(Material.CHEST);
-		ItemMeta uOM = uO.getItemMeta();
-		uOM.setDisplayName(ChatColor.GREEN + "Unlockables " + ChatColor.GRAY + "(Right click)");
-		uO.setItemMeta(uOM);
-		return uO;
+		return this.createItem(ChatColor.GREEN + "Unlockables " + ChatColor.GRAY + "(Right click)", Material.CHEST, (byte)0, 1, null);
 	}
 	
 }

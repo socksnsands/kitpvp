@@ -6,3 +6,5 @@ main: org.kitpvp.core.Core
 commands:
   dev:
     description: Developer command!
+  bal:
+    description: Check your balance

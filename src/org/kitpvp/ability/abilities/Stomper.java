@@ -18,7 +18,7 @@ public class Stomper extends Ability implements Listener {
 	private static String name = "Stomper";
 	
 	public Stomper() {
-		super(name, "Stomp on people to damage them!", Material.DIAMOND_BOOTS, Scarcity.DARK_RED);
+		super(name, "Stomp on people to damage them!", Material.DIAMOND_BOOTS, Scarcity.DARK_RED, 14);
 	}
 	
 	@EventHandler

@@ -9,6 +9,8 @@ import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kitpvp.ability.AbilityManager;
 import org.kitpvp.ability.abilities.objects.TotemManager;
+import org.kitpvp.commands.BalanceCommand;
+import org.kitpvp.loadout.LoadoutManager;
 import org.kitpvp.unlockable.UnlockableManager;
 import org.kitpvp.user.UserManager;
 import org.kitpvp.util.ItemManager;
@@ -33,6 +35,7 @@ public class Core extends JavaPlugin implements Listener {
 		itemManager = new ItemManager();
 		
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
+		Bukkit.getServer().getPluginManager().registerEvents(new LoadoutManager(), this);
 		
 		registerCommands();
 	}
@@ -56,6 +59,7 @@ public class Core extends JavaPlugin implements Listener {
 	
 	private void registerCommands(){
 		getCommand("dev").setExecutor(new DeveloperCommand());
+		getCommand("bal").setExecutor(new BalanceCommand());
 	}
 	
 	public UnlockableManager getUnlockableManager(){

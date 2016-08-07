@@ -20,6 +20,7 @@ public class BulkUp extends Ability {
 	@Override
 	public void onInteract(Player player, Action action) {
 		if(action.equals(Action.RIGHT_CLICK_AIR) ||  action.equals(Action.RIGHT_CLICK_BLOCK)) {
+			player.removePotionEffect(PotionEffectType.ABSORPTION);
 			if(!super.callEvent(player, this).isCancelled()) {
 				PotionEffect absorb = new PotionEffect(PotionEffectType.ABSORPTION, 60 * 20, 2);
 				player.addPotionEffect(absorb);

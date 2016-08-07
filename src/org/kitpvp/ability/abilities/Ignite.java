@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -27,6 +28,7 @@ public class Ignite extends Ability {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 			List<Block> playerLineOfSight = player.getLineOfSight((HashSet<Byte>) null, 6);
 			if (!super.callEvent(player, this).isCancelled()) {
+				player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 				super.putOnCooldown(player);
 				for (Block blocks : playerLineOfSight) {
 					Location blocksLocation = blocks.getLocation();

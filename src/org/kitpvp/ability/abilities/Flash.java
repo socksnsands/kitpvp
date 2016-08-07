@@ -14,7 +14,7 @@ import org.kitpvp.ability.Ability;
 public class Flash extends Ability {
 
 	public Flash() {
-		super("Flash", "Instantly flash 4 blocks forwards!", Material.BLAZE_ROD, Scarcity.PURPLE, 8);
+		super("Flash", "Instantly flash forward!", Material.BLAZE_ROD, Scarcity.PURPLE, 8);
 		super.setClickedItem(new ItemStack(Material.BLAZE_ROD));
 		super.setCooldown(12*20);
 	}
@@ -24,13 +24,14 @@ public class Flash extends Ability {
 	public void onInteract(Player player, Action action){
 		if(action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)){
 			if(!super.callEvent(player, this).isCancelled()){
-				Location location = player.getLineOfSight((HashSet<Byte>)null, 6).get(player.getLineOfSight((HashSet<Byte>)null, 6).size()-1).getLocation();
+				Location location = player.getLineOfSight((HashSet<Byte>)null, 8).get(player.getLineOfSight((HashSet<Byte>)null, 8).size()-1).getLocation();
 				location.setYaw(player.getLocation().getYaw());
 				location.setPitch(player.getLocation().getPitch());
 				player.teleport(location);
 				player.getLocation().getWorld().playEffect(player.getLocation(), Effect.CLOUD, 1);
 				player.getLocation().getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1, 1);
 				super.putOnCooldown(player);
+				player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
 			}
 		}
 	}

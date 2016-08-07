@@ -34,7 +34,7 @@ public class FlameAura extends Ability {
 				for(User user : Core.getInstance().getUserManager().getUsers()){
 					if(user.getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Flame Aura"))){
 						if(!getEvent(user.getPlayer()).isCancelled()){
-							for(Entity entity : user.getPlayer().getNearbyEntities(5, 5, 5)){
+							for(Entity entity : user.getPlayer().getNearbyEntities(5, 5, 5)) {
 								if(entity instanceof Player){
 									Player player = (Player) entity;
 									User u = Core.getInstance().getUserManager().getUser(player);

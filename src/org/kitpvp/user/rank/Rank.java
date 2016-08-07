@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 
 public enum Rank {
 
-	DEFAULT(ChatColor.GRAY),
+	DEFAULT(ChatColor.WHITE),
 	STAFF(ChatColor.YELLOW),
 	ADMIN(ChatColor.RED);
 	

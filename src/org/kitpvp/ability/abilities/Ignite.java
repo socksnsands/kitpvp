@@ -37,6 +37,8 @@ public class Ignite extends Ability {
 							LivingEntity entity = (LivingEntity) entities;
 							if (!entity.equals(player)) {
 								entities.setFireTicks(5 * 20);
+								player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1, 1);
+								player.playSound(entities.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1, 1);
 							}
 						}
 					}

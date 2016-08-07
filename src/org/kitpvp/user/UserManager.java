@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -167,6 +168,9 @@ public class UserManager implements Listener {
 		if(!event.isCancelled()){
 			for(Player player:  Bukkit.getServer().getOnlinePlayers()){
 				player.sendMessage(Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() + event.getPlayer().getName() + ": " + ChatColor.GRAY + event.getMessage());
+				if (event.getMessage().toUpperCase().contains(player.getName().toUpperCase())) {
+					player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, 1);
+				}
 			}
 			event.setCancelled(true);
 		}
@@ -199,6 +203,7 @@ public class UserManager implements Listener {
 	
 	@EventHandler
 	public void onLeave(PlayerQuitEvent event){
+		Bukkit.broadcastMessage(ChatColor.RED + "- " +  Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() + event.getPlayer().getName());
 		leave(event.getPlayer());	
 	}
 	

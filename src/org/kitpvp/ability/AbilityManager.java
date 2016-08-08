@@ -3,6 +3,7 @@ package org.kitpvp.ability;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -77,11 +78,18 @@ public class AbilityManager implements Listener {
 					if(ability.getClickedItem().equals(event.getPlayer().getInventory().getItemInMainHand())){
 						if(!user.isOnCooldown(ability)){
 							ability.onInteract(event.getPlayer(), event.getAction());
+						}else{
+							user.getPlayer().sendMessage(ability.getScarcity().getColor() + ability.getName() + ChatColor.GRAY + " is still on cooldown for " + ChatColor.RED + this.round(user.getRemainingCooldown(ability)/20, 1) + "s" + ChatColor.GRAY + "!");
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	private double round (double value, int precision) {
+	    int scale = (int) Math.pow(10, precision);
+	    return (double) Math.round(value * scale) / scale;
 	}
 	
 }

@@ -52,6 +52,7 @@ public class Loadout {
 			inv.addItem(new ItemStack(Material.MUSHROOM_SOUP));
 		}while(!(inv.firstEmpty() < 0));
 		Core.getInstance().getUserManager().getUser(player).setSafe(false);
+		Core.getInstance().getUserManager().getUser(player).setActiveLoadout(this);
 	}
 	
 	public int getPointValue(){

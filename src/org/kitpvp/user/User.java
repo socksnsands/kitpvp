@@ -29,6 +29,7 @@ public class User {
 	private ArrayList<Ability> activeAbilities = new ArrayList<Ability>();
 	private HashMap<Ability, Integer> cooldowns = new HashMap<Ability, Integer>();
 	private ArrayList<Loadout> loadouts = new ArrayList<Loadout>();
+	private Loadout activeLoadout;
 	
 	private Rank rank;
 	
@@ -45,8 +46,12 @@ public class User {
 		//TODO load unlockables & series & balance & loadouts & rank
 	}
 	
+	public Loadout getActiveLoadout(){
+		return this.activeLoadout;
+	}
+	
 	public void restartCooldowns(){
-		for(Ability ability : this.cooldowns.keySet()){
+		for(Ability ability : this.getActiveAbilities()){
 			if(!ability.getName().equalsIgnoreCase("Jet"))
 				this.cooldowns.put(ability, ability.getCooldownTicks());
 			else
@@ -251,6 +256,14 @@ public class User {
 			}
 		}
 		return false;
+	}
+	
+	public void setActiveLoadout(Loadout loadout){
+		this.activeLoadout = loadout;
+	}
+	
+	public void removeActiveLoadout(){
+		this.activeLoadout = null;
 	}
 	
 	public Loadout getLoadout(String name){

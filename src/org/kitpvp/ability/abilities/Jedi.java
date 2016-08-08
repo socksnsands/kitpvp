@@ -23,10 +23,10 @@ public class Jedi extends Ability {
 			if(!super.callEvent(player, this).isCancelled()){
 				for(Player p : player.getWorld().getPlayers()){
 					if(p.getLocation().distance(player.getLocation()) < 5){
-						p.setVelocity(new Vector(p.getLocation().getX() - player.getLocation().getX(), p.getLocation().getY() - player.getLocation().getY(), p.getLocation().getZ() - player.getLocation().getZ()));
+						p.setVelocity(new Vector((p.getLocation().getX() - player.getLocation().getX())*2, .7, (p.getLocation().getZ() - player.getLocation().getZ())*2));
 					}
 				}
-				player.getWorld().playSound(player.getLocation(), Sound.ITEM_ELYTRA_FLYING, 1, 1);
+				player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 1, 1);
 				super.putOnCooldown(player);
 			}
 		}

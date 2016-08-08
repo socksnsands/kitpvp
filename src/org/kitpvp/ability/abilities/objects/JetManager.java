@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
@@ -16,9 +17,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 import org.kitpvp.core.Core;
+import org.kitpvp.util.ParticleEffect;
 
 public class JetManager implements Listener {
 
@@ -48,14 +52,27 @@ public class JetManager implements Listener {
 
 			@Override
 			public void run() {
-				for(JetObject jet : jets){
+				ArrayList<JetObject> js = jets;
+				for(JetObject jet : js){
 					if(!jet.hasPassenger()){
 						jet.despawn();
+					}else{
+						if(jet.getSpeed() == 1){
+							jet.getMinecart().setVelocity(jet.getPassenger().getLocation().getDirection().multiply(.2D));
+							jet.removeFuel(1);
+						}else if(jet.getSpeed() == 2){
+							jet.getMinecart().setVelocity(jet.getPassenger().getLocation().getDirection().multiply(.45D));
+							jet.removeFuel(3);
+						}else{
+							jet.getMinecart().setVelocity(new Vector(0, 0, 0));
+							jet.removeFuel(.2);
+						}
+						ParticleEffect.CLOUD.display(0, 0, 0, 0, 1, jet.getMinecart().getLocation(), 200);
 					}
 				}
 			}
 			
-		}, 10, 10);
+		}, 1, 1);
 	}
 	
 	@EventHandler
@@ -90,13 +107,22 @@ public class JetManager implements Listener {
 	}
 	
 	@EventHandler
+	public void onDestroy(VehicleDestroyEvent event){
+		for(JetObject jet : this.jets){
+			if(jet.getMinecart().equals(event.getVehicle())){
+				event.setCancelled(true);
+			}
+		}
+	}
+	
+	@EventHandler
 	public void onHit(ProjectileHitEvent event){
 		if(event.getEntity() instanceof Arrow){
 			if(event.getEntity().getCustomName().equals("jet_missile")){
 				event.getEntity().getWorld().createExplosion(event.getEntity().getLocation(), 0);
 				Arrow arrow = (Arrow) event.getEntity();
 				for(Player player : event.getEntity().getWorld().getPlayers()){
-					if(player.getLocation().distance(event.getEntity().getLocation()) < 2){
+					if(player.getLocation().distance(event.getEntity().getLocation()) < 2 && player != arrow.getShooter()){
 						player.damage(2);
 						player.setVelocity(new Vector(player.getLocation().getX() - arrow.getLocation().getX(), player.getLocation().getY() - arrow.getLocation().getY(), player.getLocation().getZ() - arrow.getLocation().getZ()));
 					}
@@ -137,12 +163,23 @@ public class JetManager implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event){
 		ItemStack item = event.getPlayer().getItemInHand();
-		if(item.getType().equals(Material.STICK)){
+		if(item.getType().equals(Material.STICK) || item.getType().equals(Material.LEVER)){
 			if(item.getItemMeta() != null){
 				if(item.getItemMeta().getDisplayName() != null){
-					if(item.getItemMeta().getDisplayName().startsWith(ChatColor.RED + "Missile")){
-						if(this.isInJet(event.getPlayer())){
-							
+					if(this.isInJet(event.getPlayer())){
+						if(item.getItemMeta().getDisplayName().startsWith(ChatColor.RED + "Missile")){
+							this.getCurrentJet(event.getPlayer()).fireMissile();
+						}
+						if(item.getItemMeta().getDisplayName().startsWith(ChatColor.GREEN + "Speed Toggle")){
+							this.getCurrentJet(event.getPlayer()).switchSpeed();
+							String speed = "Slow";
+							if(this.getCurrentJet(event.getPlayer()).getSpeed() == 0)
+								speed = "Hovering";
+							if(this.getCurrentJet(event.getPlayer()).getSpeed() == 2)
+								speed = "Fast";
+							ItemMeta im = item.getItemMeta();
+							im.setDisplayName(ChatColor.GREEN + "Speed Toggle " + ChatColor.GRAY + "(" + speed + ")");
+							event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
 						}
 					}
 				}

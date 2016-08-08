@@ -11,6 +11,7 @@ import org.kitpvp.ability.AbilityManager;
 import org.kitpvp.ability.abilities.objects.JetManager;
 import org.kitpvp.ability.abilities.objects.TotemManager;
 import org.kitpvp.commands.BalanceCommand;
+import org.kitpvp.commands.SetRankCommand;
 import org.kitpvp.loadout.LoadoutManager;
 import org.kitpvp.unlockable.UnlockableManager;
 import org.kitpvp.user.UserManager;
@@ -63,6 +64,7 @@ public class Core extends JavaPlugin implements Listener {
 	private void registerCommands(){
 		getCommand("dev").setExecutor(new DeveloperCommand());
 		getCommand("bal").setExecutor(new BalanceCommand());
+		getCommand("setrank").setExecutor(new SetRankCommand());
 	}
 	
 	public UnlockableManager getUnlockableManager(){

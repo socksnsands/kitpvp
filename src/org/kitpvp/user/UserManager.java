@@ -120,8 +120,18 @@ public class UserManager implements Listener {
 	public void onDeath(PlayerDeathEvent event){
 		Player player = event.getEntity();
 		User user = Core.getInstance().getUserManager().getUser(player);
+		user.removeActiveLoadout();
 		user.getActiveAbilities().clear();
 		user.clearCooldowns();
+		
+		String deathMessage = ChatColor.RED + player.getName() + ChatColor.GRAY + " died!";
+		
+		if(player.getKiller() != null){
+			Player killer = player.getKiller();
+			deathMessage = ChatColor.RED + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.RED + killer.getName() + ChatColor.GRAY + " with loadout " + Core.getInstance().getUserManager().getUser(killer).getActiveLoadout().getName() + ChatColor.GRAY + "!";
+		}
+		
+		event.setDeathMessage(deathMessage);
 	}
 	
 	@EventHandler
@@ -161,6 +171,7 @@ public class UserManager implements Listener {
 				user.addSeries(series);
 			}
 		}
+		event.setJoinMessage(ChatColor.GREEN + "+ " +  Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() + event.getPlayer().getName());
 	}
 	
 	@EventHandler
@@ -184,9 +195,11 @@ public class UserManager implements Listener {
 			if(event.getItem().getType() == null)
 				return;
 			if(event.getItem().getType().equals(Material.MUSHROOM_SOUP)){
-				this.eatSoup(event.getPlayer());
-				event.getItem().setType(Material.BOWL);
-				event.getPlayer().updateInventory();
+				if(event.getPlayer().getHealth() != event.getPlayer().getMaxHealth()){
+					this.eatSoup(event.getPlayer());
+					event.getItem().setType(Material.BOWL);
+					event.getPlayer().updateInventory();
+				}
 			}
 		}
 	}
@@ -203,7 +216,7 @@ public class UserManager implements Listener {
 	
 	@EventHandler
 	public void onLeave(PlayerQuitEvent event){
-		Bukkit.broadcastMessage(ChatColor.RED + "- " +  Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() + event.getPlayer().getName());
+		event.setQuitMessage(ChatColor.RED + "- " +  Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() + event.getPlayer().getName());
 		leave(event.getPlayer());	
 	}
 	

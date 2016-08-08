@@ -8,3 +8,5 @@ commands:
     description: Developer command!
   bal:
     description: Check your balance
+  setrank:
+    description: Set ranks!

@@ -37,7 +37,7 @@ public class FireLaser extends Ability {
 							if(!players.contains(p.getName())){
 							players.add(p.getName());
 							p.setFireTicks(p.getFireTicks() + 90);
-							p.damage(3);
+							Core.getInstance().getDamageManager().damage(p, player, 3);
 							}
 						}
 					}

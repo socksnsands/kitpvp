@@ -73,7 +73,6 @@ public class JetObject {
 		if(!(this.missileAmmo <= 0)){
 		this.missileAmmo--;
 		Arrow arrow = player.launchProjectile(Arrow.class);
-		arrow.setShooter(player);
 		arrow.setCustomName("jet_missile");
 		}
 //		if(this.missileAmmo <= 0)

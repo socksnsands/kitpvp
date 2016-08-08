@@ -25,7 +25,7 @@ public class Loadout {
 	private ArrayList<Ability> abilities = new ArrayList<Ability>();
 	
 	public Loadout(String name, ArrayList<Ability> abilities){
-		this.name = name;
+		this.name = ChatColor.translateAlternateColorCodes('&', name);
 		this.abilities = abilities;
 	}
 	
@@ -67,7 +67,7 @@ public class Loadout {
 		return this.maxPoints;
 	}
 	
-	public String toString(){
+	public String toDBString(){
 		String s = this.name + "~";
 		for(Ability ability : this.abilities){
 			s += ability.getName() + "~";

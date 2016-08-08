@@ -40,7 +40,8 @@ public class ParalysisLaser extends Ability {
 							players.add(p.getName());
 							p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 50, 6));
 							p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 0));
-							p.damage(4);
+							p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 50, -5));
+							Core.getInstance().getDamageManager().damage(p, player, 4);
 							}
 						}
 					}

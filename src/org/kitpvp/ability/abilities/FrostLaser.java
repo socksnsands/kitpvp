@@ -40,7 +40,7 @@ public class FrostLaser extends Ability {
 							players.add(p.getName());
 							p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 1));
 							p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 40, 1));
-							p.damage(5);
+							Core.getInstance().getDamageManager().damage(p, player, 5);
 							}
 						}
 					}

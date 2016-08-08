@@ -1,5 +1,8 @@
 package org.kitpvp.core;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -12,6 +15,7 @@ import org.kitpvp.ability.abilities.objects.JetManager;
 import org.kitpvp.ability.abilities.objects.TotemManager;
 import org.kitpvp.commands.BalanceCommand;
 import org.kitpvp.commands.SetRankCommand;
+import org.kitpvp.damage.DamageManager;
 import org.kitpvp.loadout.LoadoutManager;
 import org.kitpvp.unlockable.UnlockableManager;
 import org.kitpvp.user.UserManager;
@@ -21,12 +25,16 @@ public class Core extends JavaPlugin implements Listener {
 
 	private static Core instance;
 	
+	private Connection connection;
+//	private String conString = "jdbc:mysql://" + this.getConfig().getString("con.ip") + ":" + this.getConfig().getString("con.port") + "/" + this.getConfig().getString("con.databaseName") + "?user=" + this.getConfig().getString("con.user") + "&password=" + this.getConfig().getString("con.password") + "&autoReconnect=true";
+	private String conString = "jdbc:mysql://127.0.0.1:3306/32694?user=32694&password=c6aea7813b&autoReconnect=true";
 	private UnlockableManager unlockableManager;
 	private AbilityManager abilityManager;
 	private UserManager userManager;
 	private TotemManager totemManager;
 	private JetManager jetManager;
 	private ItemManager itemManager;
+	private DamageManager damageManager;
 	
 	public void onEnable(){
 		instance = this;
@@ -37,11 +45,27 @@ public class Core extends JavaPlugin implements Listener {
 		totemManager = new TotemManager();
 		jetManager = new JetManager();
 		itemManager = new ItemManager();
+		damageManager = new DamageManager();
+		
+		this.establishConnection();
 		
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 		Bukkit.getServer().getPluginManager().registerEvents(new LoadoutManager(), this);
 		
 		registerCommands();
+	}
+	
+	public Connection getConnection(){
+		return this.connection;
+	}
+	
+	private void establishConnection(){
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			this.connection = DriverManager.getConnection(conString);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 	
 	@EventHandler
@@ -65,6 +89,10 @@ public class Core extends JavaPlugin implements Listener {
 		getCommand("dev").setExecutor(new DeveloperCommand());
 		getCommand("bal").setExecutor(new BalanceCommand());
 		getCommand("setrank").setExecutor(new SetRankCommand());
+	}
+	
+	public DamageManager getDamageManager(){
+		return damageManager;
 	}
 	
 	public UnlockableManager getUnlockableManager(){

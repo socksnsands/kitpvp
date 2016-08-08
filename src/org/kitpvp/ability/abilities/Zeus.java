@@ -33,7 +33,7 @@ public class Zeus extends Ability {
 					for(Player p : player.getWorld().getPlayers()){
 						if(p.getLocation().distance(location) < 4){
 							if(p != player){
-								p.damage(15 - (p.getLocation().distance(location)*2.5));
+								Core.getInstance().getDamageManager().damage(p, player, 15 - (p.getLocation().distance(location)*2.5));
 							}
 						}
 					}

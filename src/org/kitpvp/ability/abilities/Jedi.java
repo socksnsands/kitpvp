@@ -22,7 +22,7 @@ public class Jedi extends Ability {
 		if(action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)){
 			if(!super.callEvent(player, this).isCancelled()){
 				for(Player p : player.getWorld().getPlayers()){
-					if(p.getLocation().distance(player.getLocation()) < 5){
+					if(p.getLocation().distance(player.getLocation()) < 5 && p != player){
 						p.setVelocity(new Vector((p.getLocation().getX() - player.getLocation().getX())*2, .7, (p.getLocation().getZ() - player.getLocation().getZ())*2));
 					}
 				}

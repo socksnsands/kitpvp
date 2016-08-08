@@ -39,7 +39,7 @@ public class DarkLaser extends Ability {
 							if(!players.contains(p.getName())){
 							players.add(p.getName());
 							p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
-							p.damage(2);
+							Core.getInstance().getDamageManager().damage(p, player, 2);
 							}
 						}
 					}

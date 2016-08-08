@@ -31,6 +31,7 @@ import org.kitpvp.ability.abilities.DarkLaser;
 import org.kitpvp.ability.abilities.EarthLaser;
 import org.kitpvp.ability.abilities.ElectricLaser;
 import org.kitpvp.ability.abilities.Enrage;
+import org.kitpvp.ability.abilities.ExplosiveGrenade;
 import org.kitpvp.ability.abilities.FeatherBoots;
 import org.kitpvp.ability.abilities.FireLaser;
 import org.kitpvp.ability.abilities.FlameAura;
@@ -140,7 +141,7 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new CooldownLaser());
 		unlockables.add(new Jedi());
 		unlockables.add(new Enrage());
-
+		unlockables.add(new ExplosiveGrenade());
 	}
 
 	public Unlockable getUnlockable(String name) {

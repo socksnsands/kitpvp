@@ -64,6 +64,8 @@ public class LoadoutManager implements Listener {
 						
 						if(name.contains("~"))
 							name.replaceAll("~", "-");
+						if(name.contains("_"))
+							name.replaceAll("_", "-");
 						
 						if(user.hasLoadout(name)){
 							name = "random";

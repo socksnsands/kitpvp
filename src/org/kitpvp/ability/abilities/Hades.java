@@ -58,7 +58,7 @@ public class Hades extends Ability {
 						for(Player p : Bukkit.getServer().getOnlinePlayers()){
 							if(p != player && !hitPlayers.contains(p.getName()) && p.getLocation().distance(loc) < 1.5){
 								hitPlayers.add(p.getName());
-								p.damage(6);
+								Core.getInstance().getDamageManager().damage(p, player, 6);
 								p.setFireTicks(80);
 								p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_DOOR_WOOD, 1, 1);
 								p.setVelocity(faked.getDirection().multiply(1.2).setY(.4));

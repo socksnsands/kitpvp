@@ -8,16 +8,18 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -25,8 +27,9 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.ItemStack;
 import org.kitpvp.core.Core;
+import org.kitpvp.core.LoadDataTask;
+import org.kitpvp.core.PushDataTask;
 import org.kitpvp.unlockable.UnlockableSeries;
 
 public class UserManager implements Listener {
@@ -40,7 +43,15 @@ public class UserManager implements Listener {
 	
 	public User getUser(Player player){
 		for(User user : users)
-			if(user.getPlayer().equals(player))
+			if(user.getPlayer() != null)
+				if(user.getPlayer().equals(player))
+					return user;
+		return null;
+	}
+	
+	public User getUser(String uuid){
+		for(User user : users)
+			if(user.getUUID().equals(uuid.toString()))
 				return user;
 		return null;
 	}
@@ -59,8 +70,11 @@ public class UserManager implements Listener {
 	private void initialLoad(){
 		if(!users.isEmpty())
 			return;
-		for(Player player : Bukkit.getServer().getOnlinePlayers())
-			users.add(new User(player));
+		for(Player player : Bukkit.getServer().getOnlinePlayers()){
+			User user = new User(player.getUniqueId().toString());
+			users.add(user);
+			user.setPlayer(player);
+		}
 	}
 	
 	@EventHandler
@@ -69,6 +83,22 @@ public class UserManager implements Listener {
 			Player player = (Player) event.getEntity();
 			if(this.getUser(player).isSafe()){
 				event.setCancelled(true);
+				return;
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onDamageEntity(EntityDamageByEntityEvent event){
+		if(event.isCancelled())
+			return;
+		if(event.getDamager() instanceof Player && event.getEntity() instanceof Player){
+			Core.getInstance().getDamageManager().setLastDamaged((Player)event.getEntity(), (Player)event.getDamager());
+		}
+		if(event.getDamager() instanceof Projectile && event.getEntity() instanceof Player){
+			Projectile p = (Projectile)event.getDamager();
+			if(p.getShooter() instanceof Player){
+				Core.getInstance().getDamageManager().setLastDamaged((Player)event.getEntity(), (Player)p.getShooter());
 			}
 		}
 	}
@@ -93,6 +123,18 @@ public class UserManager implements Listener {
 			event.setCancelled(true);
 		}
 		}
+	}
+	
+	@EventHandler
+	public void onPreLogin(AsyncPlayerPreLoginEvent e){
+		LoadDataTask ldt = new LoadDataTask(e.getUniqueId().toString());
+		ldt.runTaskAsynchronously(Core.getInstance());
+	}
+	
+	@EventHandler
+	public void onLogout(PlayerQuitEvent e){
+		PushDataTask pdt = new PushDataTask(e.getPlayer().getUniqueId().toString());
+		pdt.runTaskAsynchronously(Core.getInstance());
 	}
 	
 	@EventHandler
@@ -126,9 +168,12 @@ public class UserManager implements Listener {
 		
 		String deathMessage = ChatColor.RED + player.getName() + ChatColor.GRAY + " died!";
 		
-		if(player.getKiller() != null){
-			Player killer = player.getKiller();
+		if(Core.getInstance().getDamageManager().hasLastDamaged(player)){
+			Player killer = Core.getInstance().getDamageManager().getLastDamaged(player);
 			deathMessage = ChatColor.RED + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.RED + killer.getName() + ChatColor.GRAY + " with loadout " + Core.getInstance().getUserManager().getUser(killer).getActiveLoadout().getName() + ChatColor.GRAY + "!";
+			int moneyPerKill = 10;
+			killer.sendMessage(ChatColor.GRAY + "You have been awarded with " + ChatColor.GOLD + moneyPerKill + ChatColor.GRAY + " coins!");
+			Core.getInstance().getUserManager().getUser(killer).addMoney(moneyPerKill);
 		}
 		
 		event.setDeathMessage(deathMessage);
@@ -160,9 +205,11 @@ public class UserManager implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
 		for(User user : users)
-			if(user.getPlayer().equals(event.getPlayer()))
+			if(user.getPlayer() != null)
+				if(user.getPlayer().equals(event.getPlayer()))
 				return;
-		User user = new User(event.getPlayer());
+		Core.getInstance().getUserManager().getUser(event.getPlayer().getUniqueId().toString()).setPlayer(event.getPlayer());
+		User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
 		users.add(user);
 		user.setSafe(true);
 		user.giveSpawnInventory();

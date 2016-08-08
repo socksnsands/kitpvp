@@ -38,7 +38,7 @@ public class DamageLaser extends Ability {
 						if(p != player && p.getLocation().clone().add(0,1,0).distance(loc) < 1){
 							if(!players.contains(p.getName())){
 							players.add(p.getName());
-							p.damage(5);
+							Core.getInstance().getDamageManager().damage(p, player, 5);
 							}
 						}
 					}

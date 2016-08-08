@@ -50,7 +50,7 @@ public class ElectricLaser extends Ability {
 									
 								}, sh*2);
 							}
-							p.damage(4);
+							Core.getInstance().getDamageManager().damage(p, player, 4);
 							}
 						}
 					}

@@ -24,6 +24,8 @@ public class User {
 
 	private Player player;
 	
+	private String uuid;
+	
 	private HashMap<Unlockable, Integer> ownedUnlockables = new HashMap<Unlockable, Integer>();
 	private HashMap<UnlockableSeries, Integer> ownedSeries = new HashMap<UnlockableSeries, Integer>();
 	private ArrayList<Ability> activeAbilities = new ArrayList<Ability>();
@@ -37,11 +39,19 @@ public class User {
 		
 	private boolean isSafe = true;
 	
-	public User(Player player){
-		this.player = player;
+	public User(String uuid){
+		this.uuid = uuid;
 		
 		rank = Rank.DEFAULT;
 		//TODO load unlockables & series & balance & loadouts & rank
+	}
+	
+	public void setPlayer(Player player){
+		this.player = player;
+	}
+	
+	public String getUUID(){
+		return this.uuid;
 	}
 	
 	public Loadout getActiveLoadout(){
@@ -259,6 +269,41 @@ public class User {
 		return false;
 	}
 	
+
+	public boolean isLoadoutStringTooExpensive(String string){
+		return this.readLoadoutString(string) == null;
+	}
+
+	public void setActiveLoadout(Loadout loadout){
+		this.activeLoadout = loadout;
+	}
+	
+	public void removeActiveLoadout(){
+		this.activeLoadout = null;
+	}
+	
+	public Loadout getLoadout(String name){
+		for(Loadout loadout : this.loadouts){
+			if(ChatColor.stripColor(loadout.getName()).equalsIgnoreCase(name)){
+				return loadout;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Loadout> readAllLoadoutStrings(String name){
+		ArrayList<Loadout> loadouts = new ArrayList<Loadout>();
+		String[] loadoutStrings = name.split("_");
+		for(String string : loadoutStrings){
+			loadouts.add(this.readLoadoutString(string));
+		}
+		return loadouts;
+	}
+	
+	public void setMoney(int amount){
+		this.balance = amount;
+	}
+	
 	public Loadout readLoadoutString(String string){
 		String name = string.split("~", 2)[0];
 		String rest = string.split("~", 2)[1];
@@ -282,27 +327,6 @@ public class User {
 			return null;
 		}
 		return loadout;
-	}
-	
-	public boolean isLoadoutStringTooExpensive(String string){
-		return this.readLoadoutString(string) == null;
-	}
-
-	public void setActiveLoadout(Loadout loadout){
-		this.activeLoadout = loadout;
-	}
-	
-	public void removeActiveLoadout(){
-		this.activeLoadout = null;
-	}
-	
-	public Loadout getLoadout(String name){
-		for(Loadout loadout : this.loadouts){
-			if(ChatColor.stripColor(loadout.getName()).equalsIgnoreCase(name)){
-				return loadout;
-			}
-		}
-		return null;
 	}
 	
 	public ArrayList<Ability> getOwnedAbilities(){

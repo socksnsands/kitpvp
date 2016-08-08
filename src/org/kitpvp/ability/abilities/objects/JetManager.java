@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -161,6 +163,20 @@ public class JetManager implements Listener {
 		if(this.isInJet(event.getPlayer())){
 			event.setCancelled(true);
 		}
+		}
+	}
+	
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event){
+		for(Entity entity : event.getPlayer().getWorld().getEntities()){
+			if(entity instanceof Minecart){
+				Minecart minecart = (Minecart)entity;
+				if(minecart.getCustomName().equalsIgnoreCase("jet")){
+					if(minecart.getPassenger().equals(event.getPlayer())){
+						minecart.remove();
+					}
+				}
+			}
 		}
 	}
 	

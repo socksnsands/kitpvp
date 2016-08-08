@@ -14,7 +14,7 @@ public enum UnlockableSeries {
 	
 	STARTER_ABILITY (ChatColor.YELLOW + "Starter", "Starter series", Arrays.asList("Noob"), Material.CHEST),
 	GOD_ABILITY (ChatColor.RED + "Gods", "Premium series", Arrays.asList("Jesus", "Aphrodite", "Poseidon", "Zeus", "Hades", "Vovl"), Material.CHEST),
-	WAR_ABILITY (ChatColor.RED +"War", "Premium series", Arrays.asList("Jet"), Material.CHEST),
+	WAR_ABILITY (ChatColor.RED +"War", "Premium series", Arrays.asList("Jet", "Explosive Grenade"), Material.CHEST),
 	HEIGHTS_ABILITY (ChatColor.RED + "Heights", "Premium series", Arrays.asList("Anti-Stomper", "Stomper", "Trampoline"), Material.CHEST),
 	SUPERHERO_ABILITY (ChatColor.RED + "Superhero", "Premium series", Arrays.asList("Flash", "Flame Aura", "Bulk Up", "Wind Storm" , "Enrage", "Jedi"), Material.CHEST),
 	STAFF_ALL_ABILITY (ChatColor.GOLD + "Staff", "Staff only series", Arrays.asList("Jesus", "Bulk Up", "Feather Boots", "Flame Aura", "Flash", "Ignite", "Quick Shot", "Shocker", "Totem", "Wind Storm", "Frosty", "Snowball Shotgun"), Material.ENDER_CHEST),

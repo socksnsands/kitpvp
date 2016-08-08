@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kitpvp.ability.AbilityManager;
+import org.kitpvp.ability.abilities.objects.JetManager;
 import org.kitpvp.ability.abilities.objects.TotemManager;
 import org.kitpvp.commands.BalanceCommand;
 import org.kitpvp.loadout.LoadoutManager;
@@ -23,6 +24,7 @@ public class Core extends JavaPlugin implements Listener {
 	private AbilityManager abilityManager;
 	private UserManager userManager;
 	private TotemManager totemManager;
+	private JetManager jetManager;
 	private ItemManager itemManager;
 	
 	public void onEnable(){
@@ -32,6 +34,7 @@ public class Core extends JavaPlugin implements Listener {
 		abilityManager = new AbilityManager();
 		userManager = new UserManager();
 		totemManager = new TotemManager();
+		jetManager = new JetManager();
 		itemManager = new ItemManager();
 		
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
@@ -43,7 +46,7 @@ public class Core extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPing(ServerListPingEvent event){
 		event.setMaxPlayers(100);
-		event.setMotd(ChatColor.GOLD + "Kitpvp \n" + ChatColor.GRAY + "Test message of the day!");
+		event.setMotd(ChatColor.RED + "kitpvp.org \n" + ChatColor.BLUE + this.getAbilityManager().getAbilities().size() + ChatColor.GRAY + "/" + ChatColor.BLUE + "100 " + ChatColor.GRAY + "abilities created for launch!");
 	}
 	
 	public void onDisable(){
@@ -76,6 +79,10 @@ public class Core extends JavaPlugin implements Listener {
 	
 	public TotemManager getTotemManager(){
 		return this.totemManager;
+	}
+	
+	public JetManager getJetManager(){
+		return this.jetManager;
 	}
 	
 	public ItemManager getItemManager(){

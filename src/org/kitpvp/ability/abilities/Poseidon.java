@@ -42,7 +42,7 @@ public class Poseidon extends Ability {
 	}
 
 	private void playPoseidonEffect(final Player player){
-		Location startLoc = getLocationBelow(player.getLocation());
+		Location startLoc = getLocationBelow(player.getLocation()).add(0,1,0);
 		ArrayList<Location> hitLocations = new ArrayList<>();
 		ArrayList<String> hitPlayers = new ArrayList<>();
 		Location faked = startLoc;

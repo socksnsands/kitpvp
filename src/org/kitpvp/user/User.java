@@ -45,6 +45,15 @@ public class User {
 		//TODO load unlockables & series & balance & loadouts & rank
 	}
 	
+	public void restartCooldowns(){
+		for(Ability ability : this.cooldowns.keySet()){
+			if(!ability.getName().equalsIgnoreCase("Jet"))
+				this.cooldowns.put(ability, ability.getCooldownTicks());
+			else
+				this.cooldowns.put(ability, 20*70);
+		}
+	}
+	
 	public Rank getRank(){
 		return this.rank;
 	}
@@ -52,6 +61,10 @@ public class User {
 	public void setRank(Rank rank){
 		this.rank = rank;
 		//TODO save to config
+	}
+	
+	public void setCooldown(Ability ability, int cooldown){
+		this.cooldowns.put(ability, cooldown);
 	}
 	
 	public void resetInventory(){

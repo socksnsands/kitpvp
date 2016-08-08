@@ -25,6 +25,7 @@ import org.kitpvp.ability.Ability;
 import org.kitpvp.ability.abilities.AntiStomper;
 import org.kitpvp.ability.abilities.Aphrodite;
 import org.kitpvp.ability.abilities.BulkUp;
+import org.kitpvp.ability.abilities.CooldownLaser;
 import org.kitpvp.ability.abilities.DamageLaser;
 import org.kitpvp.ability.abilities.DarkLaser;
 import org.kitpvp.ability.abilities.EarthLaser;
@@ -38,6 +39,7 @@ import org.kitpvp.ability.abilities.Frosty;
 import org.kitpvp.ability.abilities.Hades;
 import org.kitpvp.ability.abilities.Ignite;
 import org.kitpvp.ability.abilities.Jesus;
+import org.kitpvp.ability.abilities.Jet;
 import org.kitpvp.ability.abilities.MythicalLaser;
 import org.kitpvp.ability.abilities.Noob;
 import org.kitpvp.ability.abilities.ParalysisLaser;
@@ -132,6 +134,8 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Vovl());
 		unlockables.add(new ElectricLaser());
 		unlockables.add(new EarthLaser());
+		unlockables.add(new Jet());
+		unlockables.add(new CooldownLaser());
 	}
 
 	public Unlockable getUnlockable(String name) {

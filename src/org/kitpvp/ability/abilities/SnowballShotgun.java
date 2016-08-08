@@ -1,5 +1,6 @@
 package org.kitpvp.ability.abilities;
 
+import org.bukkit.EntityEffect;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -45,6 +46,7 @@ public class SnowballShotgun extends Ability implements Listener {
 					LivingEntity le = (LivingEntity) event.getEntity();
 					if(le.getHealth() > 1)
 						le.setHealth(le.getHealth()-1);
+					le.playEffect(EntityEffect.HURT);
 					le.setVelocity(snowball.getVelocity());
 				}
 				event.setCancelled(true);

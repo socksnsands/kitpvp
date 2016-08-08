@@ -1,5 +1,7 @@
 package org.kitpvp.ability;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,6 +30,16 @@ public class AbilityManager implements Listener {
 			}
 			
 		}, 1, 1);
+	}
+	
+	public ArrayList<Ability> getAbilities(){
+		ArrayList<Ability> abilities = new ArrayList<Ability>();
+		for(Unlockable unlockable : Core.getInstance().getUnlockableManager().getRegisteredUnlockables()){
+			if(unlockable instanceof Ability){
+				abilities.add((Ability)unlockable);
+			}
+		}
+		return abilities;
 	}
 	
 	private void stopCooldownHandler(){

@@ -67,6 +67,14 @@ public class Loadout {
 		return this.maxPoints;
 	}
 	
+	public String toString(){
+		String s = this.name + "~";
+		for(Ability ability : this.abilities){
+			s += ability.getName() + "~";
+		}
+		return s;
+	}
+	
 	public ItemStack getSelectableIcon(){
 		ArrayList<String> lore = new ArrayList<>();
 		lore.addAll(Arrays.asList("", ChatColor.GRAY + "Points: " + ChatColor.YELLOW + this.getPointValue() + "/" + this.getMaxPoints(), ChatColor.GRAY + "Active abilities:"));

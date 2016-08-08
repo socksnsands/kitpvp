@@ -34,9 +34,7 @@ public class User {
 	private Rank rank;
 	
 	private int balance = 0;
-	
-	private int maxLoadouts = 3;
-	
+		
 	private boolean isSafe = true;
 	
 	public User(Player player){
@@ -183,17 +181,20 @@ public class User {
 	public void openKitEditor(){
 		Inventory ke = Bukkit.getServer().createInventory(player, 9, ChatColor.UNDERLINE + "Kit Editor");
 		for(int i = 0; i < ((this.loadouts.size() > 9) ? 9 : this.loadouts.size()); i++){
-			Loadout loadout = this.loadouts.get(i);
+			if(this.loadouts.get(i) != null){
+				Loadout loadout = this.loadouts.get(i);
 			ArrayList<String> lore = new ArrayList<>();
 			lore.add("");
 			lore.add(ChatColor.GRAY + "Abilities:");
+			
 			for(Ability ability : loadout.getAbilities()){
 				lore.add(ChatColor.GRAY + " - " + ability.getScarcity().getColor() + ability.getName());
 			}
 			ke.addItem(Core.getInstance().getItemManager().createItem(ChatColor.translateAlternateColorCodes('&', loadout.getName()), Material.PISTON_BASE,(byte) 0, 1, lore));
+			}
 		}
-		if(this.loadouts.size() < this.maxLoadouts){
-			int d = this.maxLoadouts - this.loadouts.size();
+		if(this.loadouts.size() < rank.getMaxLoadouts()){
+			int d = rank.getMaxLoadouts() - this.loadouts.size();
 			for(int i = 0; i < d; i++){
 				ke.setItem(ke.firstEmpty(), Core.getInstance().getItemManager().createItem(ChatColor.GRAY + ChatColor.UNDERLINE.toString() + "Empty", Material.ANVIL, (byte)0, 1, Arrays.asList("", ChatColor.GRAY + "Click to create loadout!")));
 			}
@@ -258,6 +259,35 @@ public class User {
 		return false;
 	}
 	
+	public Loadout readLoadoutString(String string){
+		String name = string.split("~", 2)[0];
+		String rest = string.split("~", 2)[1];
+		ArrayList<Ability> abilities = new ArrayList<Ability>();
+		while(rest.contains("~")){
+			if(Core.getInstance().getAbilityManager().isAbility(rest.split("~", 2)[0]))
+				abilities.add(Core.getInstance().getAbilityManager().getAbility(rest.split("~", 2)[0]));
+			rest = rest.split("~", 2)[1];
+		}
+		for(Ability ability : abilities){
+			if(!this.getOwnedAbilities().contains(ability)){
+				if(!player.isOp()){
+					abilities.remove(ability);
+				}else{
+					player.sendMessage(ChatColor.GRAY + "Was going to remove " + ability.getScarcity().getColor() + ability.getName() + ChatColor.GRAY + " as you don't own it but since you are OP you can have it.");
+				}
+			}
+		}
+		Loadout loadout = new Loadout(name, abilities);
+		if(loadout.getPointValue() > loadout.getMaxPoints()){
+			return null;
+		}
+		return loadout;
+	}
+	
+	public boolean isLoadoutStringTooExpensive(String string){
+		return this.readLoadoutString(string) == null;
+	}
+
 	public void setActiveLoadout(Loadout loadout){
 		this.activeLoadout = loadout;
 	}

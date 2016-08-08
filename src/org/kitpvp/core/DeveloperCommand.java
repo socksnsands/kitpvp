@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.kitpvp.ability.Ability;
+import org.kitpvp.loadout.Loadout;
 import org.kitpvp.unlockable.Unlockable;
 import org.kitpvp.unlockable.UnlockableSeries;
 import org.kitpvp.user.User;
@@ -65,6 +66,34 @@ public class DeveloperCommand implements CommandExecutor {
 				User user = Core.getInstance().getUserManager().getUser(player);
 				user.setSafe(!user.isSafe());
 				player.sendMessage("Safety: " + user.isSafe());
+				return false;
+			}
+			
+			if(arg3[0].equalsIgnoreCase("load")){
+				if (!(arg0 instanceof Player)) {
+					arg0.sendMessage("This command is for players only.");
+					return false;
+				}
+				Player player = (Player) arg0;
+				if(arg3.length >= 2){
+					try{
+						if(Core.getInstance().getUserManager().getUser(player).getLoadouts().size() < Core.getInstance().getUserManager().getUser(player).getRank().getMaxLoadouts()){
+							Loadout loadout = Core.getInstance().getUserManager().getUser(player).readLoadoutString(arg3[1]);
+							if(loadout.getPointValue() <= loadout.getMaxPoints()){
+								Core.getInstance().getUserManager().getUser(player).addLoadout(loadout);
+								player.sendMessage(ChatColor.GREEN + "Loadout loaded!");
+							}else{
+								player.sendMessage(ChatColor.RED + "Loadout has too many points! " + ChatColor.GRAY + "(" + loadout.getPointValue() + "/" + loadout.getMaxPoints() + ")");
+							}
+						}
+						else
+							player.sendMessage(ChatColor.RED + "You already have your maximum number of loadouts!");
+					}catch(Exception ex){
+						player.sendMessage(ChatColor.RED + "Error loading loadout...");
+					}
+				}else{
+					player.sendMessage(ChatColor.RED + "Correct usage: /dev load (formatted loadout)");
+				}
 				return false;
 			}
 

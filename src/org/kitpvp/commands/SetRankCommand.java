@@ -19,6 +19,9 @@ public class SetRankCommand implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("setrank")) {
 			if(!sender.isOp())
 				return false;
+			if(args.length < 2){
+				sender.sendMessage(ChatColor.RED + "Invalid format: /setrank (player) (rank)");
+			}
 			Player target = null;
 			boolean foundTarget = false;
 			for (Player players : Bukkit.getOnlinePlayers()) {
@@ -34,7 +37,11 @@ public class SetRankCommand implements CommandExecutor {
 						user.setRank(Rank.valueOf(args[1].toUpperCase()));
 						sender.sendMessage(ChatColor.GREEN + "Set " + target.getName() + " to rank " + Rank.valueOf(args[1].toUpperCase()).getColor() +  args[1].toLowerCase() + ChatColor.GREEN + "!");
 					}catch(Exception ex){
-						sender.sendMessage(ChatColor.RED + "Rank " + args[1] + " not found!");
+						sender.sendMessage(ChatColor.RED + "Rank \"" + args[1] + "\" not found!");
+						sender.sendMessage(ChatColor.RED + "Rank list:");
+						for(Rank rank : Rank.values()){
+							sender.sendMessage(ChatColor.GRAY + " - " + rank.getColor() + rank.toString());
+						}
 					}
 				}
 			}else{

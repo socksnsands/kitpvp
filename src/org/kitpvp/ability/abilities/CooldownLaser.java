@@ -2,6 +2,7 @@ package org.kitpvp.ability.abilities;
 
 import java.util.ArrayList;
 
+import org.bukkit.ChatColor;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -39,6 +40,7 @@ public class CooldownLaser extends Ability {
 								players.add(p.getName());
 								Core.getInstance().getUserManager().getUser(p).restartCooldowns();
 								p.playEffect(EntityEffect.HURT);
+								p.sendMessage(ChatColor.GRAY + player.getName() + " has restarted all of your cooldowns with their " + super.getScarcity().getColor() + super.getName() + ChatColor.GRAY + "!");
 							}
 						}
 					}

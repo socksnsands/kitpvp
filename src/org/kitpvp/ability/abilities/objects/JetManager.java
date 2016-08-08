@@ -1,9 +1,11 @@
 package org.kitpvp.ability.abilities.objects;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
@@ -22,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 import org.kitpvp.core.Core;
+import org.kitpvp.util.ActionBar;
 import org.kitpvp.util.ParticleEffect;
 
 public class JetManager implements Listener {
@@ -61,12 +64,15 @@ public class JetManager implements Listener {
 							jet.getMinecart().setVelocity(jet.getPassenger().getLocation().getDirection().multiply(.2D));
 							jet.removeFuel(1);
 						}else if(jet.getSpeed() == 2){
-							jet.getMinecart().setVelocity(jet.getPassenger().getLocation().getDirection().multiply(.45D));
+							jet.getMinecart().setVelocity(jet.getPassenger().getLocation().getDirection().multiply(.55D));
 							jet.removeFuel(3);
 						}else{
-							jet.getMinecart().setVelocity(new Vector(0, 0, 0));
-							jet.removeFuel(.2);
+							jet.getMinecart().setVelocity(new Vector(0, .04, 0));
+							jet.removeFuel(.3);
 						}
+						ActionBar ab = new ActionBar(ChatColor.DARK_GRAY + "Jet" + ChatColor.GRAY +"- Fuel: " + ChatColor.GREEN + (int)jet.getFuel() + ChatColor.GRAY + " Missiles: " + ChatColor.GREEN + jet.getMissileAmmo());
+						ab.sendToPlayer(jet.getPassenger());
+						jet.getPassenger().setFallDistance(0);
 						ParticleEffect.CLOUD.display(0, 0, 0, 0, 1, jet.getMinecart().getLocation(), 200);
 					}
 				}
@@ -122,9 +128,8 @@ public class JetManager implements Listener {
 				event.getEntity().getWorld().createExplosion(event.getEntity().getLocation(), 0);
 				Arrow arrow = (Arrow) event.getEntity();
 				for(Player player : event.getEntity().getWorld().getPlayers()){
-					if(player.getLocation().distance(event.getEntity().getLocation()) < 2 && player != arrow.getShooter()){
-						player.damage(2);
-						player.setVelocity(new Vector(player.getLocation().getX() - arrow.getLocation().getX(), player.getLocation().getY() - arrow.getLocation().getY(), player.getLocation().getZ() - arrow.getLocation().getZ()));
+					if(player.getLocation().distance(event.getEntity().getLocation()) < 3 && player != arrow.getShooter()){
+						player.damage(5);
 					}
 				}
 				event.getEntity().remove();
@@ -179,7 +184,29 @@ public class JetManager implements Listener {
 								speed = "Fast";
 							ItemMeta im = item.getItemMeta();
 							im.setDisplayName(ChatColor.GREEN + "Speed Toggle " + ChatColor.GRAY + "(" + speed + ")");
-							event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
+							item.setItemMeta(im);
+							event.getPlayer().updateInventory();
+							event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.ITEM_ARMOR_EQUIP_IRON, 1, 1);
+						}
+						if(item.getItemMeta().getDisplayName().startsWith(ChatColor.BLUE + "Machine Gun")){
+							Player player = event.getPlayer();
+							player.getWorld().playSound(player.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
+							ArrayList<String> players = new ArrayList<String>();
+							for(int i = 0; i < 100; i++){
+								Location l = player.getLocation().getDirection().normalize().multiply(i/5).toLocation(player.getWorld());
+								Location loc = player.getLocation().clone().add(l).add(0, .5, 0);
+								ParticleEffect.CRIT.display(0, 0, 0, 0, 1, loc, 200);
+								if(i %5 == 0){
+									for(Player p : player.getWorld().getPlayers()){
+										if(p != player && p.getLocation().clone().add(0,1,0).distance(loc) < 1){
+											if(!players.contains(p.getName())){
+											players.add(p.getName());
+											p.damage(1);
+											}
+										}
+									}
+								}
+							}
 						}
 					}
 				}

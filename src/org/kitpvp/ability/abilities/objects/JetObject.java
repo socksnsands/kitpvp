@@ -20,7 +20,7 @@ public class JetObject {
 	
 	private int speed = 1;
 	
-	private int missileAmmo = 40;
+	private int missileAmmo = 20;
 	private double fuel = 800;
 	
 	public JetObject(Player player){
@@ -66,14 +66,18 @@ public class JetObject {
 		player.getInventory().clear();
 		player.getInventory().addItem(Core.getInstance().getItemManager().createItem(ChatColor.GREEN + "Speed Toggle " + ChatColor.GRAY + "(Slow)", Material.LEVER, (byte)0, 1, null));
 		player.getInventory().addItem(Core.getInstance().getItemManager().createItem(ChatColor.RED + "Missile", Material.STICK, (byte)0, 1, null));
+		player.getInventory().addItem(Core.getInstance().getItemManager().createItem(ChatColor.BLUE + "Machine Gun", Material.STICK, (byte)0, 1, null));
 	}
 	
 	public void fireMissile(){
+		if(!(this.missileAmmo <= 0)){
 		this.missileAmmo--;
 		Arrow arrow = player.launchProjectile(Arrow.class);
+		arrow.setShooter(player);
 		arrow.setCustomName("jet_missile");
-		if(this.missileAmmo <= 0)
-			this.despawn();
+		}
+//		if(this.missileAmmo <= 0)
+//			this.despawn();
 	}
 	
 	public boolean hasPassenger(){

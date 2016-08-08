@@ -19,7 +19,7 @@ import org.kitpvp.user.User;
 import org.kitpvp.util.AnvilGui;
 
 public class LoadoutManager implements Listener {
-
+	
 	@EventHandler
 	public void onClick(PlayerInteractEvent event){
 		if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
@@ -62,9 +62,17 @@ public class LoadoutManager implements Listener {
 						event.setWillDestroy(false);
 						}
 						
+						if(name.contains("~"))
+							name.replaceAll("~", "-");
+						
+						if(user.hasLoadout(name)){
+							name = "random";
+							player.sendMessage(ChatColor.GRAY + "You already have a loadout called " + user.getLoadout(name).getName() + ChatColor.GRAY + "!");
+						}
+						
 						if(name.equals("random")){
 						Random random = new Random();
-						name = "" + random.nextInt(1000);
+						name = "" + random.nextInt(1000000);
 						player.sendMessage(ChatColor.GRAY + "Temporary name: \"" + ChatColor.GREEN + name + ChatColor.GRAY + "\" chosen!");
 						}else{
 							player.sendMessage(ChatColor.GRAY + "Kit: \"" + ChatColor.GREEN + name + ChatColor.GRAY + "\" created!");

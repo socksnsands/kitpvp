@@ -47,18 +47,16 @@ Every 10 seconds, you have a 1/2 chance of becoming enraged,
 						!= 
 						null)
 				for(User user : Core.getInstance().getUserManager().getUsers()){
-					if(user.getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Flame Aura"))){
+					if(user.getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Enrage"))){
 						if(!getEvent(user.getPlayer()).isCancelled()){
 										Player player = (Player) user.getPlayer();
 										Random random = new Random();
-										if(random.nextInt(1) == 0){
-											PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1, 7*20);
-											PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 1, 7*20);
-											PotionEffect absorb = new PotionEffect(PotionEffectType.ABSORPTION, 1, 7*20);
+										if(random.nextInt(2) == 0){
+											PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5*20, 0);
+											PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 5*20, 0);
 											
 											player.addPotionEffect(strength);
 											player.addPotionEffect(speed);
-											player.addPotionEffect(absorb);
 											
 											//FIX: ParticleEffect.REDSTONE.display(, player.getLocation(), 2.0);
 											player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1, 1);
@@ -68,7 +66,7 @@ Every 10 seconds, you have a 1/2 chance of becoming enraged,
 				}
 			}
 			
-		}, 7*20, 7*20);
+		}, 10*20, 10*20);
 	}
 	
 	private AbilityUseEvent getEvent(Player player){

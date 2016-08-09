@@ -43,8 +43,10 @@ public class LoadDataTask extends BukkitRunnable {
 				}
 				if(g)
 					user.setRank(Rank.valueOf(rank.toUpperCase()));
-				for(Loadout loadout : user.readAllLoadoutStrings(loadouts)){
-					user.addLoadout(loadout);
+				if(loadouts != null && !loadouts.equals("")){
+					for(Loadout loadout : user.readAllLoadoutStrings(loadouts)){
+						user.addLoadout(loadout);
+					}
 				}
 				user.setMoney(money);
 			}else{
@@ -53,6 +55,9 @@ public class LoadDataTask extends BukkitRunnable {
 				);
 				ps.setString(1, uuid);
 				ps.setString(2, "DEFAULT");
+				ps.setString(3, "");
+				ps.setString(4, "");
+				ps.setString(5, "");
 				ps.setInt(6, 0);
 				ps.executeUpdate();
 				ps.close();

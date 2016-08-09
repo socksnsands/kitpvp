@@ -63,6 +63,14 @@ public class UserManager implements Listener {
 		return false;
 	}
 	
+	public boolean isLoadedUser(String uuid){
+		for(User user : users)
+			if(user.getUUID().equals(uuid))
+				return true;
+		return false;
+	}
+	
+	
 	public ArrayList<User> getUsers(){
 		return this.users;
 	}
@@ -73,7 +81,6 @@ public class UserManager implements Listener {
 		for(Player player : Bukkit.getServer().getOnlinePlayers()){
 			User user = new User(player.getUniqueId().toString());
 			users.add(user);
-			user.setPlayer(player);
 		}
 	}
 	
@@ -204,11 +211,11 @@ public class UserManager implements Listener {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
+		event.setJoinMessage(ChatColor.GREEN + "+ " +  Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() + event.getPlayer().getName());
 		for(User user : users)
 			if(user.getPlayer() != null)
-				if(user.getPlayer().equals(event.getPlayer()))
-				return;
-		Core.getInstance().getUserManager().getUser(event.getPlayer().getUniqueId().toString()).setPlayer(event.getPlayer());
+				if(user.getPlayer().equals(event.getPlayer().getName()))
+					return;
 		User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
 		users.add(user);
 		user.setSafe(true);
@@ -218,7 +225,6 @@ public class UserManager implements Listener {
 				user.addSeries(series);
 			}
 		}
-		event.setJoinMessage(ChatColor.GREEN + "+ " +  Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() + event.getPlayer().getName());
 	}
 	
 	@EventHandler

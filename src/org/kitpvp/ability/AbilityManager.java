@@ -26,7 +26,9 @@ public class AbilityManager implements Listener {
 			@Override
 			public void run() {
 				for(User user : Core.getInstance().getUserManager().getUsers()){
-					user.callCooldownTick();
+					if(user != null){
+						user.callCooldownTick();
+					}
 				}
 			}
 			

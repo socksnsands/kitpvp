@@ -27,7 +27,7 @@ public class Core extends JavaPlugin implements Listener {
 	
 	private Connection connection;
 //	private String conString = "jdbc:mysql://" + this.getConfig().getString("con.ip") + ":" + this.getConfig().getString("con.port") + "/" + this.getConfig().getString("con.databaseName") + "?user=" + this.getConfig().getString("con.user") + "&password=" + this.getConfig().getString("con.password") + "&autoReconnect=true";
-	private String conString = "jdbc:mysql://127.0.0.1:3306/32694?user=32694&password=c6aea7813b&autoReconnect=true";
+	private String conString = "jdbc:mysql://s21.hosthorde.com:3306/32694?user=32694&password=c6aea7813b&autoReconnect=true";
 	private UnlockableManager unlockableManager;
 	private AbilityManager abilityManager;
 	private UserManager userManager;

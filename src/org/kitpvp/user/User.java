@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,8 +22,6 @@ import org.kitpvp.user.rank.Rank;
 import org.kitpvp.util.ItemManager;
 
 public class User {
-
-	private Player player;
 	
 	private String uuid;
 	
@@ -44,10 +43,6 @@ public class User {
 		
 		rank = Rank.DEFAULT;
 		//TODO load unlockables & series & balance & loadouts & rank
-	}
-	
-	public void setPlayer(Player player){
-		this.player = player;
 	}
 	
 	public String getUUID(){
@@ -81,18 +76,18 @@ public class User {
 	}
 	
 	public void resetInventory(){
-		player.getInventory().clear();
-		player.setHealth(20);
-		player.setFoodLevel(20);
-		player.getActivePotionEffects().clear();
-		player.setFlying(false);
-		player.setFallDistance(0);
-		player.setFireTicks(0);
-		player.setGameMode(GameMode.ADVENTURE);
-		player.getInventory().setHelmet(new ItemStack(Material.AIR));
-		player.getInventory().setChestplate(new ItemStack(Material.AIR));
-		player.getInventory().setLeggings(new ItemStack(Material.AIR));
-		player.getInventory().setBoots(new ItemStack(Material.AIR));
+		getPlayer().getInventory().clear();
+		getPlayer().setHealth(20);
+		getPlayer().setFoodLevel(20);
+		getPlayer().getActivePotionEffects().clear();
+		getPlayer().setFlying(false);
+		getPlayer().setFallDistance(0);
+		getPlayer().setFireTicks(0);
+		getPlayer().setGameMode(GameMode.ADVENTURE);
+		getPlayer().getInventory().setHelmet(new ItemStack(Material.AIR));
+		getPlayer().getInventory().setChestplate(new ItemStack(Material.AIR));
+		getPlayer().getInventory().setLeggings(new ItemStack(Material.AIR));
+		getPlayer().getInventory().setBoots(new ItemStack(Material.AIR));
 	}
 	
 	public void addSeries(UnlockableSeries series){
@@ -174,22 +169,22 @@ public class User {
 	public void giveSpawnInventory(){
 		this.resetInventory();
 		
-		Inventory inv = player.getInventory();
+		Inventory inv = getPlayer().getInventory();
 		ItemManager im = Core.getInstance().getItemManager();
 		inv.setItem(0, im.getFFAItem());
 		inv.setItem(8, im.getUnlockableOpener());
 	}
 	
 	public void openKitSelector(){
-		Inventory inv = Bukkit.getServer().createInventory(player, 9, ChatColor.UNDERLINE + "Kit Selector");
+		Inventory inv = Bukkit.getServer().createInventory(getPlayer(), 9, ChatColor.UNDERLINE + "Kit Selector");
 		for(Loadout loadout : this.loadouts){
 			inv.addItem(loadout.getSelectableIcon());
 		}
-		player.openInventory(inv);
+		getPlayer().openInventory(inv);
 	}
 	
 	public void openKitEditor(){
-		Inventory ke = Bukkit.getServer().createInventory(player, 9, ChatColor.UNDERLINE + "Kit Editor");
+		Inventory ke = Bukkit.getServer().createInventory(getPlayer(), 9, ChatColor.UNDERLINE + "Kit Editor");
 		for(int i = 0; i < ((this.loadouts.size() > 9) ? 9 : this.loadouts.size()); i++){
 			if(this.loadouts.get(i) != null){
 				Loadout loadout = this.loadouts.get(i);
@@ -209,7 +204,7 @@ public class User {
 				ke.setItem(ke.firstEmpty(), Core.getInstance().getItemManager().createItem(ChatColor.GRAY + ChatColor.UNDERLINE.toString() + "Empty", Material.ANVIL, (byte)0, 1, Arrays.asList("", ChatColor.GRAY + "Click to create loadout!")));
 			}
 		}
-		player.openInventory(ke);
+		getPlayer().openInventory(ke);
 	}
 	
 	public boolean isSafe(){
@@ -222,7 +217,7 @@ public class User {
 			cooldowns.put(ability, cooldowns.get(ability)-1);
 			if(cooldowns.get(ability) == 0){
 				toRemove.add(ability);
-				ability.onFinishCooldown(player, ability);
+				ability.onFinishCooldown(getPlayer(), ability);
 			}
 		}
 		for(Ability ability : toRemove){
@@ -237,7 +232,11 @@ public class User {
 	}
 	
 	public Player getPlayer(){
-		return this.player;
+		Player player = Bukkit.getPlayer(UUID.fromString(uuid));
+		if(Bukkit.getServer().getOnlinePlayers().contains(player))
+			return player;
+		return null;
+				
 	}
 	
 	public ArrayList<Unlockable> getOwnedUnlockables(){
@@ -315,10 +314,10 @@ public class User {
 		}
 		for(Ability ability : abilities){
 			if(!this.getOwnedAbilities().contains(ability)){
-				if(!player.isOp()){
+				if(!getPlayer().isOp()){
 					abilities.remove(ability);
 				}else{
-					player.sendMessage(ChatColor.GRAY + "Was going to remove " + ability.getScarcity().getColor() + ability.getName() + ChatColor.GRAY + " as you don't own it but since you are OP you can have it.");
+					getPlayer().sendMessage(ChatColor.GRAY + "Was going to remove " + ability.getScarcity().getColor() + ability.getName() + ChatColor.GRAY + " as you don't own it but since you are OP you can have it.");
 				}
 			}
 		}

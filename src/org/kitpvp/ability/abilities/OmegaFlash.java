@@ -11,12 +11,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.kitpvp.ability.Ability;
 
-public class Flash extends Ability {
+public class OmegaFlash extends Ability {
 
-	public Flash() {
-		super("Flash", "Instantly Flash forward!", Material.BLAZE_ROD, Scarcity.PURPLE, 8);
-		super.setClickedItem(new ItemStack(Material.BLAZE_ROD));
-		super.setCooldown(12*20);
+	public OmegaFlash() {
+		super("Omega Flash", "Instantly Flash a Great Distance forward!", Material.FEATHER, Scarcity.RED, 12);
+		super.setClickedItem(new ItemStack(Material.FEATHER));
+		super.setCooldown(20*20);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -24,11 +24,11 @@ public class Flash extends Ability {
 	public void onInteract(Player player, Action action){
 		if(action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)){
 			if(!super.callEvent(player, this).isCancelled()){
-				Location location = player.getLineOfSight((HashSet<Byte>)null, 8).get(player.getLineOfSight((HashSet<Byte>)null, 8).size()-1).getLocation();
+				Location location = player.getLineOfSight((HashSet<Byte>)null, 21).get(player.getLineOfSight((HashSet<Byte>)null, 21).size()-1).getLocation();
 				location.setYaw(player.getLocation().getYaw());
 				location.setPitch(player.getLocation().getPitch());
 				player.teleport(location);
-				player.getLocation().getWorld().playEffect(player.getLocation(), Effect.CLOUD, 1);
+				player.getLocation().getWorld().playEffect(player.getLocation(), Effect.CLOUD, 2);
 				player.getLocation().getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1, 1);
 				super.putOnCooldown(player);
 				player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);

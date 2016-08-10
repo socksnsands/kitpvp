@@ -12,7 +12,7 @@ import org.kitpvp.core.Core;
 
 public enum UnlockableSeries {
 	
-	STARTER_ABILITY (ChatColor.YELLOW + "Starter", "Starter series", Arrays.asList("Noob"), Material.CHEST),
+	STARTER_ABILITY (ChatColor.YELLOW + "Starter", "Starter series", Arrays.asList("Noob", "Heal"), Material.CHEST),
 	GOD_ABILITY (ChatColor.RED + "Gods", "Premium series", Arrays.asList("Jesus", "Aphrodite", "Poseidon", "Zeus", "Hades", "Vovl"), Material.CHEST),
 	WAR_ABILITY (ChatColor.RED +"War", "Premium series", Arrays.asList("Jet", "Explosive Grenade"), Material.CHEST),
 	HEIGHTS_ABILITY (ChatColor.RED + "Heights", "Premium series", Arrays.asList("Anti-Stomper", "Stomper", "Trampoline"), Material.CHEST),
@@ -20,7 +20,8 @@ public enum UnlockableSeries {
 	STAFF_ALL_ABILITY (ChatColor.GOLD + "Staff", "Staff only series", Arrays.asList("Jesus", "Bulk Up", "Feather Boots", "Flame Aura", "Flash", "Ignite", "Quick Shot", "Shocker", "Totem", "Wind Storm", "Frosty", "Snowball Shotgun"), Material.ENDER_CHEST),
 	DEV_ABILITY(ChatColor.BLUE + "Dev", "Dev testing series", Arrays.asList("Jesus", "Swap Laser"), Material.CHEST),
 	WINTER_ABILITY (ChatColor.AQUA + "Winter", "Limited edition: Winter 2016", Arrays.asList("Frosty", "Snowball Shotgun", "Frost Laser"), Material.SNOW_BLOCK),
-	LASER_ABILITY (ChatColor.RED + "Laser", "Premium series", Arrays.asList("Frost Laser", "Fire Laser", "Paralysis Laser", "Dark Laser", "Mythical Laser", "Damage Laser", "Swap Laser", "Electric Laser", "Earth Laser", "Cooldown Laser"), Material.CHEST);
+	LASER_ABILITY (ChatColor.RED + "Laser", "Premium series", Arrays.asList("Frost Laser", "Fire Laser", "Paralysis Laser", "Dark Laser", "Mythical Laser", "Damage Laser", "Swap Laser", "Electric Laser", "Earth Laser", "Cooldown Laser"), Material.CHEST),
+	OMEGA_ABILITY (ChatColor.LIGHT_PURPLE + "Omega Set", "Premium series", Arrays.asList(""), Material.CHEST);
 	
 	private String display;
 	private String description;

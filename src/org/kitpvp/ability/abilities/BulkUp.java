@@ -17,18 +17,17 @@ public class BulkUp extends Ability {
 		super.setCooldown(20 * 20);
 	}
 
-	
 	@Override
 	public void onInteract(Player player, Action action) {
-		if(action.equals(Action.RIGHT_CLICK_AIR) ||  action.equals(Action.RIGHT_CLICK_BLOCK)) {
+		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 			if (player.hasPotionEffect(PotionEffectType.ABSORPTION)) {
-			player.removePotionEffect(PotionEffectType.ABSORPTION);
-			if(!super.callEvent(player, this).isCancelled()) {
-				player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 1);
-				PotionEffect absorb = new PotionEffect(PotionEffectType.ABSORPTION, 60 * 20, 2);
-				player.addPotionEffect(absorb);
-				super.putOnCooldown(player);
-			}
+				player.removePotionEffect(PotionEffectType.ABSORPTION);
+				if (!super.callEvent(player, this).isCancelled()) {
+					player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 1);
+					PotionEffect absorb = new PotionEffect(PotionEffectType.ABSORPTION, 60 * 20, 2);
+					player.addPotionEffect(absorb);
+					super.putOnCooldown(player);
+				}
 			}
 		}
 	}

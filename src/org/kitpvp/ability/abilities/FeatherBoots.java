@@ -12,24 +12,25 @@ import org.kitpvp.ability.AbilityUseEvent;
 import org.kitpvp.core.Core;
 
 public class FeatherBoots extends Ability implements Listener {
-	
+
 	public FeatherBoots() {
 		super("Feather Boots", "Take 1/4 original fall damage!", new ItemStack(Material.FEATHER), Scarcity.WHITE, 4);
 	}
-	
+
 	@EventHandler
-	public void onDamage(EntityDamageEvent event){
-		if(event.getEntity() instanceof Player){
+	public void onDamage(EntityDamageEvent event) {
+		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
-			if(Core.getInstance().getUserManager().getUser(player).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Feather Boots"))){
-				if(event.getCause().equals(DamageCause.FALL)){
+			if (Core.getInstance().getUserManager().getUser(player).getActiveAbilities()
+					.contains(Core.getInstance().getAbilityManager().getAbility("Feather Boots"))) {
+				if (event.getCause().equals(DamageCause.FALL)) {
 					AbilityUseEvent e = super.callEvent(player, this);
-					if(!e.isCancelled()){
-						event.setDamage(event.getDamage()/4);
+					if (!e.isCancelled()) {
+						event.setDamage(event.getDamage() / 4);
 					}
 				}
 			}
 		}
 	}
-	
+
 }

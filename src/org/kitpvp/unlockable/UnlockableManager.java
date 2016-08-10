@@ -22,48 +22,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.kitpvp.ability.Ability;
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-import org.kitpvp.ability.abilities.AntiStomper;
-import org.kitpvp.ability.abilities.Aphrodite;
-import org.kitpvp.ability.abilities.BulkUp;
-import org.kitpvp.ability.abilities.CooldownLaser;
-import org.kitpvp.ability.abilities.DamageLaser;
-import org.kitpvp.ability.abilities.DarkLaser;
-import org.kitpvp.ability.abilities.EarthLaser;
-import org.kitpvp.ability.abilities.ElectricLaser;
-import org.kitpvp.ability.abilities.Enrage;
-import org.kitpvp.ability.abilities.FeatherBoots;
-import org.kitpvp.ability.abilities.FireLaser;
-import org.kitpvp.ability.abilities.FlameAura;
-import org.kitpvp.ability.abilities.Flash;
-import org.kitpvp.ability.abilities.FrostLaser;
-import org.kitpvp.ability.abilities.Frosty;
-import org.kitpvp.ability.abilities.Hades;
-import org.kitpvp.ability.abilities.Heal;
-import org.kitpvp.ability.abilities.Ignite;
-import org.kitpvp.ability.abilities.Jedi;
-import org.kitpvp.ability.abilities.Jesus;
-import org.kitpvp.ability.abilities.Jet;
-import org.kitpvp.ability.abilities.MythicalLaser;
-import org.kitpvp.ability.abilities.Noob;
-import org.kitpvp.ability.abilities.OmegaFlash;
-import org.kitpvp.ability.abilities.OmegaHeal;
-import org.kitpvp.ability.abilities.OmegaLaser;
-import org.kitpvp.ability.abilities.ParalysisLaser;
-import org.kitpvp.ability.abilities.Poseidon;
-import org.kitpvp.ability.abilities.QuickShot;
-import org.kitpvp.ability.abilities.Shocker;
-import org.kitpvp.ability.abilities.SnowballShotgun;
-import org.kitpvp.ability.abilities.Stomper;
-import org.kitpvp.ability.abilities.SwapLaser;
-import org.kitpvp.ability.abilities.Switcher;
-import org.kitpvp.ability.abilities.Totem;
-import org.kitpvp.ability.abilities.Vovl;
-import org.kitpvp.ability.abilities.WindStorm;
-import org.kitpvp.ability.abilities.Zeus;
->>>>>>> Stashed changes
 import org.kitpvp.ability.abilities.*;
 import org.kitpvp.core.Core;
 import org.kitpvp.unlockable.Unlockable.Scarcity;
@@ -127,7 +85,7 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new SnowballShotgun());
 		unlockables.add(new AntiStomper());
 		unlockables.add(new Stomper());
-//		unlockables.add(new Trampoline());
+		// unlockables.add(new Trampoline());
 		unlockables.add(new Aphrodite());
 		unlockables.add(new Noob());
 		unlockables.add(new DamageLaser());
@@ -148,14 +106,11 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new CooldownLaser());
 		unlockables.add(new Jedi());
 		unlockables.add(new Enrage());
-<<<<<<< Updated upstream
 		unlockables.add(new ExplosiveGrenade());
-=======
 		unlockables.add(new Heal());
 		unlockables.add(new OmegaHeal());
 		unlockables.add(new OmegaFlash());
 		unlockables.add(new OmegaLaser());
->>>>>>> Stashed changes
 	}
 
 	public Unlockable getUnlockable(String name) {
@@ -274,7 +229,7 @@ public class UnlockableManager implements Listener {
 		}
 
 		Random random = new Random();
-		int t = random.nextInt(30)+30;
+		int t = random.nextInt(30) + 30;
 		for (int i = 0; i < t; i++) {
 			final int q = i;
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
@@ -285,47 +240,51 @@ public class UnlockableManager implements Listener {
 					player.playSound(player.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
 					if (q == t - 1) {
 						String name = inv.getItem(13).getItemMeta().getDisplayName();
-						player.sendMessage(ChatColor.GRAY + "You unlocked "
-								+ name + ChatColor.GRAY + "!");
-						
+						player.sendMessage(ChatColor.GRAY + "You unlocked " + name + ChatColor.GRAY + "!");
+
 						Ability ability = Core.getInstance().getAbilityManager().getAbility(ChatColor.stripColor(name));
 						Color start = Color.WHITE;
 						Color finish = Color.GRAY;
-						if(ability.getScarcity().equals(Scarcity.BLUE)){
+						if (ability.getScarcity().equals(Scarcity.BLUE)) {
 							start = Color.BLUE;
 							finish = Color.GREEN;
-						}else if(ability.getScarcity().equals(Scarcity.PURPLE)){
+						} else if (ability.getScarcity().equals(Scarcity.PURPLE)) {
 							start = Color.PURPLE;
 							finish = Color.MAROON;
-						}else if(ability.getScarcity().equals(Scarcity.RED)){
+						} else if (ability.getScarcity().equals(Scarcity.RED)) {
 							start = Color.RED;
 							finish = Color.ORANGE;
-						}else if(ability.getScarcity().equals(Scarcity.DARK_RED)){
+						} else if (ability.getScarcity().equals(Scarcity.DARK_RED)) {
 							start = Color.fromBGR(0, 0, 255);
 							finish = Color.FUCHSIA;
-						}else if(ability.getScarcity().equals(Scarcity.GOLD)){
+						} else if (ability.getScarcity().equals(Scarcity.GOLD)) {
 							start = Color.ORANGE;
 							finish = Color.YELLOW;
-							//Kevin: Hoping that these Unlock messages look working and well.
+							// Kevin: Hoping that these Unlock messages look
+							// working and well.
 							Bukkit.broadcastMessage("");
-							Bukkit.broadcastMessage(ChatColor.WHITE + player.getName() + ChatColor.GRAY + " has unlocked " + ChatColor.GOLD + name + ChatColor.GRAY + "!");
+							Bukkit.broadcastMessage(ChatColor.WHITE + player.getName() + ChatColor.GRAY
+									+ " has unlocked " + ChatColor.GOLD + name + ChatColor.GRAY + "!");
 							Bukkit.broadcastMessage("");
-						}else if(ability.getScarcity().equals(Scarcity.BLACK)){
+						} else if (ability.getScarcity().equals(Scarcity.BLACK)) {
 							start = Color.BLACK;
 							finish = Color.SILVER;
 							Bukkit.broadcastMessage("");
-							Bukkit.broadcastMessage(ChatColor.WHITE + player.getName() + ChatColor.GRAY + " has unlocked " + ChatColor.BLACK + "" + ChatColor.BOLD + name + ChatColor.GRAY + "!");
+							Bukkit.broadcastMessage(
+									ChatColor.WHITE + player.getName() + ChatColor.GRAY + " has unlocked "
+											+ ChatColor.BLACK + "" + ChatColor.BOLD + name + ChatColor.GRAY + "!");
 							Bukkit.broadcastMessage("");
 						}
-						FireworkEffect effect = FireworkEffect.builder().trail(false).flicker(true).withColor(start).withFade(finish).with(FireworkEffect.Type.BURST).build();
+						FireworkEffect effect = FireworkEffect.builder().trail(false).flicker(true).withColor(start)
+								.withFade(finish).with(FireworkEffect.Type.BURST).build();
 						Firework fw = player.getWorld().spawn(player.getLocation(), Firework.class);
 						FireworkMeta meta = fw.getFireworkMeta();
 						meta.clearEffects();
 						meta.addEffect(effect);
 						meta.setPower(0);
 						fw.setFireworkMeta(meta);
-						
-						//TODO give the user the ability
+
+						// TODO give the user the ability
 						Core.getInstance().getUserManager().getUser(player).addUnlockable(ability);
 						Core.getInstance().getUserManager().getUser(player).removeSeries(series);
 					}
@@ -341,7 +300,7 @@ public class UnlockableManager implements Listener {
 			player.openInventory(inventory);
 		if (inventory.getSize() < 18)
 			return;
-		for (int i = 0; i >= -7; i--) 
+		for (int i = 0; i >= -7; i--)
 			inventory.setItem(17 + i, inventory.getItem(16 + i));
 
 		inventory.setItem(9, this.getRandomUnlockable(series).getIcon());

@@ -16,15 +16,17 @@ public class OmegaFlash extends Ability {
 	public OmegaFlash() {
 		super("Omega Flash", "Instantly Flash a Great Distance forward!", Material.FEATHER, Scarcity.RED, 12);
 		super.setClickedItem(new ItemStack(Material.FEATHER));
-		super.setCooldown(20*20);
+		super.setCooldown(20 * 20);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onInteract(Player player, Action action){
-		if(action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)){
-			if(!super.callEvent(player, this).isCancelled()){
-				Location location = player.getLineOfSight((HashSet<Byte>)null, 21).get(player.getLineOfSight((HashSet<Byte>)null, 21).size()-1).getLocation();
+	public void onInteract(Player player, Action action) {
+		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)
+				|| action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
+			if (!super.callEvent(player, this).isCancelled()) {
+				Location location = player.getLineOfSight((HashSet<Byte>) null, 21)
+						.get(player.getLineOfSight((HashSet<Byte>) null, 21).size() - 1).getLocation();
 				location.setYaw(player.getLocation().getYaw());
 				location.setPitch(player.getLocation().getPitch());
 				player.teleport(location);
@@ -35,5 +37,5 @@ public class OmegaFlash extends Ability {
 			}
 		}
 	}
-	
+
 }

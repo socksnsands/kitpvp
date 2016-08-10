@@ -12,26 +12,26 @@ public class AbilityUseEvent extends Event implements Cancellable {
 	private Player player;
 	private Ability ability;
 	private boolean cancelled = false;
-	
-	public AbilityUseEvent(Player player, Ability ability){
+
+	public AbilityUseEvent(Player player, Ability ability) {
 		this.player = player;
 		this.ability = ability;
 	}
-	
-	public Player getPlayer(){
+
+	public Player getPlayer() {
 		return this.player;
 	}
-	
-	public Ability getAbility(){
+
+	public Ability getAbility() {
 		return this.ability;
 	}
-	
+
 	public HandlerList getHandlers() {
-	    return handlers;
+		return handlers;
 	}
 
 	public static HandlerList getHandlerList() {
-	    return handlers;
+		return handlers;
 	}
 
 	@Override
@@ -43,5 +43,5 @@ public class AbilityUseEvent extends Event implements Cancellable {
 	public void setCancelled(boolean cancelled) {
 		this.cancelled = cancelled;
 	}
-	
+
 }

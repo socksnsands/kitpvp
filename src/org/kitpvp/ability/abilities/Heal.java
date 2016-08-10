@@ -17,18 +17,17 @@ public class Heal extends Ability {
 		super.setCooldown(12 * 20);
 	}
 
-	
 	@Override
 	public void onInteract(Player player, Action action) {
-		if(action.equals(Action.RIGHT_CLICK_AIR) ||  action.equals(Action.RIGHT_CLICK_BLOCK)) {
+		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 			if (player.hasPotionEffect(PotionEffectType.REGENERATION)) {
-			player.removePotionEffect(PotionEffectType.REGENERATION);
-			if(!super.callEvent(player, this).isCancelled()) {
-				player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1, 1);
-				PotionEffect regen = new PotionEffect(PotionEffectType.REGENERATION, 8 * 20, 1);
-				player.addPotionEffect(regen);
-				super.putOnCooldown(player);
-			}
+				player.removePotionEffect(PotionEffectType.REGENERATION);
+				if (!super.callEvent(player, this).isCancelled()) {
+					player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1, 1);
+					PotionEffect regen = new PotionEffect(PotionEffectType.REGENERATION, 8 * 20, 1);
+					player.addPotionEffect(regen);
+					super.putOnCooldown(player);
+				}
 			}
 		}
 	}

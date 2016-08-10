@@ -14,7 +14,7 @@ import org.kitpvp.core.Core;
 import org.kitpvp.util.ParticleEffect;
 
 public class OmegaLaser extends Ability {
-	//THIS CLASS IS REALLY INNEFFICIENT!
+	// THIS CLASS IS REALLY INNEFFICIENT!
 
 	public OmegaLaser() {
 		super("Omega Laser", "Rapidly Fire Energy Lasers!", Material.NETHER_STAR, Scarcity.DARK_RED, 15);
@@ -28,114 +28,31 @@ public class OmegaLaser extends Ability {
 			super.putOnCooldown(player);
 			ArrayList<String> players = new ArrayList<String>();
 
-			// repeat
-			for (int i = 0; i < 50; i++) {
-				
-				Location l = player.getLocation().getDirection().normalize().multiply(i / 5)
-						.toLocation(player.getWorld());
-				Location loc = player.getLocation().clone().add(l).add(0, 2, 0);
-				ParticleEffect.DRAGONBREATH.display(0, 0, 0, 0, 1, loc, 200);
-				if (i % 5 == 0) {
-					for (Player p : player.getWorld().getPlayers()) {
-						if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
-							if (!players.contains(p.getName())) {
-								p.damage(3);
-								player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-								
+			for (int i = 0; i < 5; i++) {
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
+					public void run() {
+						for (int i = 0; i < 50; i++) {
+
+							Location l = player.getLocation().getDirection().normalize().multiply(i / 5)
+									.toLocation(player.getWorld());
+							Location loc = player.getLocation().clone().add(l).add(0, 2, 0);
+							ParticleEffect.DRAGONBREATH.display(0, 0, 0, 0, 1, loc, 200);
+							if (i % 5 == 0) {
+								for (Player p : player.getWorld().getPlayers()) {
+									if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
+										if (!players.contains(p.getName())) {
+											Core.getInstance().getDamageManager().damage(p, player, 3);
+											player.getWorld().playSound(player.getLocation(),
+													Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+										}
+									}
+								}
 							}
 						}
 					}
-				}
+				}, i * 10);
 			}
-		        Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
-		            public void run() {
-						for (int i = 0; i < 50; i++) {
-							
-							Location l = player.getLocation().getDirection().normalize().multiply(i / 5)
-									.toLocation(player.getWorld());
-							Location loc = player.getLocation().clone().add(l).add(0, 2, 0);
-							ParticleEffect.DRAGONBREATH.display(0, 0, 0, 0, 1, loc, 200);
-							if (i % 5 == 0) {
-								for (Player p : player.getWorld().getPlayers()) {
-									if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
-										if (!players.contains(p.getName())) {
-											p.damage(3);
-											player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-										}
-									}
-								}
-							}
-						}  
-		            }
-		        }, 20);
-		        
-		        Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
-		            public void run() {
-						for (int i = 0; i < 50; i++) {
-							
-							Location l = player.getLocation().getDirection().normalize().multiply(i / 5)
-									.toLocation(player.getWorld());
-							Location loc = player.getLocation().clone().add(l).add(0, 2, 0);
-							ParticleEffect.DRAGONBREATH.display(0, 0, 0, 0, 1, loc, 200);
-							if (i % 5 == 0) {
-								for (Player p : player.getWorld().getPlayers()) {
-									if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
-										if (!players.contains(p.getName())) {
-											p.damage(3);
-											player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-										}
-									}
-								}
-							}
-						}
-		            }
-		        }, 40);
-		        
-		        Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
-		            public void run() {
-						for (int i = 0; i < 50; i++) {
-							
-							Location l = player.getLocation().getDirection().normalize().multiply(i / 5)
-									.toLocation(player.getWorld());
-							Location loc = player.getLocation().clone().add(l).add(0, 2, 0);
-							ParticleEffect.DRAGONBREATH.display(0, 0, 0, 0, 1, loc, 200);
-							if (i % 5 == 0) {
-								for (Player p : player.getWorld().getPlayers()) {
-									if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
-										if (!players.contains(p.getName())) {
-											p.damage(3);
-											player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-										}
-									}
-								}
-							}
-						}
-		            }
-		        }, 60);
-		        
-		        Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
-		            public void run() {
-						for (int i = 0; i < 50; i++) {
-							
-							Location l = player.getLocation().getDirection().normalize().multiply(i / 5)
-									.toLocation(player.getWorld());
-							Location loc = player.getLocation().clone().add(l).add(0, 2, 0);
-							ParticleEffect.DRAGONBREATH.display(0, 0, 0, 0, 1, loc, 200);
-							if (i % 5 == 0) {
-								for (Player p : player.getWorld().getPlayers()) {
-									if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
-										if (!players.contains(p.getName())) {
-											p.damage(3);
-											player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-										}
-									}
-								}
-							}
-						} 
-		            }
-		        }, 80);
-				
-				
-			}
+
 		}
+	}
 }

@@ -48,7 +48,7 @@ public class DeveloperCommand implements CommandExecutor {
 							} catch (IllegalArgumentException ex) {
 								arg0.sendMessage("Series \"" + arg3[2] + "\" not found!");
 								arg0.sendMessage("Series list:");
-								for(UnlockableSeries series : UnlockableSeries.values())
+								for (UnlockableSeries series : UnlockableSeries.values())
 									arg0.sendMessage(series + " - " + series.getDescription());
 							}
 						}
@@ -68,30 +68,43 @@ public class DeveloperCommand implements CommandExecutor {
 				player.sendMessage("Safety: " + user.isSafe());
 				return false;
 			}
-			
-			if(arg3[0].equalsIgnoreCase("load")){
+
+			if (arg3[0].equalsIgnoreCase("reset")) {
 				if (!(arg0 instanceof Player)) {
 					arg0.sendMessage("This command is for players only.");
 					return false;
 				}
 				Player player = (Player) arg0;
-				if(arg3.length >= 2){
-					try{
-						if(Core.getInstance().getUserManager().getUser(player).getLoadouts().size() < Core.getInstance().getUserManager().getUser(player).getRank().getMaxLoadouts()){
-							Loadout loadout = Core.getInstance().getUserManager().getUser(player).readLoadoutString(arg3[1]);
-							if(loadout.getPointValue() <= loadout.getMaxPoints()){
+				User user = Core.getInstance().getUserManager().getUser(player);
+				user.resetData();
+				return false;
+			}
+
+			if (arg3[0].equalsIgnoreCase("load")) {
+				if (!(arg0 instanceof Player)) {
+					arg0.sendMessage("This command is for players only.");
+					return false;
+				}
+				Player player = (Player) arg0;
+				if (arg3.length >= 2) {
+					try {
+						if (Core.getInstance().getUserManager().getUser(player).getLoadouts().size() < Core
+								.getInstance().getUserManager().getUser(player).getRank().getMaxLoadouts()) {
+							Loadout loadout = Core.getInstance().getUserManager().getUser(player)
+									.readLoadoutString(arg3[1]);
+							if (loadout.getPointValue() <= loadout.getMaxPoints()) {
 								Core.getInstance().getUserManager().getUser(player).addLoadout(loadout);
 								player.sendMessage(ChatColor.GREEN + "Loadout loaded!");
-							}else{
-								player.sendMessage(ChatColor.RED + "Loadout has too many points! " + ChatColor.GRAY + "(" + loadout.getPointValue() + "/" + loadout.getMaxPoints() + ")");
+							} else {
+								player.sendMessage(ChatColor.RED + "Loadout has too many points! " + ChatColor.GRAY
+										+ "(" + loadout.getPointValue() + "/" + loadout.getMaxPoints() + ")");
 							}
-						}
-						else
+						} else
 							player.sendMessage(ChatColor.RED + "You already have your maximum number of loadouts!");
-					}catch(Exception ex){
+					} catch (Exception ex) {
 						player.sendMessage(ChatColor.RED + "Error loading loadout...");
 					}
-				}else{
+				} else {
 					player.sendMessage(ChatColor.RED + "Correct usage: /dev load (formatted loadout)");
 				}
 				return false;

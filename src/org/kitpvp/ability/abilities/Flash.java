@@ -16,15 +16,17 @@ public class Flash extends Ability {
 	public Flash() {
 		super("Flash", "Instantly Flash forward!", Material.BLAZE_ROD, Scarcity.PURPLE, 8);
 		super.setClickedItem(new ItemStack(Material.BLAZE_ROD));
-		super.setCooldown(12*20);
+		super.setCooldown(12 * 20);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onInteract(Player player, Action action){
-		if(action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)){
-			if(!super.callEvent(player, this).isCancelled()){
-				Location location = player.getLineOfSight((HashSet<Byte>)null, 8).get(player.getLineOfSight((HashSet<Byte>)null, 8).size()-1).getLocation();
+	public void onInteract(Player player, Action action) {
+		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)
+				|| action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
+			if (!super.callEvent(player, this).isCancelled()) {
+				Location location = player.getLineOfSight((HashSet<Byte>) null, 8)
+						.get(player.getLineOfSight((HashSet<Byte>) null, 8).size() - 1).getLocation();
 				location.setYaw(player.getLocation().getYaw());
 				location.setPitch(player.getLocation().getPitch());
 				player.teleport(location);
@@ -35,5 +37,5 @@ public class Flash extends Ability {
 			}
 		}
 	}
-	
+
 }

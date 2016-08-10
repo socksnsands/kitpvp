@@ -18,58 +18,52 @@ import org.kitpvp.user.User;
 import org.kitpvp.util.ParticleEffect;
 
 public class Enrage extends Ability {
-	
+
 	/*
-	 * Type: PASSIVE
-Scarcity: Purple
-Cooldown: N/A
-Points: 10
-Possible Second Desc if you don’t like the first: 
-Every 10 seconds, you have a 1/2 chance of becoming enraged,
- if you do, you gain Absorption 1, Speed 1, and Strength 1 for 7 seconds.
+	 * Type: PASSIVE Scarcity: Purple Cooldown: N/A Points: 10 Possible Second
+	 * Desc if you don’t like the first: Every 10 seconds, you have a 1/2 chance
+	 * of becoming enraged, if you do, you gain Absorption 1, Speed 1, and
+	 * Strength 1 for 7 seconds.
 	 */
-	
+
 	public Enrage() {
 		super("Enrage", "Randomly become Enraged every", Material.BLAZE_POWDER, Scarcity.PURPLE, 10);
 		this.startEnrageCycle();
 	}
-	
-	private void startEnrageCycle(){
-		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Core.getInstance(), new Runnable(){
+
+	private void startEnrageCycle() {
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Core.getInstance(), new Runnable() {
 
 			@Override
 			public void run() {
-				if(
-						Core
-						.getInstance()
-						.getUserManager()
-						.getUsers()
-						!= 
-						null)
-				for(User user : Core.getInstance().getUserManager().getUsers()){
-					if(user.getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Enrage"))){
-						if(!getEvent(user.getPlayer()).isCancelled()){
-										Player player = (Player) user.getPlayer();
-										Random random = new Random();
-										if(random.nextInt(2) == 0){
-											PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5*20, 0);
-											PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 5*20, 0);
-											
-											player.addPotionEffect(strength);
-											player.addPotionEffect(speed);
-											
-											//FIX: ParticleEffect.REDSTONE.display(, player.getLocation(), 2.0);
-											player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1, 1);
+				if (Core.getInstance().getUserManager().getUsers() != null)
+					for (User user : Core.getInstance().getUserManager().getUsers()) {
+						if (user.getActiveAbilities()
+								.contains(Core.getInstance().getAbilityManager().getAbility("Enrage"))) {
+							if (!getEvent(user.getPlayer()).isCancelled()) {
+								Player player = (Player) user.getPlayer();
+								Random random = new Random();
+								if (random.nextInt(2) == 0) {
+									PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20,
+											0);
+									PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 5 * 20, 0);
+
+									player.addPotionEffect(strength);
+									player.addPotionEffect(speed);
+
+									// FIX: ParticleEffect.REDSTONE.display(,
+									// player.getLocation(), 2.0);
+									player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1, 1);
+								}
 							}
 						}
 					}
-				}
 			}
-			
-		}, 10*20, 10*20);
+
+		}, 10 * 20, 10 * 20);
 	}
-	
-	private AbilityUseEvent getEvent(Player player){
+
+	private AbilityUseEvent getEvent(Player player) {
 		return super.callEvent(player, this);
 	}
 

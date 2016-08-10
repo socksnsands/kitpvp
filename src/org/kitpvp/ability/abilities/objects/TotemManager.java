@@ -15,75 +15,75 @@ import org.kitpvp.core.Core;
 public class TotemManager implements Listener {
 
 	private ArrayList<Totem> totems = new ArrayList<Totem>();
-	
-	public TotemManager(){
+
+	public TotemManager() {
 		this.startTotemActions();
 		Bukkit.getServer().getPluginManager().registerEvents(this, Core.getInstance());
 	}
-	
-	private void startTotemActions(){
-		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Core.getInstance(), new Runnable(){
+
+	private void startTotemActions() {
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Core.getInstance(), new Runnable() {
 
 			@Override
 			public void run() {
-				for(Totem totem : totems){
+				for (Totem totem : totems) {
 					totem.giveEffect();
 				}
 			}
-			
+
 		}, 20, 20);
 	}
-	
+
 	@EventHandler
-	public void onInteract(PlayerInteractEvent event){
-		if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
-			for(Totem totem : totems){
-				if(totem.getLocation().clone().add(0,1,0).equals(event.getClickedBlock().getLocation())){
+	public void onInteract(PlayerInteractEvent event) {
+		if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+			for (Totem totem : totems) {
+				if (totem.getLocation().clone().add(0, 1, 0).equals(event.getClickedBlock().getLocation())) {
 					totem.damage(event.getPlayer());
 				}
 			}
 		}
 	}
-	
+
 	@EventHandler
-	public void onQuit(PlayerQuitEvent event){
-		for(Totem totem : totems){
-			if(totem.getPlayer().equals(event.getPlayer())){
+	public void onQuit(PlayerQuitEvent event) {
+		for (Totem totem : totems) {
+			if (totem.getPlayer().equals(event.getPlayer())) {
 				totem.destroy();
 			}
 		}
 	}
-	
+
 	@EventHandler
-	public void onKick(PlayerKickEvent event){
-		for(Totem totem : totems){
-			if(totem.getPlayer().equals(event.getPlayer())){
+	public void onKick(PlayerKickEvent event) {
+		for (Totem totem : totems) {
+			if (totem.getPlayer().equals(event.getPlayer())) {
 				totem.destroy();
 			}
 		}
 	}
-	
+
 	@EventHandler
-	public void onDeath(PlayerDeathEvent event){
-		for(Totem totem : totems){
-			if(totem.getPlayer().equals(event.getEntity())){
+	public void onDeath(PlayerDeathEvent event) {
+		for (Totem totem : totems) {
+			if (totem.getPlayer().equals(event.getEntity())) {
 				totem.destroy();
 			}
 		}
 	}
-	
-	public ArrayList<Totem> getTotems(){
+
+	public ArrayList<Totem> getTotems() {
 		return this.totems;
 	}
-	
-	public void addTotem(Totem totem){
-		if(!this.totems.contains(totem))
+
+	public void addTotem(Totem totem) {
+		if (!this.totems.contains(totem))
 			this.totems.add(totem);
 	}
-	
-	public void removeTotem(Totem totem){
-		if(this.totems.contains(totem))
+
+	public void removeTotem(Totem totem) {
+		if (this.totems.contains(totem))
 			this.totems.remove(totem);
 	}
-	
+
 }

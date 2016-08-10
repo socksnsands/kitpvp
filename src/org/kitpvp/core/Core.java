@@ -24,9 +24,8 @@ import org.kitpvp.util.ItemManager;
 public class Core extends JavaPlugin implements Listener {
 
 	private static Core instance;
-	
+
 	private Connection connection;
-//	private String conString = "jdbc:mysql://" + this.getConfig().getString("con.ip") + ":" + this.getConfig().getString("con.port") + "/" + this.getConfig().getString("con.databaseName") + "?user=" + this.getConfig().getString("con.user") + "&password=" + this.getConfig().getString("con.password") + "&autoReconnect=true";
 	private String conString = "jdbc:mysql://s21.hosthorde.com:3306/32694?user=32694&password=c6aea7813b&autoReconnect=true";
 	private UnlockableManager unlockableManager;
 	private AbilityManager abilityManager;
@@ -35,10 +34,10 @@ public class Core extends JavaPlugin implements Listener {
 	private JetManager jetManager;
 	private ItemManager itemManager;
 	private DamageManager damageManager;
-	
-	public void onEnable(){
+
+	public void onEnable() {
 		instance = this;
-		
+
 		unlockableManager = new UnlockableManager();
 		abilityManager = new AbilityManager();
 		userManager = new UserManager();
@@ -46,85 +45,99 @@ public class Core extends JavaPlugin implements Listener {
 		jetManager = new JetManager();
 		itemManager = new ItemManager();
 		damageManager = new DamageManager();
-		
+
+		if (!getConfig().contains("con.useConfigConnection")) {
+			getConfig().set("con.useConfigConnection", true);
+			saveConfig();
+		}
+
+		if (getConfig().getBoolean("con.useConfigConnection"))
+			;
+		if (getConfig().contains("con.ip") && getConfig().contains("con.port")
+				&& getConfig().contains("con.databaseName") && getConfig().contains("con.user")
+				&& getConfig().contains("con.password"))
+			conString = "jdbc:mysql://" + this.getConfig().getString("con.ip") + ":"
+					+ this.getConfig().getString("con.port") + "/" + this.getConfig().getString("con.databaseName")
+					+ "?user=" + this.getConfig().getString("con.user") + "&password="
+					+ this.getConfig().getString("con.password") + "&autoReconnect=true";
+
 		this.establishConnection();
-		
+
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 		Bukkit.getServer().getPluginManager().registerEvents(new LoadoutManager(), this);
-		
+
 		registerCommands();
 	}
-	
-	public Connection getConnection(){
+
+	public Connection getConnection() {
 		return this.connection;
 	}
-	
-	private void establishConnection(){
+
+	private void establishConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.connection = DriverManager.getConnection(conString);
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	@EventHandler
-	public void onPing(ServerListPingEvent event){
+	public void onPing(ServerListPingEvent event) {
 		event.setMaxPlayers(100);
-		event.setMotd(ChatColor.RED + "kitpvp.org \n" + ChatColor.BLUE + this.getAbilityManager().getAbilities().size() + ChatColor.GRAY + "/" + ChatColor.BLUE + "100 " + ChatColor.GRAY + "abilities created for launch!");
+		event.setMotd(ChatColor.RED + "kitpvp.org \n" + ChatColor.BLUE + this.getAbilityManager().getAbilities().size()
+				+ ChatColor.GRAY + "/" + ChatColor.BLUE + "100 " + ChatColor.GRAY + "abilities created for launch!");
 	}
-	
-	public void onDisable(){
+
+	public void onDisable() {
 		this.stopServer("Server restarting!");
 	}
-	
-	public void stopServer(String reason){
-		for(Player player : Bukkit.getServer().getOnlinePlayers()){
+
+	public void stopServer(String reason) {
+		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			player.kickPlayer(ChatColor.RED + reason);
 		}
 		Bukkit.getServer().shutdown();
 	}
-	
-	private void registerCommands(){
+
+	private void registerCommands() {
 		getCommand("dev").setExecutor(new DeveloperCommand());
 		getCommand("bal").setExecutor(new BalanceCommand());
 		getCommand("setrank").setExecutor(new SetRankCommand());
 	}
-	
-	public DamageManager getDamageManager(){
+
+	public DamageManager getDamageManager() {
 		return damageManager;
 	}
-	
-	public UnlockableManager getUnlockableManager(){
+
+	public UnlockableManager getUnlockableManager() {
 		return unlockableManager;
 	}
-	
-	public AbilityManager getAbilityManager(){
+
+	public AbilityManager getAbilityManager() {
 		return this.abilityManager;
 	}
-	
-	public UserManager getUserManager(){
+
+	public UserManager getUserManager() {
 		return this.userManager;
 	}
-	
-	public TotemManager getTotemManager(){
+
+	public TotemManager getTotemManager() {
 		return this.totemManager;
 	}
-	
-	public JetManager getJetManager(){
+
+	public JetManager getJetManager() {
 		return this.jetManager;
 	}
-	
-	public ItemManager getItemManager(){
+
+	public ItemManager getItemManager() {
 		return this.itemManager;
 	}
-	
-	public static Core getInstance(){
-		if(instance == null)
+
+	public static Core getInstance() {
+		if (instance == null)
 			System.out.println("Instance is null");
 		return instance;
 	}
-	
-	
-	
+
 }

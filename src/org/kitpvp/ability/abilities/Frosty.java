@@ -19,26 +19,28 @@ import org.kitpvp.user.User;
 public class Frosty extends Ability implements Listener {
 
 	private static String name = "Frosty";
-	
+
 	public Frosty() {
 		super(name, "Chance at freezing enemies on hit!", Material.SNOW_BALL, Scarcity.PURPLE, 10);
 	}
-	
+
 	@EventHandler
-	public void onDamage(EntityDamageByEntityEvent event){
-		if(event.getDamager() instanceof Player){
+	public void onDamage(EntityDamageByEntityEvent event) {
+		if (event.getDamager() instanceof Player) {
 			Player player = (Player) event.getDamager();
 			User user = (User) Core.getInstance().getUserManager().getUser(player);
-			if(!user.getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility(name)))
+			if (!user.getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility(name)))
 				return;
 			Random random = new Random();
 			int i = random.nextInt(15);
-			if(i < 2){
-				if(!super.callEvent(player, this).isCancelled()){
-					if(event.getEntity() instanceof LivingEntity){
+			if (i < 2) {
+				if (!super.callEvent(player, this).isCancelled()) {
+					if (event.getEntity() instanceof LivingEntity) {
 						LivingEntity le = (LivingEntity) event.getEntity();
-						event.getEntity().getWorld().playEffect(event.getEntity().getLocation().clone().add(0,1,0), Effect.STEP_SOUND, Material.ICE);
-						event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.BLOCK_GLASS_BREAK, 1, 1);
+						event.getEntity().getWorld().playEffect(event.getEntity().getLocation().clone().add(0, 1, 0),
+								Effect.STEP_SOUND, Material.ICE);
+						event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.BLOCK_GLASS_BREAK,
+								1, 1);
 						le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 1));
 					}
 				}

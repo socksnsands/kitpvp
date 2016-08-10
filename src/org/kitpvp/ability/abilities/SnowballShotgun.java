@@ -19,33 +19,34 @@ public class SnowballShotgun extends Ability implements Listener {
 		super.setCooldown(30);
 		super.setClickedItem(Material.GOLD_SPADE);
 	}
-	
+
 	@Override
-	public void onInteract(Player player, Action action){
-		if(action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)){
-		if(!super.callEvent(player, this).isCancelled()){
-			for (int i = 0; i < 5; i++) {
-				Snowball snowball = (Snowball) player.launchProjectile(Snowball.class);
-				snowball.setCustomName("snowball_shotgun_shot");
-				Vector velocity = player.getLocation().getDirection();
-				double accuracy = .1;
-				velocity.add(new Vector(Math.random() * accuracy - accuracy, Math.random() * accuracy - accuracy, Math.random() * accuracy - accuracy));
-				snowball.setVelocity(velocity);
+	public void onInteract(Player player, Action action) {
+		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
+			if (!super.callEvent(player, this).isCancelled()) {
+				for (int i = 0; i < 5; i++) {
+					Snowball snowball = (Snowball) player.launchProjectile(Snowball.class);
+					snowball.setCustomName("snowball_shotgun_shot");
+					Vector velocity = player.getLocation().getDirection();
+					double accuracy = .1;
+					velocity.add(new Vector(Math.random() * accuracy - accuracy, Math.random() * accuracy - accuracy,
+							Math.random() * accuracy - accuracy));
+					snowball.setVelocity(velocity);
+				}
+				super.putOnCooldown(player);
 			}
-			super.putOnCooldown(player);
-		}
 		}
 	}
-	
+
 	@EventHandler
-	public void onDamage(EntityDamageByEntityEvent event){
-		if(event.getDamager() instanceof Snowball){
+	public void onDamage(EntityDamageByEntityEvent event) {
+		if (event.getDamager() instanceof Snowball) {
 			Snowball snowball = (Snowball) event.getDamager();
-			if(snowball.getCustomName().equals("snowball_shotgun_shot")){
-				if(event.getEntity() instanceof LivingEntity){
+			if (snowball.getCustomName().equals("snowball_shotgun_shot")) {
+				if (event.getEntity() instanceof LivingEntity) {
 					LivingEntity le = (LivingEntity) event.getEntity();
-					if(le.getHealth() > 1)
-						le.setHealth(le.getHealth()-1);
+					if (le.getHealth() > 1)
+						le.setHealth(le.getHealth() - 1);
 					le.playEffect(EntityEffect.HURT);
 					le.setVelocity(snowball.getVelocity());
 				}

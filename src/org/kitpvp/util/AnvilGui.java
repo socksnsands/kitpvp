@@ -21,8 +21,7 @@ import java.util.HashMap;
 public class AnvilGui {
 	private class AnvilContainer extends ContainerAnvil {
 		public AnvilContainer(EntityHuman entity) {
-			super(entity.inventory, entity.world, new BlockPosition(0, 0, 0),
-					entity);
+			super(entity.inventory, entity.world, new BlockPosition(0, 0, 0), entity);
 		}
 
 		@Override
@@ -130,8 +129,7 @@ public class AnvilGui {
 							}
 						}
 
-						AnvilClickEvent clickEvent = new AnvilClickEvent(
-								AnvilSlot.bySlot(slot), name);
+						AnvilClickEvent clickEvent = new AnvilClickEvent(AnvilSlot.bySlot(slot), name);
 
 						handler.onAnvilClick(clickEvent);
 
@@ -194,8 +192,8 @@ public class AnvilGui {
 		int c = p.nextContainerCounter();
 
 		// Send the packet
-		p.playerConnection.sendPacket(new PacketPlayOutOpenWindow(c,
-				"minecraft:anvil", new ChatMessage("Repairing"), 0));
+		p.playerConnection
+				.sendPacket(new PacketPlayOutOpenWindow(c, "minecraft:anvil", new ChatMessage("Repairing"), 0));
 		// Set their active container to the container
 		p.activeContainer = container;
 

@@ -35,203 +35,214 @@ import org.kitpvp.unlockable.UnlockableSeries;
 public class UserManager implements Listener {
 
 	private ArrayList<User> users = new ArrayList<User>();
-	
-	public UserManager(){
+
+	public UserManager() {
 		initialLoad();
 		Bukkit.getServer().getPluginManager().registerEvents(this, Core.getInstance());
 	}
-	
-	public User getUser(Player player){
-		for(User user : users)
-			if(user.getPlayer() != null)
-				if(user.getPlayer().equals(player))
+
+	public User getUser(Player player) {
+		for (User user : users)
+			if (user.getPlayer() != null)
+				if (user.getPlayer().equals(player))
 					return user;
 		return null;
 	}
-	
-	public User getUser(String uuid){
-		for(User user : users)
-			if(user.getUUID().equals(uuid.toString()))
+
+	public User getUser(String uuid) {
+		for (User user : users)
+			if (user.getUUID().toString().equals(uuid))
 				return user;
+		System.out.println("UUID " + uuid + " not found for a user!");
 		return null;
 	}
-	
-	public boolean isLoadedUser(Player player){
-		for(User user : users)
-			if(user.getPlayer().equals(player))
+
+	public boolean isLoadedUser(Player player) {
+		for (User user : users)
+			if (user.getPlayer().equals(player))
 				return true;
 		return false;
 	}
-	
-	public boolean isLoadedUser(String uuid){
-		for(User user : users)
-			if(user.getUUID().equals(uuid))
+
+	public boolean isLoadedUser(String uuid) {
+		for (User user : users)
+			if (user.getUUID().equals(uuid))
 				return true;
 		return false;
 	}
-	
-	
-	public ArrayList<User> getUsers(){
+
+	public ArrayList<User> getUsers() {
 		return this.users;
 	}
-	
-	private void initialLoad(){
-		if(!users.isEmpty())
+
+	private void initialLoad() {
+		if (!users.isEmpty())
 			return;
-		for(Player player : Bukkit.getServer().getOnlinePlayers()){
+		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			User user = new User(player.getUniqueId().toString());
 			users.add(user);
 		}
 	}
-	
+
 	@EventHandler
-	public void onDamage(EntityDamageEvent event){
-		if(event.getEntity() instanceof Player){
+	public void onDamage(EntityDamageEvent event) {
+		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
-			if(this.getUser(player).isSafe()){
+			if (this.getUser(player).isSafe()) {
 				event.setCancelled(true);
 				return;
 			}
 		}
 	}
-	
+
 	@EventHandler
-	public void onDamageEntity(EntityDamageByEntityEvent event){
-		if(event.isCancelled())
+	public void onDamageEntity(EntityDamageByEntityEvent event) {
+		if (event.isCancelled())
 			return;
-		if(event.getDamager() instanceof Player && event.getEntity() instanceof Player){
-			Core.getInstance().getDamageManager().setLastDamaged((Player)event.getEntity(), (Player)event.getDamager());
+		if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
+			Core.getInstance().getDamageManager().setLastDamaged((Player) event.getEntity(),
+					(Player) event.getDamager());
 		}
-		if(event.getDamager() instanceof Projectile && event.getEntity() instanceof Player){
-			Projectile p = (Projectile)event.getDamager();
-			if(p.getShooter() instanceof Player){
-				Core.getInstance().getDamageManager().setLastDamaged((Player)event.getEntity(), (Player)p.getShooter());
+		if (event.getDamager() instanceof Projectile && event.getEntity() instanceof Player) {
+			Projectile p = (Projectile) event.getDamager();
+			if (p.getShooter() instanceof Player) {
+				Core.getInstance().getDamageManager().setLastDamaged((Player) event.getEntity(),
+						(Player) p.getShooter());
 			}
 		}
 	}
-	
+
 	@EventHandler
-	public void onLoseHunger(FoodLevelChangeEvent event){
+	public void onLoseHunger(FoodLevelChangeEvent event) {
 		event.setCancelled(true);
 	}
-	
+
 	@EventHandler
-	public void onClickInventory(InventoryClickEvent event){
-		if(event.getWhoClicked() instanceof Player){
-		if(event.getInventory().getTitle().equals(ChatColor.UNDERLINE + "Kit Selector")){
-			Player player = (Player) event.getWhoClicked();
-			if(event.getCurrentItem().getItemMeta() != null){
-				String current = ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName());
-				User user = Core.getInstance().getUserManager().getUser(player);
-				if(user.hasLoadout(current)){
-					user.getLoadout(current).apply(player);
-				}
-			}
-			event.setCancelled(true);
-		}
-		}
-	}
-	
-	@EventHandler
-	public void onPreLogin(AsyncPlayerPreLoginEvent e){
-		LoadDataTask ldt = new LoadDataTask(e.getUniqueId().toString());
-		ldt.runTaskAsynchronously(Core.getInstance());
-	}
-	
-	@EventHandler
-	public void onLogout(PlayerQuitEvent e){
-		PushDataTask pdt = new PushDataTask(e.getPlayer().getUniqueId().toString());
-		pdt.runTaskAsynchronously(Core.getInstance());
-	}
-	
-	@EventHandler
-	public void onRightClick(PlayerInteractEvent event){
-		if(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-			if(event.getPlayer().getItemInHand().equals(Core.getInstance().getItemManager().getFFAItem())){
-				User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
-				if(user.getLoadouts().size() > 0){
-					user.openKitSelector();
-				}else{
-					event.getPlayer().sendMessage(ChatColor.RED + "No loadouts created yet. Open an anvil to create one!");
+	public void onClickInventory(InventoryClickEvent event) {
+		if (event.getWhoClicked() instanceof Player) {
+			if (event.getInventory().getTitle().equals(ChatColor.UNDERLINE + "Kit Selector")) {
+				Player player = (Player) event.getWhoClicked();
+				if (event.getCurrentItem().getItemMeta() != null) {
+					String current = ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName());
+					User user = Core.getInstance().getUserManager().getUser(player);
+					if (user.hasLoadout(current)) {
+						user.getLoadout(current).apply(player);
+					}
 				}
 				event.setCancelled(true);
 			}
 		}
 	}
-	
-	@EventHandler
-	public void onRespawn(PlayerRespawnEvent event){
-		Core.getInstance().getUserManager().getUser(event.getPlayer()).giveSpawnInventory();
-		Core.getInstance().getUserManager().getUser(event.getPlayer()).setSafe(true);
+
+	public void addUser(User user) {
+		if (this.users.contains(user))
+			this.users.add(user);
 	}
-	
+
 	@EventHandler
-	public void onDeath(PlayerDeathEvent event){
+	public void onPreLogin(AsyncPlayerPreLoginEvent e) {
+		LoadDataTask ldt = new LoadDataTask(e.getUniqueId().toString());
+		ldt.runTaskAsynchronously(Core.getInstance());
+	}
+
+	@EventHandler
+	public void onRightClick(PlayerInteractEvent event) {
+		if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+			if (event.getPlayer().getItemInHand().equals(Core.getInstance().getItemManager().getFFAItem())) {
+				User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
+				if (user.getLoadouts().size() > 0) {
+					user.openKitSelector();
+				} else {
+					event.getPlayer()
+							.sendMessage(ChatColor.RED + "No loadouts created yet. Open an anvil to create one!");
+				}
+				event.setCancelled(true);
+			}
+		}
+	}
+
+	@EventHandler
+	public void onDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
 		User user = Core.getInstance().getUserManager().getUser(player);
 		user.removeActiveLoadout();
 		user.getActiveAbilities().clear();
 		user.clearCooldowns();
-		
+
 		String deathMessage = ChatColor.RED + player.getName() + ChatColor.GRAY + " died!";
-		
-		if(Core.getInstance().getDamageManager().hasLastDamaged(player)){
+
+		if (Core.getInstance().getDamageManager().hasLastDamaged(player)) {
 			Player killer = Core.getInstance().getDamageManager().getLastDamaged(player);
-			deathMessage = ChatColor.RED + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.RED + killer.getName() + ChatColor.GRAY + " with loadout " + Core.getInstance().getUserManager().getUser(killer).getActiveLoadout().getName() + ChatColor.GRAY + "!";
+			deathMessage = ChatColor.RED + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.RED
+					+ killer.getName() + ChatColor.GRAY + " with loadout "
+					+ Core.getInstance().getUserManager().getUser(killer).getActiveLoadout().getName() + ChatColor.GRAY
+					+ "!";
 			int moneyPerKill = 10;
-			killer.sendMessage(ChatColor.GRAY + "You have been awarded with " + ChatColor.GOLD + moneyPerKill + ChatColor.GRAY + " coins!");
+			killer.sendMessage(ChatColor.GRAY + "You have been awarded with " + ChatColor.GOLD + moneyPerKill
+					+ ChatColor.GRAY + " coins!");
 			Core.getInstance().getUserManager().getUser(killer).addMoney(moneyPerKill);
 		}
-		
+
 		event.setDeathMessage(deathMessage);
+
+		player.setHealth(20);
+		Core.getInstance().getUserManager().getUser(player).setSafe(true);
+		player.teleport(player.getWorld().getSpawnLocation());
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
+
+			@Override
+			public void run() {
+				Core.getInstance().getUserManager().getUser(player).giveSpawnInventory();
+
+			}
+
+		}, 1);
 	}
-	
+
 	@EventHandler
-	public void onPickup(PlayerPickupItemEvent event){
+	public void onPickup(PlayerPickupItemEvent event) {
 		User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
-		if(user.isSafe() && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)){
+		if (user.isSafe() && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
 			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
-	public void onDrop(PlayerDropItemEvent event){
+	public void onDrop(PlayerDropItemEvent event) {
 		User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
-		if(user.isSafe() && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)){
+		if (user.isSafe() && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
 			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
-	public void onBreak(BlockBreakEvent event){
-		if(event.getPlayer().getGameMode().equals(GameMode.CREATIVE) && event.getPlayer().isOp())
+	public void onBreak(BlockBreakEvent event) {
+		if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE) && event.getPlayer().isOp())
 			return;
 		event.setCancelled(true);
 	}
-	
+
 	@EventHandler
-	public void onJoin(PlayerJoinEvent event){
-		event.setJoinMessage(ChatColor.GREEN + "+ " +  Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() + event.getPlayer().getName());
-		for(User user : users)
-			if(user.getPlayer() != null)
-				if(user.getPlayer().equals(event.getPlayer().getName()))
-					return;
-		User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
-		users.add(user);
+	public void onJoin(PlayerJoinEvent event) {
+		User user = Core.getInstance().getUserManager().getUser(event.getPlayer().getUniqueId().toString());
+		if (user == null) {
+			user = new User(event.getPlayer().getUniqueId().toString());
+			users.add(user);
+		}
+		if (user.getRank() != null)
+			event.setJoinMessage(ChatColor.GREEN + "+ " + user.getRank().getColor() + event.getPlayer().getName());
+		else
+			event.setJoinMessage(ChatColor.GREEN + "+ " + ChatColor.WHITE + event.getPlayer().getName());
 		user.setSafe(true);
 		user.giveSpawnInventory();
-		if(user.getPlayer().getName().equals("_Ug")){
-			for(UnlockableSeries series : UnlockableSeries.values()){
-				user.addSeries(series);
-			}
-		}
 	}
-	
+
 	@EventHandler
-	public void onChat(AsyncPlayerChatEvent event){
-		if(!event.isCancelled()){
-			for(Player player:  Bukkit.getServer().getOnlinePlayers()){
-				player.sendMessage(Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() + event.getPlayer().getName() + ": " + ChatColor.GRAY + event.getMessage());
+	public void onChat(AsyncPlayerChatEvent event) {
+		if (!event.isCancelled()) {
+			for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+				player.sendMessage(Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor()
+						+ event.getPlayer().getName() + ": " + ChatColor.GRAY + event.getMessage());
 				if (event.getMessage().toUpperCase().contains(player.getName().toUpperCase())) {
 					player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, 1);
 				}
@@ -239,16 +250,16 @@ public class UserManager implements Listener {
 			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
-	public void onClick(PlayerInteractEvent event){
-		if(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-			if(event.getItem() == null)
+	public void onClick(PlayerInteractEvent event) {
+		if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+			if (event.getItem() == null)
 				return;
-			if(event.getItem().getType() == null)
+			if (event.getItem().getType() == null)
 				return;
-			if(event.getItem().getType().equals(Material.MUSHROOM_SOUP)){
-				if(event.getPlayer().getHealth() != event.getPlayer().getMaxHealth()){
+			if (event.getItem().getType().equals(Material.MUSHROOM_SOUP)) {
+				if (event.getPlayer().getHealth() != event.getPlayer().getMaxHealth()) {
 					this.eatSoup(event.getPlayer());
 					event.getItem().setType(Material.BOWL);
 					event.getPlayer().updateInventory();
@@ -256,33 +267,40 @@ public class UserManager implements Listener {
 			}
 		}
 	}
-	
-	private void eatSoup(Player player){
-			if(player.getHealth() < player.getMaxHealth()){
-				if(player.getHealth() + 7 > player.getMaxHealth()){
-					player.setHealth(player.getMaxHealth());
-				}else{
-					player.setHealth(player.getHealth() + 7);
-				}
+
+	private void eatSoup(Player player) {
+		if (player.getHealth() < player.getMaxHealth()) {
+			if (player.getHealth() + 7 > player.getMaxHealth()) {
+				player.setHealth(player.getMaxHealth());
+			} else {
+				player.setHealth(player.getHealth() + 7);
 			}
+		}
 	}
-	
-	@EventHandler
-	public void onLeave(PlayerQuitEvent event){
-		event.setQuitMessage(ChatColor.RED + "- " +  Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() + event.getPlayer().getName());
-		leave(event.getPlayer());	
+
+	public void removeUser(User user) {
+		if (users.contains(user))
+			users.remove(user);
 	}
-	
+
 	@EventHandler
-	public void onKick(PlayerKickEvent event){
+	public void onLeave(PlayerQuitEvent event) {
+		event.setQuitMessage(ChatColor.RED + "- "
+				+ Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor()
+				+ event.getPlayer().getName());
 		leave(event.getPlayer());
 	}
-	
-	private void leave(Player player){
-		if(!isLoadedUser(player))
-			return;
-		users.remove(getUser(player));
+
+	@EventHandler
+	public void onKick(PlayerKickEvent event) {
+		leave(event.getPlayer());
 	}
-	
-	
+
+	private void leave(Player player) {
+		PushDataTask pdt = new PushDataTask(player.getUniqueId().toString());
+		pdt.runTaskAsynchronously(Core.getInstance());
+		if (!isLoadedUser(player))
+			return;
+	}
+
 }

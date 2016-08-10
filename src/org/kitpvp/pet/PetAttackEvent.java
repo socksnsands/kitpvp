@@ -9,30 +9,30 @@ public class PetAttackEvent extends Event implements Cancellable {
 
 	private PetEntity attacker;
 	private LivingEntity target;
-	
+
 	private boolean cancelled;
-	
-	public PetAttackEvent(PetEntity attacker, LivingEntity target){
+
+	public PetAttackEvent(PetEntity attacker, LivingEntity target) {
 		this.attacker = attacker;
 		this.target = target;
 	}
-	
-	public PetEntity getAttacker(){
+
+	public PetEntity getAttacker() {
 		return this.attacker;
 	}
-	
-	public LivingEntity getTarget(){
+
+	public LivingEntity getTarget() {
 		return target;
 	}
-	
+
 	private static final HandlerList handlers = new HandlerList();
 
 	public HandlerList getHandlers() {
-	    return handlers;
+		return handlers;
 	}
 
 	public static HandlerList getHandlerList() {
-	    return handlers;
+		return handlers;
 	}
 
 	@Override
@@ -44,5 +44,5 @@ public class PetAttackEvent extends Event implements Cancellable {
 	public void setCancelled(boolean cancelled) {
 		this.cancelled = cancelled;
 	}
-	
+
 }

@@ -9,27 +9,29 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemManager {
 
-	public ItemManager(){
-		
+	public ItemManager() {
+
 	}
-	
-	public ItemStack createItem(String name, Material material, byte data, int amount, List<String> lore){
+
+	public ItemStack createItem(String name, Material material, byte data, int amount, List<String> lore) {
 		ItemStack item = new ItemStack(material, amount, data);
 		ItemMeta im = item.getItemMeta();
-		if(name != "")
+		if (name != "")
 			im.setDisplayName(name);
-		if(lore != null)
+		if (lore != null)
 			im.setLore(lore);
 		item.setItemMeta(im);
 		return item;
 	}
-	
-	public ItemStack getFFAItem(){
-		return this.createItem(ChatColor.GREEN + "FFA " + ChatColor.GRAY + "(Right click)", Material.COMPASS, (byte)0, 1, null);
+
+	public ItemStack getFFAItem() {
+		return this.createItem(ChatColor.GREEN + "FFA " + ChatColor.GRAY + "(Right click)", Material.COMPASS, (byte) 0,
+				1, null);
 	}
-	
-	public ItemStack getUnlockableOpener(){
-		return this.createItem(ChatColor.GREEN + "Unlockables " + ChatColor.GRAY + "(Right click)", Material.CHEST, (byte)0, 1, null);
+
+	public ItemStack getUnlockableOpener() {
+		return this.createItem(ChatColor.GREEN + "Unlockables " + ChatColor.GRAY + "(Right click)", Material.CHEST,
+				(byte) 0, 1, null);
 	}
-	
+
 }

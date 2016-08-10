@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.kitpvp.ability.Ability;
+import org.kitpvp.util.ParticleEffect;
 
 public class Flash extends Ability {
 
@@ -33,6 +34,7 @@ public class Flash extends Ability {
 				player.getLocation().getWorld().playEffect(player.getLocation(), Effect.CLOUD, 1);
 				player.getLocation().getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1, 1);
 				super.putOnCooldown(player);
+				ParticleEffect.SMOKE_NORMAL.display(0, 0, 0, 0, 1, player.getLocation(), 200);
 				player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
 			}
 		}

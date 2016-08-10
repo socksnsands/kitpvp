@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.kitpvp.ability.Ability;
+import org.kitpvp.util.ParticleEffect;
 
 public class BulkUp extends Ability {
 
@@ -25,6 +26,7 @@ public class BulkUp extends Ability {
 				if (!super.callEvent(player, this).isCancelled()) {
 					player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 1);
 					PotionEffect absorb = new PotionEffect(PotionEffectType.ABSORPTION, 60 * 20, 2);
+					ParticleEffect.CRIT_MAGIC.display(0, 0, 0, 0, 1, player.getLocation(), 200);
 					player.addPotionEffect(absorb);
 					super.putOnCooldown(player);
 				}

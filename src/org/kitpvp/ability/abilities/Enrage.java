@@ -51,6 +51,7 @@ public class Enrage extends Ability {
 									player.addPotionEffect(strength);
 									player.addPotionEffect(speed);
 
+									ParticleEffect.REDSTONE.display(0, 0, 0, 0, 1, player.getLocation(), 200);
 									// FIX: ParticleEffect.REDSTONE.display(,
 									// player.getLocation(), 2.0);
 									player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1, 1);

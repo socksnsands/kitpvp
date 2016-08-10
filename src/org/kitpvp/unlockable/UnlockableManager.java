@@ -111,6 +111,10 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new OmegaHeal());
 		unlockables.add(new OmegaFlash());
 		unlockables.add(new OmegaLaser());
+		unlockables.add(new SiphoningStrike());
+		unlockables.add(new WitherAway());
+		unlockables.add(new Disengage());
+		unlockables.add(new Leap());
 	}
 
 	public Unlockable getUnlockable(String name) {

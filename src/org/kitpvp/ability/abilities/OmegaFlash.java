@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.kitpvp.ability.Ability;
+import org.kitpvp.util.ParticleEffect;
 
 public class OmegaFlash extends Ability {
 
@@ -34,6 +35,7 @@ public class OmegaFlash extends Ability {
 				player.getLocation().getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1, 1);
 				super.putOnCooldown(player);
 				player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
+				ParticleEffect.ENDROD.display(2, 2, 2, 2, 5, player.getLocation(), 200);
 			}
 		}
 	}

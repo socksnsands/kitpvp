@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.kitpvp.ability.Ability;
+import org.kitpvp.util.ParticleEffect;
 
 public class OmegaHeal extends Ability {
 
@@ -26,6 +27,7 @@ public class OmegaHeal extends Ability {
 					player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1, 1);
 					PotionEffect regen = new PotionEffect(PotionEffectType.REGENERATION, 6 * 20, 2);
 					player.addPotionEffect(regen);
+					ParticleEffect.HEART.display(2, 2, 2, 2, 3, player.getLocation(), 200);
 					super.putOnCooldown(player);
 				}
 			}

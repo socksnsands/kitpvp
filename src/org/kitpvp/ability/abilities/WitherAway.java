@@ -7,20 +7,22 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.kitpvp.ability.Ability;
 import org.kitpvp.ability.AbilityUseEvent;
 import org.kitpvp.core.Core;
 import org.kitpvp.user.User;
 import org.kitpvp.util.ParticleEffect;
 
-public class FlameAura extends Ability {
+public class WitherAway extends Ability {
 
-	public FlameAura() {
-		super("Flame Aura", "Burn nearby players every 7 seconds!", Material.FIREWORK_CHARGE, Scarcity.PURPLE, 8);
-		this.startFlameAura();
+	public WitherAway() {
+		super("Wither Away", "Wither nearby players for 6 seconds!", Material.SKULL, Scarcity.PURPLE, 12);
+		this.startWitherAway();
 	}
 
-	private void startFlameAura() {
+	private void startWitherAway() {
 		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Core.getInstance(), new Runnable() {
 
 			@Override
@@ -28,17 +30,19 @@ public class FlameAura extends Ability {
 				if (Core.getInstance().getUserManager().getUsers() != null)
 					for (User user : Core.getInstance().getUserManager().getUsers()) {
 						if (user.getActiveAbilities()
-								.contains(Core.getInstance().getAbilityManager().getAbility("Flame Aura"))) {
+								.contains(Core.getInstance().getAbilityManager().getAbility("Wither Away"))) {
 							if (!getEvent(user.getPlayer()).isCancelled()) {
-								for (Entity entity : user.getPlayer().getNearbyEntities(5, 5, 5)) {
+								for (Entity entity : user.getPlayer().getNearbyEntities(7, 7, 7)) {
 									if (entity instanceof Player) {
 										Player player = (Player) entity;
 										User u = Core.getInstance().getUserManager().getUser(player);
 										if (!u.isSafe()) {
 											Random random = new Random();
-											ParticleEffect.FLAME.display(3, 3, 3, 3, 2, player.getLocation(), 200);
-											if (random.nextInt(4) == 0) {
-												player.setFireTicks(20 * 3);
+											ParticleEffect.SUSPENDED_DEPTH.display(3, 3, 3, 3, 5, player.getLocation(), 200);
+											if (random.nextInt(1) == 0) {
+												PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 6 * 20, 1);
+												player.addPotionEffect(wither);
+												ParticleEffect.DRAGONBREATH.display(0, 0, 0, 1, 3, player.getLocation(), 200);
 											}
 										}
 									}
@@ -48,7 +52,7 @@ public class FlameAura extends Ability {
 					}
 			}
 
-		}, 7 * 20, 7 * 20);
+		}, 8 * 20, 8 * 20);
 	}
 
 	private AbilityUseEvent getEvent(Player player) {

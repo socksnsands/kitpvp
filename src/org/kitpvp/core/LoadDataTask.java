@@ -8,43 +8,42 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.kitpvp.loadout.Loadout;
-import org.kitpvp.unlockable.UnlockableSeries;
 import org.kitpvp.user.User;
 import org.kitpvp.user.rank.Rank;
+
 
 public class LoadDataTask extends BukkitRunnable {
 
 	private String uuid;
-
-	public LoadDataTask(String uuid) {
+	
+	public LoadDataTask(String uuid){
 		this.uuid = uuid;
 	}
-
-	public void run() {
-		try {
-			PreparedStatement statement = Core.getInstance().getConnection()
-					.prepareStatement("SELECT * FROM `users` WHERE `uuid` = ?");
+	
+	public void run(){
+		try{
+			PreparedStatement statement = Core.getInstance().getConnection().prepareStatement(
+					"SELECT * FROM `users` WHERE `uuid` = ?"
+			);
 			statement.setString(1, uuid);
 			ResultSet resultSet = statement.executeQuery();
 			boolean isLoaded = resultSet.next();
-			User user = Core.getInstance().getUserManager().getUser(uuid);
-			if (user == null) {
-				user = new User(uuid);
-				Core.getInstance().getUserManager().addUser(user);
-			}
-			if (isLoaded) {
-				String uuid = resultSet.getString("uuid");
-
+			if(isLoaded){
+				User user = Core.getInstance().getUserManager().getUser(uuid);
+				if(user == null){
+					user = new User(uuid);
+					Core.getInstance().getUserManager().addUser(user);
+				}
 				String rank = resultSet.getString("rank");
 				String loadouts = resultSet.getString("kit");
 				int money = resultSet.getInt("money");
 				boolean g = false;
-				for (Rank r : Rank.values()) {
-					if (r.toString().toUpperCase().equals(rank)) {
+				for(Rank r : Rank.values()){
+					if(r.toString().toUpperCase().equals(rank)){
 						g = true;
 					}
 				}
-				if (g)
+				if(g)
 					user.setRank(Rank.valueOf(rank.toUpperCase()));
 
 				String abilities = resultSet.getString("abilities");
@@ -52,22 +51,19 @@ public class LoadDataTask extends BukkitRunnable {
 				String series = resultSet.getString("series");
 				user.readAndSaveSeriesString(series);
 				user.setMoney(money);
-
-				// must load loadouts last (checks if user has abilities in
-				// loadout)
-				if (loadouts != null && !loadouts.equals("")) {
-					for (Loadout loadout : user.readAllLoadoutStrings(loadouts)) {
+				
+				
+				//must load loadouts last (checks if user has abilities)
+				if(loadouts != null && !loadouts.equals("")){
+					for(Loadout loadout : user.readAllLoadoutStrings(loadouts)){
 						user.addLoadout(loadout);
 					}
 				}
-			} else {
+				
+			}else{
 				PreparedStatement ps = Core.getInstance().getConnection().prepareStatement(
-						"INSERT INTO `users` (`uuid`, `rank`, `kit`, `abilities`, `series`, `money`) VALUES (?, ?, ?, ?, ?, ?)");
-				user.addSeries(UnlockableSeries.LASER_ABILITY);
-				user.addSeries(UnlockableSeries.GOD_ABILITY);
-				user.addSeries(UnlockableSeries.SUPERHERO_ABILITY);
-				user.addSeries(UnlockableSeries.WAR_ABILITY);
-
+						"INSERT INTO `users` (`uuid`, `rank`, `kit`, `abilities`, `series`, `money`) VALUES (?, ?, ?, ?, ?, ?)"
+				);
 				ps.setString(1, uuid);
 				ps.setString(2, "DEFAULT");
 				ps.setString(3, "");
@@ -79,9 +75,9 @@ public class LoadDataTask extends BukkitRunnable {
 			}
 			resultSet.close();
 			statement.close();
-		} catch (Exception ex) {
+		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-
+	
 }

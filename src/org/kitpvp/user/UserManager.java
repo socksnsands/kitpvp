@@ -139,11 +139,10 @@ public class UserManager implements Listener {
 			this.users.add(user);
 	}
 
-	@EventHandler
-	public void onPreLogin(AsyncPlayerPreLoginEvent e) {
-		LoadDataTask ldt = new LoadDataTask(e.getUniqueId().toString());
-		ldt.runTaskAsynchronously(Core.getInstance());
-	}
+//	@EventHandler
+//	public void onPreLogin(AsyncPlayerPreLoginEvent e) {
+//		
+//	}
 
 	@EventHandler
 	public void onRightClick(PlayerInteractEvent event) {
@@ -224,6 +223,8 @@ public class UserManager implements Listener {
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
+		LoadDataTask ldt = new LoadDataTask(event.getPlayer().getUniqueId().toString());
+		ldt.runTaskAsynchronously(Core.getInstance());
 		User user = Core.getInstance().getUserManager().getUser(event.getPlayer().getUniqueId().toString());
 		if (user == null) {
 			user = new User(event.getPlayer().getUniqueId().toString());

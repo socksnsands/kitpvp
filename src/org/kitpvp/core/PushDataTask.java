@@ -2,7 +2,6 @@ package org.kitpvp.core;
 
 import java.sql.PreparedStatement;
 
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.kitpvp.loadout.Loadout;
 import org.kitpvp.user.User;
@@ -18,14 +17,15 @@ public class PushDataTask extends BukkitRunnable {
 
 	public void run() {
 		try {
-			PreparedStatement s = Core.getInstance().getConnection().prepareStatement(
-					"UPDATE `users` SET `uuid` = ?, `rank` = ?, `kit` = ?, `abilities` = ?, `series` = ?, `money` = ?");
 			User user = Core.getInstance().getUserManager().getUser(uuid);
-			s.setString(1, uuid);
+			
+			PreparedStatement s = Core.getInstance().getConnection().prepareStatement(
+					"UPDATE `users` SET `rank` = ?, `kit` = ?, `abilities` = ?, `series` = ?, `money` = ? WHERE `uuid` = ?");
+			s.setString(6, uuid);
 			if(user.getRank() != null)
-				s.setString(2, user.getRank().toString());
+				s.setString(1, user.getRank().toString());
 			else
-				s.setString(2, Rank.DEFAULT.toString());
+				s.setString(1, Rank.DEFAULT.toString());
 			String loadoutsString = "";
 			for (Loadout loadout : user.getLoadouts()) {
 				loadoutsString += loadout.toDBString();
@@ -33,14 +33,13 @@ public class PushDataTask extends BukkitRunnable {
 					loadoutsString += "_";
 				}
 			}
-			s.setString(3, loadoutsString);
-			// TODO push series and abilities
-			s.setString(4, user.encodeAllAbilities());
-			s.setString(5, user.encodeAllSeries());
-			s.setInt(6, user.getBalance());
+			s.setString(2, loadoutsString);
+			s.setString(3, user.encodeAllAbilities());
+			s.setString(4, user.encodeAllSeries());
+			s.setInt(5, user.getBalance());
 			s.executeUpdate();
 			s.close();
-
+			
 			Core.getInstance().getUserManager().removeUser(user);
 
 		} catch (Exception ex) {

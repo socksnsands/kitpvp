@@ -8,17 +8,19 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.kitpvp.ability.Ability;
 import org.kitpvp.core.Core;
 import org.kitpvp.util.ParticleEffect;
 
-public class ExplosiveGrenade extends Ability {
+public class FlashGrenade extends Ability {
 
-	private static String name = "Explosive Grenade";
+	private static String name = "Flash Grenade";
 
-	public ExplosiveGrenade() {
-		super(name, "Throw an explosive grenade!", Material.SULPHUR, Scarcity.BLUE, 6);
-		super.setClickedItem(Material.SULPHUR);
+	public FlashGrenade() {
+		super(name, "Throw a flash grenade!", Material.GLOWSTONE_DUST, Scarcity.BLUE, 5);
+		super.setClickedItem(Material.GLOWSTONE_DUST);
 		super.setCooldown(20 * 14);
 	}
 
@@ -27,7 +29,7 @@ public class ExplosiveGrenade extends Ability {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 			if (!super.callEvent(player, this).isCancelled()) {
 				Item item = player.getWorld().dropItem(player.getLocation().clone().add(0, 1, 0),
-						new ItemStack(Material.SULPHUR));
+						new ItemStack(Material.GLOWSTONE_DUST));
 				item.setPickupDelay(Integer.MAX_VALUE);
 				item.setVelocity(player.getLocation().getDirection().multiply(1.2));
 				super.putOnCooldown(player);
@@ -36,12 +38,12 @@ public class ExplosiveGrenade extends Ability {
 					@Override
 					public void run() {
 						ParticleEffect.EXPLOSION_HUGE.display(0, 0, 0, 0, 1, item.getLocation(), 200);
-						item.getWorld().playSound(item.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+						item.getWorld().playSound(item.getLocation(), Sound.BLOCK_GLASS_BREAK, 1, 1);
 						for (Entity entity : item.getNearbyEntities(5, 5, 5)) {
 							if (entity instanceof Player) {
 								Player le = (Player) entity;
-								Core.getInstance().getDamageManager().damage(le, player,
-										10 - (le.getLocation().distance(item.getLocation())));
+								le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20*4, 0));
+								le.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20*4, 0));
 							}
 						}
 						item.remove();

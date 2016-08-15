@@ -1,6 +1,8 @@
 package org.kitpvp.user;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,6 +29,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
 import org.kitpvp.core.Core;
 import org.kitpvp.core.LoadDataTask;
 import org.kitpvp.core.PushDataTask;
@@ -167,7 +170,18 @@ public class UserManager implements Listener {
 		user.removeActiveLoadout();
 		user.getActiveAbilities().clear();
 		user.clearCooldowns();
+		user.setSafe(true);
 
+		event.setDroppedExp(0);
+		
+		ArrayList<ItemStack> toRemoveDrops = new ArrayList<>();
+		for(ItemStack drop : event.getDrops()){
+			if(!drop.getType().equals(Material.MUSHROOM_SOUP) && !drop.getType().equals(Material.STONE_SWORD) && !drop.getType().equals(Material.BOWL)){
+				toRemoveDrops.add(drop);
+			}
+		}
+		event.getDrops().removeAll(toRemoveDrops);
+		
 		String deathMessage = ChatColor.RED + player.getName() + ChatColor.GRAY + " died!";
 
 		if (Core.getInstance().getDamageManager().hasLastDamaged(player)) {
@@ -176,25 +190,56 @@ public class UserManager implements Listener {
 					+ killer.getName() + ChatColor.GRAY + " with loadout "
 					+ Core.getInstance().getUserManager().getUser(killer).getActiveLoadout().getName() + ChatColor.GRAY
 					+ "!";
-			int moneyPerKill = 10;
+			Random random = new Random();
+			//random between 10-20
+			int moneyPerKill = random.nextInt(11) + 10;
 			killer.sendMessage(ChatColor.GRAY + "You have been awarded with " + ChatColor.GOLD + moneyPerKill
 					+ ChatColor.GRAY + " coins!");
+			int i = random.nextInt(5);
+			if(i == 0){
+				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.LASER_ABILITY);
+				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.LASER_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
+			}
+			if(i == 1){
+				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.GOD_ABILITY);
+				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.GOD_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
+
+			}
+			if(i == 2){
+				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.WAR_ABILITY);
+				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.WAR_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
+
+			}
+			if(i == 3){
+				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.SUPERHERO_ABILITY);
+				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.SUPERHERO_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
+
+			}
+			if(i == 4){
+				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.HEIGHTS_ABILITY);
+				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.HEIGHTS_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
+
+			}
+
 			Core.getInstance().getUserManager().getUser(killer).addMoney(moneyPerKill);
 		}
 
 		event.setDeathMessage(deathMessage);
 
-		player.setHealth(20);
-		Core.getInstance().getUserManager().getUser(player).setSafe(true);
+	}
+	
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent event){
+		Player player=  event.getPlayer();
 		player.teleport(player.getWorld().getSpawnLocation());
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable(){
 
 			@Override
 			public void run() {
-				Core.getInstance().getUserManager().getUser(player).giveSpawnInventory();
-
+				Core.getInstance().getUserManager().getUser(player.getUniqueId().toString()).giveSpawnInventory();
+				
 			}
-
+			
 		}, 1);
 	}
 
@@ -211,6 +256,10 @@ public class UserManager implements Listener {
 		User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
 		if (user.isSafe() && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
 			event.setCancelled(true);
+		}else{
+			if(!event.getItemDrop().getItemStack().getType().equals(Material.MUSHROOM_SOUP) && !event.getItemDrop().getItemStack().getType().equals(Material.BOWL) && !event.getItemDrop().getItemStack().getType().equals(Material.STONE_SWORD) ){
+				event.setCancelled(true);
+			}
 		}
 	}
 

@@ -25,8 +25,9 @@ public class DamageManager {
 	}
 
 	public void damage(Player damaged, Player damager, double amount) {
-		damaged.damage(amount);
 		this.setLastDamaged(damaged, damager);
+		if(amount != -1)
+			damaged.damage(amount);
 	}
 
 	public void setLastDamaged(Player damaged, Player damager) {

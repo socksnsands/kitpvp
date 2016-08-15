@@ -5,9 +5,11 @@ import java.sql.ResultSet;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.kitpvp.loadout.Loadout;
+import org.kitpvp.unlockable.UnlockableSeries;
 import org.kitpvp.user.User;
 import org.kitpvp.user.rank.Rank;
 
@@ -64,6 +66,13 @@ public class LoadDataTask extends BukkitRunnable {
 				PreparedStatement ps = Core.getInstance().getConnection().prepareStatement(
 						"INSERT INTO `users` (`uuid`, `rank`, `kit`, `abilities`, `series`, `money`) VALUES (?, ?, ?, ?, ?, ?)"
 				);
+				User user = Core.getInstance().getUserManager().getUser(uuid);
+				user.addSeries(UnlockableSeries.GOD_ABILITY);
+				user.addSeries(UnlockableSeries.HEIGHTS_ABILITY);
+				user.addSeries(UnlockableSeries.SUPERHERO_ABILITY);
+				user.addSeries(UnlockableSeries.WAR_ABILITY);
+				user.addSeries(UnlockableSeries.LASER_ABILITY);
+
 				ps.setString(1, uuid);
 				ps.setString(2, "DEFAULT");
 				ps.setString(3, "");

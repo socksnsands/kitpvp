@@ -10,3 +10,5 @@ commands:
     description: Check your balance
   setrank:
     description: Set ranks!
+  pay:
+    description: Pay money/coins/series!

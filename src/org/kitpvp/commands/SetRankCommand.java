@@ -20,6 +20,7 @@ public class SetRankCommand implements CommandExecutor {
 				return false;
 			if (args.length < 2) {
 				sender.sendMessage(ChatColor.RED + "Invalid format: /setrank (player) (rank)");
+				return false;
 			}
 			Player target = null;
 			boolean foundTarget = false;
@@ -37,6 +38,7 @@ public class SetRankCommand implements CommandExecutor {
 						sender.sendMessage(ChatColor.GREEN + "Set " + target.getName() + " to rank "
 								+ Rank.valueOf(args[1].toUpperCase()).getColor() + args[1].toLowerCase()
 								+ ChatColor.GREEN + "!");
+						target.sendMessage(ChatColor.GREEN + "Your rank was set to " + Rank.valueOf(args[1].toUpperCase()).getColor() + args[1].toLowerCase() + ChatColor.GREEN +"!");
 					} catch (Exception ex) {
 						sender.sendMessage(ChatColor.RED + "Rank \"" + args[1] + "\" not found!");
 						sender.sendMessage(ChatColor.RED + "Rank list:");

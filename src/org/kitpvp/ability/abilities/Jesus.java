@@ -10,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -38,20 +39,26 @@ public class Jesus extends Ability implements Listener {
 		if (haveBeenSaved.contains(event.getPlayer().getName()))
 			haveBeenSaved.remove(event.getPlayer().getName());
 	}
-
+	
 	@EventHandler
-	public void onDeath(PlayerDeathEvent event) {
-		if (Core.getInstance().getUserManager().getUser(event.getEntity()).getActiveAbilities()
-				.contains(Core.getInstance().getAbilityManager().getAbility("Jesus"))) {
-			if (!haveBeenSaved.contains(event.getEntity().getName())) {
-				// TODO reset inventory (1hb soup)
-				event.getEntity().setHealth(20.0);
-				event.setDeathMessage("");
-				event.getEntity().sendMessage(ChatColor.GOLD + "You were revived!");
-				this.playJesusEffect(event.getEntity());
-				haveBeenSaved.add(event.getEntity().getName());
-			} else {
-				haveBeenSaved.remove(event.getEntity().getName());
+	public void onDamage(EntityDamageEvent event){
+		if(event.getEntity() instanceof Player){
+			Player player = (Player) event.getEntity();
+			if(event.isCancelled())
+				return;
+			if(player.getHealth() - event.getDamage() <= 0){
+				if (Core.getInstance().getUserManager().getUser(player).getActiveAbilities()
+						.contains(Core.getInstance().getAbilityManager().getAbility("Jesus"))) {
+					if (!haveBeenSaved.contains(player.getName())) {
+						event.setDamage(0);
+						player.setHealth(20.0);
+						event.getEntity().sendMessage(ChatColor.GOLD + "You were revived!");
+						this.playJesusEffect(player);
+						haveBeenSaved.add(player.getName());
+					} else {
+						haveBeenSaved.remove(player.getName());
+					}
+				}
 			}
 		}
 	}

@@ -57,10 +57,10 @@ public class JetManager implements Listener {
 
 			@Override
 			public void run() {
-				ArrayList<JetObject> js = jets;
-				for (JetObject jet : js) {
+				ArrayList<JetObject> toRemove = new ArrayList<>();
+				for (JetObject jet : jets) {
 					if (!jet.hasPassenger()) {
-						jet.despawn();
+						toRemove.add(jet);
 					} else {
 						if (jet.getSpeed() == 1) {
 							jet.getMinecart()
@@ -82,6 +82,8 @@ public class JetManager implements Listener {
 						ParticleEffect.CLOUD.display(0, 0, 0, 0, 1, jet.getMinecart().getLocation(), 200);
 					}
 				}
+				for(JetObject jo : toRemove)
+					jo.despawn();
 			}
 
 		}, 1, 1);
@@ -138,7 +140,8 @@ public class JetManager implements Listener {
 				for (Player player : event.getEntity().getWorld().getPlayers()) {
 					if (player.getLocation().distance(event.getEntity().getLocation()) < 3
 							&& player != arrow.getShooter()) {
-						player.damage(5);
+						if(arrow.getShooter() instanceof Player)
+						Core.getInstance().getDamageManager().damage(player, (Player)arrow.getShooter(), 6);
 					}
 				}
 				event.getEntity().remove();
@@ -229,7 +232,7 @@ public class JetManager implements Listener {
 										if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
 											if (!players.contains(p.getName())) {
 												players.add(p.getName());
-												p.damage(1);
+												Core.getInstance().getDamageManager().damage(p, player, 2);
 											}
 										}
 									}

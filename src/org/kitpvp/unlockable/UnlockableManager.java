@@ -108,13 +108,16 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Enrage());
 		unlockables.add(new ExplosiveGrenade());
 		unlockables.add(new Heal());
-		unlockables.add(new OmegaHeal());
-		unlockables.add(new OmegaFlash());
 		unlockables.add(new OmegaLaser());
 		unlockables.add(new SiphoningStrike());
 		unlockables.add(new WitherAway());
 		unlockables.add(new Disengage());
 		unlockables.add(new Leap());
+		unlockables.add(new Shotgun());
+		unlockables.add(new FlashGrenade());
+		unlockables.add(new Spiderman());
+		unlockables.add(new Pirate());
+		unlockables.add(new Anvil());
 	}
 
 	public Unlockable getUnlockable(String name) {
@@ -154,6 +157,9 @@ public class UnlockableManager implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new Stomper(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Aphrodite(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Switcher(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Spiderman(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Pirate(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Anvil(), Core.getInstance());
 	}
 
 	public Scarcity getRandom() {
@@ -248,44 +254,41 @@ public class UnlockableManager implements Listener {
 
 						Ability ability = Core.getInstance().getAbilityManager().getAbility(ChatColor.stripColor(name));
 						Color start = Color.WHITE;
-						Color finish = Color.GRAY;
 						if (ability.getScarcity().equals(Scarcity.BLUE)) {
 							start = Color.BLUE;
-							finish = Color.GREEN;
 						} else if (ability.getScarcity().equals(Scarcity.PURPLE)) {
 							start = Color.PURPLE;
-							finish = Color.MAROON;
 						} else if (ability.getScarcity().equals(Scarcity.RED)) {
 							start = Color.RED;
-							finish = Color.ORANGE;
 						} else if (ability.getScarcity().equals(Scarcity.DARK_RED)) {
 							start = Color.fromBGR(0, 0, 255);
-							finish = Color.FUCHSIA;
 						} else if (ability.getScarcity().equals(Scarcity.GOLD)) {
 							start = Color.ORANGE;
-							finish = Color.YELLOW;
-							// Kevin: Hoping that these Unlock messages look
-							// working and well.
 							Bukkit.broadcastMessage("");
-							Bukkit.broadcastMessage(ChatColor.WHITE + player.getName() + ChatColor.GRAY
-									+ " has unlocked " + ChatColor.GOLD + name + ChatColor.GRAY + "!");
+							Bukkit.broadcastMessage(ChatColor.GRAY + player.getName() + ChatColor.GRAY
+									+ " has unlocked a " + ChatColor.GOLD + "gold" + ChatColor.GRAY + " ability!");
 							Bukkit.broadcastMessage("");
+							for(Player p : Bukkit.getServer().getOnlinePlayers()){
+							p.playSound(p.getLocation(), Sound.ENTITY_WITHER_DEATH, 1, 1);
+							}
 						} else if (ability.getScarcity().equals(Scarcity.BLACK)) {
 							start = Color.BLACK;
-							finish = Color.SILVER;
 							Bukkit.broadcastMessage("");
 							Bukkit.broadcastMessage(
-									ChatColor.WHITE + player.getName() + ChatColor.GRAY + " has unlocked "
-											+ ChatColor.BLACK + "" + ChatColor.BOLD + name + ChatColor.GRAY + "!");
+									ChatColor.GRAY + player.getName() + ChatColor.GRAY + " has unlocked a "
+											+ ChatColor.BLACK + "black" + ChatColor.GRAY + " ability!");
 							Bukkit.broadcastMessage("");
+							for(Player p : Bukkit.getServer().getOnlinePlayers()){
+								p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_DEATH, 1, 1);
+							}
 						}
 						FireworkEffect effect = FireworkEffect.builder().trail(false).flicker(true).withColor(start)
-								.withFade(finish).with(FireworkEffect.Type.BURST).build();
+								.with(FireworkEffect.Type.BURST).build();
 						Firework fw = player.getWorld().spawn(player.getLocation(), Firework.class);
 						FireworkMeta meta = fw.getFireworkMeta();
 						meta.clearEffects();
 						meta.addEffect(effect);
-						meta.setPower(0);
+						meta.setPower(1);
 						fw.setFireworkMeta(meta);
 
 						// TODO give the user the ability

@@ -61,9 +61,9 @@ public class WindStorm extends Ability implements Listener {
 										if (a.distance(b) > 4)
 											ParticleEffect.CLOUD.display(0, 0, 0, 0, 1, loc, 100);
 									}
-									throwBlock(loc);
+									throwBlock(loc.clone().add(0,1,0));
 									if (random.nextInt(150) == 0)
-										loc.getWorld().playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
+										loc.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_FLAP, 1, 1);
 									for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 										if (!p.equals(player)) {
 											double dist = p.getLocation().distance(location);

@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +17,7 @@ import org.kitpvp.ability.AbilityManager;
 import org.kitpvp.ability.abilities.objects.JetManager;
 import org.kitpvp.ability.abilities.objects.TotemManager;
 import org.kitpvp.commands.BalanceCommand;
+import org.kitpvp.commands.PayCommand;
 import org.kitpvp.commands.SetRankCommand;
 import org.kitpvp.damage.DamageManager;
 import org.kitpvp.loadout.LoadoutManager;
@@ -46,20 +50,20 @@ public class Core extends JavaPlugin implements Listener {
 		itemManager = new ItemManager();
 		damageManager = new DamageManager();
 
-		if (!getConfig().contains("con.useConfigConnection")) {
-			getConfig().set("con.useConfigConnection", true);
-			saveConfig();
-		}
-
-		if (getConfig().getBoolean("con.useConfigConnection"))
-			;
-		if (getConfig().contains("con.ip") && getConfig().contains("con.port")
-				&& getConfig().contains("con.databaseName") && getConfig().contains("con.user")
-				&& getConfig().contains("con.password"))
-			conString = "jdbc:mysql://" + this.getConfig().getString("con.ip") + ":"
-					+ this.getConfig().getString("con.port") + "/" + this.getConfig().getString("con.databaseName")
-					+ "?user=" + this.getConfig().getString("con.user") + "&password="
-					+ this.getConfig().getString("con.password") + "&autoReconnect=true";
+//		if (!getConfig().contains("con.useConfigConnection")) {
+//			getConfig().set("con.useConfigConnection", true);
+//			saveConfig();
+//		}
+//
+//		if (getConfig().getBoolean("con.useConfigConnection"))
+//			;
+//		if (getConfig().contains("con.ip") && getConfig().contains("con.port")
+//				&& getConfig().contains("con.databaseName") && getConfig().contains("con.user")
+//				&& getConfig().contains("con.password"))
+//			conString = "jdbc:mysql://" + this.getConfig().getString("con.ip") + ":"
+//					+ this.getConfig().getString("con.port") + "/" + this.getConfig().getString("con.databaseName")
+//					+ "?user=" + this.getConfig().getString("con.user") + "&password="
+//					+ this.getConfig().getString("con.password") + "&autoReconnect=true";
 
 		this.establishConnection();
 
@@ -90,6 +94,13 @@ public class Core extends JavaPlugin implements Listener {
 	}
 
 	public void onDisable() {
+		for(World world : Bukkit.getWorlds()){
+			for(Entity entity : world.getEntities()){
+				if(!(entity instanceof Player) && !(entity instanceof ItemFrame)){
+					entity.remove();
+				}
+			}
+		}
 		this.stopServer("Server restarting!");
 	}
 
@@ -104,6 +115,7 @@ public class Core extends JavaPlugin implements Listener {
 		getCommand("dev").setExecutor(new DeveloperCommand());
 		getCommand("bal").setExecutor(new BalanceCommand());
 		getCommand("setrank").setExecutor(new SetRankCommand());
+		getCommand("pay").setExecutor(new PayCommand());
 	}
 
 	public DamageManager getDamageManager() {

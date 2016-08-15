@@ -6,14 +6,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.kitpvp.ability.Ability;
 import org.kitpvp.util.ParticleEffect;
 
 public class Heal extends Ability {
 
 	public Heal() {
-		super("Heal", "Gain Regeneration I for 8 seconds!", Material.APPLE, Scarcity.BLUE, 7);
+		super("Heal", "Instantly heal your health and remove all potion effects!", Material.APPLE, Scarcity.BLUE, 4);
 		super.setClickedItem(new ItemStack(Material.APPLE));
 		super.setCooldown(12 * 20);
 	}
@@ -21,16 +20,19 @@ public class Heal extends Ability {
 	@Override
 	public void onInteract(Player player, Action action) {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
-			if (player.hasPotionEffect(PotionEffectType.REGENERATION)) {
-				player.removePotionEffect(PotionEffectType.REGENERATION);
 				if (!super.callEvent(player, this).isCancelled()) {
 					player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1, 1);
-					PotionEffect regen = new PotionEffect(PotionEffectType.REGENERATION, 8 * 20, 1);
-					player.addPotionEffect(regen);
-					ParticleEffect.HEART.display(0, 2, 0, 0, 1, player.getLocation(), 200);
+					for(PotionEffect potionEffect : player.getActivePotionEffects()){
+						player.removePotionEffect(potionEffect.getType());
+					}
+					if(player.getHealth() + 20 < player.getMaxHealth()){
+						player.setHealth(player.getHealth() + 20);
+					}else{
+						player.setHealth(player.getMaxHealth());
+					}
+					ParticleEffect.HEART.display(0, 0, 0, 0, 1, player.getLocation().clone().add(0,1.5,0), 200);
 					super.putOnCooldown(player);
 				}
-			}
 		}
 	}
 }

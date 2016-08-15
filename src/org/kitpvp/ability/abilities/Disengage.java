@@ -30,9 +30,9 @@ public class Disengage extends Ability {
 				if (!super.callEvent(player, this).isCancelled()) {
 					player.playSound(player.getLocation(), Sound.BLOCK_SNOW_BREAK, 1, 1);
 					PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 7 * 20, 1);
-					ParticleEffect.SNOW_SHOVEL.display(0, 0, 0, 0, 1, loc, 200);
+					ParticleEffect.SNOW_SHOVEL.display(0, 0, 0, 0, 1, player.getLocation(), 200);
 					player.addPotionEffect(speed);
-					player.setVelocity(player.getLocation().getDirection().multiply(-1).setY(1.0).setX(3.0));
+					player.setVelocity(player.getLocation().getDirection().multiply(-1).setY(1.0).multiply(2));
 					super.putOnCooldown(player);
 				}
 			}

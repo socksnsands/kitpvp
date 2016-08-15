@@ -47,7 +47,7 @@ public class Poseidon extends Ability {
 		ArrayList<String> hitPlayers = new ArrayList<>();
 		Location faked = startLoc;
 		faked.setPitch(0);
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 12; i++) {
 			Location l = faked.getDirection().normalize().multiply(i).toLocation(player.getWorld());
 			final Location loc = startLoc.clone().add(l);
 			// Bukkit.broadcastMessage(loc.getX() + ", " + loc.getY() + ", " +
@@ -62,10 +62,10 @@ public class Poseidon extends Ability {
 							if (p != player && !hitPlayers.contains(p.getName())
 									&& p.getLocation().distance(loc) < 1.5) {
 								hitPlayers.add(p.getName());
-								Core.getInstance().getDamageManager().damage(p, player, 12);
+								Core.getInstance().getDamageManager().damage(p, player, 16);
 								p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 1));
 								p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_DOOR_WOOD, 1, 1);
-								p.setVelocity(faked.getDirection().multiply(1.2).setY(.4));
+								p.setVelocity(faked.getDirection().multiply(1.4).setY(.4));
 							}
 						}
 					}

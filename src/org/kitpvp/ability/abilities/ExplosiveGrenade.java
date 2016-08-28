@@ -17,7 +17,7 @@ public class ExplosiveGrenade extends Ability {
 	private static String name = "Explosive Grenade";
 
 	public ExplosiveGrenade() {
-		super(name, "Throw an explosive grenade!", Material.SULPHUR, Scarcity.BLUE, 6);
+		super(name, "Throw an explosive grenade!", Material.SULPHUR, Scarcity.WHITE, 6);
 		super.setClickedItem(Material.SULPHUR);
 		super.setCooldown(20 * 14);
 	}

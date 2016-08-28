@@ -25,7 +25,7 @@ public class SwapLaser extends Ability {
 	public void onInteract(Player player, Action action) {
 		if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(name)).isCancelled()) {
 			super.putOnCooldown(player);
-			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1, 1);
+			player.getWorld().playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
 			boolean ha = false;
 			for (int i = 0; i < 50; i++) {
 				Location l = player.getLocation().getDirection().normalize().multiply((i / 5))
@@ -39,7 +39,7 @@ public class SwapLaser extends Ability {
 								double health = p.getHealth();
 								p.setHealth(player.getHealth());
 								player.setHealth(health);
-								p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1, 1);
+								p.getWorld().playSound(p.getLocation(), Sound.PORTAL_TRAVEL, 1, 1);
 								ha = true;
 								break;
 							}

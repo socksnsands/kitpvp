@@ -78,7 +78,7 @@ public class AbilityManager implements Listener {
 			User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
 			for (Ability ability : user.getActiveAbilities()) {
 				if (ability.getClickedItem() != null) {
-					if (ability.getClickedItem().equals(event.getPlayer().getInventory().getItemInMainHand())) {
+					if (ability.getClickedItem().equals(event.getPlayer().getInventory().getItemInHand())) {
 						if (!user.isOnCooldown(ability)) {
 							ability.onInteract(event.getPlayer(), event.getAction());
 						} else {

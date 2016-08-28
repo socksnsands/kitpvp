@@ -27,7 +27,7 @@ public class Jedi extends Ability {
 								(p.getLocation().getZ() - player.getLocation().getZ()) * 2));
 					}
 				}
-				player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 1, 1);
+				player.getWorld().playSound(player.getLocation(), Sound.ENDERDRAGON_WINGS, 1, 1);
 				super.putOnCooldown(player);
 			}
 		}

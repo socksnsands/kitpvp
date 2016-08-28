@@ -38,7 +38,7 @@ public class FlashGrenade extends Ability {
 					@Override
 					public void run() {
 						ParticleEffect.EXPLOSION_HUGE.display(0, 0, 0, 0, 1, item.getLocation(), 200);
-						item.getWorld().playSound(item.getLocation(), Sound.BLOCK_GLASS_BREAK, 1, 1);
+						item.getWorld().playSound(item.getLocation(), Sound.GLASS, 1, 1);
 						for (Entity entity : item.getNearbyEntities(5, 5, 5)) {
 							if (entity instanceof Player) {
 								Player le = (Player) entity;

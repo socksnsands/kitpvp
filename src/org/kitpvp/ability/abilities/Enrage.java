@@ -54,7 +54,7 @@ public class Enrage extends Ability {
 									ParticleEffect.REDSTONE.display(0, 0, 0, 0, 1, player.getLocation(), 200);
 									// FIX: ParticleEffect.REDSTONE.display(,
 									// player.getLocation(), 2.0);
-									player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1, 1);
+									player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
 								}
 							}
 						}

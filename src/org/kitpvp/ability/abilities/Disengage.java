@@ -28,7 +28,7 @@ public class Disengage extends Ability {
 	public void onInteract(Player player, Action action) {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 				if (!super.callEvent(player, this).isCancelled()) {
-					player.playSound(player.getLocation(), Sound.BLOCK_SNOW_BREAK, 1, 1);
+					player.playSound(player.getLocation(), Sound.DIG_SNOW, 1, 1);
 					PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 7 * 20, 1);
 					ParticleEffect.SNOW_SHOVEL.display(0, 0, 0, 0, 1, player.getLocation(), 200);
 					player.addPotionEffect(speed);

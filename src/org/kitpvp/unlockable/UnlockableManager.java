@@ -99,7 +99,7 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Zeus());
 		unlockables.add(new Poseidon());
 		unlockables.add(new Hades());
-		unlockables.add(new Vovl());
+		unlockables.add(new Hulk());
 		unlockables.add(new ElectricLaser());
 		unlockables.add(new EarthLaser());
 		unlockables.add(new Jet());
@@ -118,6 +118,12 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Spiderman());
 		unlockables.add(new Pirate());
 		unlockables.add(new Anvil());
+		unlockables.add(new ParalysisBlockade());
+		unlockables.add(new IceBlockade());
+		unlockables.add(new Groundslam());
+		unlockables.add(new Dolphin());
+		unlockables.add(new Monkey());
+		unlockables.add(new Ninja());
 	}
 
 	public Unlockable getUnlockable(String name) {
@@ -160,6 +166,9 @@ public class UnlockableManager implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new Spiderman(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Pirate(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Anvil(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Monkey(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Dolphin(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Ninja(), Core.getInstance());
 	}
 
 	public Scarcity getRandom() {
@@ -192,7 +201,7 @@ public class UnlockableManager implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-			if (event.getPlayer().getInventory().getItemInMainHand()
+			if (event.getPlayer().getInventory().getItemInHand()
 					.equals(Core.getInstance().getItemManager().getUnlockableOpener())) {
 				this.openUnlockableChestInventory(event.getPlayer());
 				event.setCancelled(true);
@@ -247,7 +256,7 @@ public class UnlockableManager implements Listener {
 				@Override
 				public void run() {
 					tickSeriesInventory(player, inv, series);
-					player.playSound(player.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
+					player.playSound(player.getLocation(), Sound.WOOD_CLICK, 1, 1);
 					if (q == t - 1) {
 						String name = inv.getItem(13).getItemMeta().getDisplayName();
 						player.sendMessage(ChatColor.GRAY + "You unlocked " + name + ChatColor.GRAY + "!");
@@ -269,7 +278,7 @@ public class UnlockableManager implements Listener {
 									+ " has unlocked a " + ChatColor.GOLD + "gold" + ChatColor.GRAY + " ability!");
 							Bukkit.broadcastMessage("");
 							for(Player p : Bukkit.getServer().getOnlinePlayers()){
-							p.playSound(p.getLocation(), Sound.ENTITY_WITHER_DEATH, 1, 1);
+							p.playSound(p.getLocation(), Sound.WITHER_DEATH, 1, 1);
 							}
 						} else if (ability.getScarcity().equals(Scarcity.BLACK)) {
 							start = Color.BLACK;
@@ -279,7 +288,7 @@ public class UnlockableManager implements Listener {
 											+ ChatColor.BLACK + "black" + ChatColor.GRAY + " ability!");
 							Bukkit.broadcastMessage("");
 							for(Player p : Bukkit.getServer().getOnlinePlayers()){
-								p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_DEATH, 1, 1);
+								p.playSound(p.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
 							}
 						}
 						FireworkEffect effect = FireworkEffect.builder().trail(false).flicker(true).withColor(start)

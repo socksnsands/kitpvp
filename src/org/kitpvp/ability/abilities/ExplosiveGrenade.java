@@ -36,7 +36,7 @@ public class ExplosiveGrenade extends Ability {
 					@Override
 					public void run() {
 						ParticleEffect.EXPLOSION_HUGE.display(0, 0, 0, 0, 1, item.getLocation(), 200);
-						item.getWorld().playSound(item.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+						item.getWorld().playSound(item.getLocation(), Sound.EXPLODE, 1, 1);
 						for (Entity entity : item.getNearbyEntities(5, 5, 5)) {
 							if (entity instanceof Player) {
 								Player le = (Player) entity;

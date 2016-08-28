@@ -64,10 +64,8 @@ public class Jesus extends Ability implements Listener {
 	}
 
 	private void playJesusEffect(final Player player) {
-		player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 4 * 20, 0));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 4 * 20, 40));
-		player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 4 * 20, 40));
-		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 1);
+		player.getWorld().playSound(player.getLocation(), Sound.WITHER_SPAWN, 1, 1);
 		for (int i = 0; i < 10; i++) {
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
 

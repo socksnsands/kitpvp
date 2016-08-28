@@ -30,7 +30,7 @@ public class Zeus extends Ability {
 				if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(name)).isCancelled()) {
 					location.getWorld().strikeLightningEffect(location);
 					super.putOnCooldown(player);
-					location.getWorld().playSound(location, Sound.BLOCK_ANVIL_LAND, 1, 1);
+					location.getWorld().playSound(location, Sound.ANVIL_LAND, 1, 1);
 					for (Player p : player.getWorld().getPlayers()) {
 						if (p.getLocation().distance(location) < 4) {
 							if (p != player) {

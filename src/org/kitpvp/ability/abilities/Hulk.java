@@ -8,12 +8,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.kitpvp.ability.Ability;
 
-public class Vovl extends Ability {
+public class Hulk extends Ability {
 
-	private static String name = "Vovl";
+	private static String name = "Hulk";
 
-	public Vovl() {
-		super(name, "Bench press", Material.ANVIL, Scarcity.BLACK, 30);
+	public Hulk() {
+		super(name, "Insane strength", Material.ANVIL, Scarcity.BLACK, 30);
 		super.setCooldown(20 * 40);
 		super.setClickedItem(Material.IRON_INGOT);
 	}
@@ -23,7 +23,7 @@ public class Vovl extends Ability {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 			if (!super.callEvent(player, this).isCancelled()) {
 				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 3, 2));
-				player.getLocation().getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
+				player.getLocation().getWorld().playSound(player.getLocation(), Sound.ANVIL_USE, 1, 1);
 				super.putOnCooldown(player);
 			}
 		}

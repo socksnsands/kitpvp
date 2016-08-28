@@ -216,11 +216,11 @@ public class JetManager implements Listener {
 							item.setItemMeta(im);
 							event.getPlayer().updateInventory();
 							event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(),
-									Sound.ITEM_ARMOR_EQUIP_IRON, 1, 1);
+									Sound.IRONGOLEM_HIT, 1, 1);
 						}
 						if (item.getItemMeta().getDisplayName().startsWith(ChatColor.BLUE + "Machine Gun")) {
 							Player player = event.getPlayer();
-							player.getWorld().playSound(player.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
+							player.getWorld().playSound(player.getLocation(), Sound.WOOD_CLICK, 1, 1);
 							ArrayList<String> players = new ArrayList<String>();
 							for (int i = 0; i < 100; i++) {
 								Location l = player.getLocation().getDirection().normalize().multiply(i / 5)

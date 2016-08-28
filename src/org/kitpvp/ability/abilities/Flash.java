@@ -32,10 +32,10 @@ public class Flash extends Ability {
 				location.setPitch(player.getLocation().getPitch());
 				player.teleport(location);
 				player.getLocation().getWorld().playEffect(player.getLocation(), Effect.CLOUD, 1);
-				player.getLocation().getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1, 1);
+				player.getLocation().getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1, 1);
 				super.putOnCooldown(player);
 				ParticleEffect.SMOKE_NORMAL.display(0, 0, 0, 0, 1, player.getLocation(), 200);
-				player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
+				player.playSound(player.getLocation(), Sound.LAVA_POP, 1, 1);
 			}
 		}
 	}

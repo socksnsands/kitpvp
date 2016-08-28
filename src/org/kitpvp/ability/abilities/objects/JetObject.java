@@ -94,7 +94,7 @@ public class JetObject {
 
 	public void despawn() {
 		ParticleEffect.CLOUD.display(1, 1, 1, 0, 4, jet.getLocation(), 50);
-		jet.getWorld().playSound(jet.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1, 1);
+		jet.getWorld().playSound(jet.getLocation(), Sound.ZOMBIE_METAL, 1, 1);
 		jet.remove();
 		if (Bukkit.getServer().getOnlinePlayers().contains(player))
 			Core.getInstance().getUserManager().getUser(player)

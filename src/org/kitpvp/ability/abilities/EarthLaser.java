@@ -27,7 +27,7 @@ public class EarthLaser extends Ability {
 	public void onInteract(Player player, Action action) {
 		if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(name)).isCancelled()) {
 			super.putOnCooldown(player);
-			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_GRASS_BREAK, 1, 1);
+			player.getWorld().playSound(player.getLocation(), Sound.DIG_GRASS, 1, 1);
 			ArrayList<String> players = new ArrayList<String>();
 			for (int i = 0; i < 50; i++) {
 				Location l = player.getLocation().getDirection().normalize().multiply(i / 5)

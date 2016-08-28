@@ -21,7 +21,7 @@ public class Heal extends Ability {
 	public void onInteract(Player player, Action action) {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 				if (!super.callEvent(player, this).isCancelled()) {
-					player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1, 1);
+					player.playSound(player.getLocation(), Sound.NOTE_PLING, 1, 1);
 					for(PotionEffect potionEffect : player.getActivePotionEffects()){
 						player.removePotionEffect(potionEffect.getType());
 					}

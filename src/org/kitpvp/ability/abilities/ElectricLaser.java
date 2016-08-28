@@ -29,7 +29,7 @@ public class ElectricLaser extends Ability {
 	public void onInteract(Player player, Action action) {
 		if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(name)).isCancelled()) {
 			super.putOnCooldown(player);
-			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_IMPACT, 1, 1);
+			player.getWorld().playSound(player.getLocation(), Sound.AMBIENCE_THUNDER, 1, 1);
 			ArrayList<String> players = new ArrayList<String>();
 			for (int i = 0; i < 50; i++) {
 				Location l = player.getLocation().getDirection().normalize().multiply(i / 5)

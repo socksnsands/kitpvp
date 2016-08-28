@@ -31,7 +31,7 @@ Desc: Take a Mighty Leap forward, about 5 blocks in the air and 8 blocks in targ
 	public void onInteract(Player player, Action action) {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 				if (!super.callEvent(player, this).isCancelled()) {
-					player.playSound(player.getLocation(), Sound.BLOCK_SNOW_BREAK, 1, 1);
+					player.playSound(player.getLocation(), Sound.DIG_SNOW, 1, 1);
 					PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 7 * 20, 1);
 					ParticleEffect.CLOUD.display(0, 0, 0, 0, 3, player.getLocation(), 200);
 					player.addPotionEffect(speed);

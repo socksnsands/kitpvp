@@ -44,7 +44,6 @@ public class Pirate extends Ability implements Listener {
 				ArmorStand stand = player.getWorld().spawn(getLocation(player.getLocation(), -90), ArmorStand.class);
 				stand.setVisible(false);
 				stand.setGravity(false);
-				stand.setSilent(true);
 				ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 				SkullMeta sm = (SkullMeta) skull.getItemMeta();
 				sm.setOwner("MHF_Chicken");

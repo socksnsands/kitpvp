@@ -294,7 +294,7 @@ public class UserManager implements Listener {
 				player.sendMessage(Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor()
 						+ event.getPlayer().getName() + ": " + ChatColor.GRAY + event.getMessage());
 				if (event.getMessage().toUpperCase().contains(player.getName().toUpperCase())) {
-					player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, 1);
+					player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 				}
 			}
 			event.setCancelled(true);

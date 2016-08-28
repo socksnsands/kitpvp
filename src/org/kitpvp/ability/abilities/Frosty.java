@@ -39,7 +39,7 @@ public class Frosty extends Ability implements Listener {
 						LivingEntity le = (LivingEntity) event.getEntity();
 						event.getEntity().getWorld().playEffect(event.getEntity().getLocation().clone().add(0, 1, 0),
 								Effect.STEP_SOUND, Material.ICE);
-						event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.BLOCK_GLASS_BREAK,
+						event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.GLASS,
 								1, 1);
 						le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 1));
 					}

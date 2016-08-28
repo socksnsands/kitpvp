@@ -31,7 +31,7 @@ public class Poseidon extends Ability {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 			if (!this.isAboveVoid(player.getLocation())) {
 				if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(name)).isCancelled()) {
-					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_HURT, 1, 1);
+					player.getWorld().playSound(player.getLocation(), Sound.WITHER_HURT, 1, 1);
 					this.playPoseidonEffect(player);
 					super.putOnCooldown(player);
 				}
@@ -64,7 +64,7 @@ public class Poseidon extends Ability {
 								hitPlayers.add(p.getName());
 								Core.getInstance().getDamageManager().damage(p, player, 16);
 								p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 1));
-								p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_DOOR_WOOD, 1, 1);
+								p.getWorld().playSound(p.getLocation(), Sound.ZOMBIE_METAL, 1, 1);
 								p.setVelocity(faked.getDirection().multiply(1.4).setY(.4));
 							}
 						}

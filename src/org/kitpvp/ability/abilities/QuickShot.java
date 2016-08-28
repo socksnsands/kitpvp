@@ -21,7 +21,7 @@ public class QuickShot extends Ability {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)
 				|| action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
 			if (!super.callEvent(player, this).isCancelled()) {
-				player.getLocation().getWorld().playSound(player.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1);
+				player.getLocation().getWorld().playSound(player.getLocation(), Sound.SHOOT_ARROW, 1, 1);
 				player.launchProjectile(Arrow.class);
 				super.putOnCooldown(player);
 			}

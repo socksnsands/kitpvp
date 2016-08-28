@@ -33,7 +33,7 @@ public class Aphrodite extends Ability implements Listener {
 					if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(name))
 							.isCancelled()) {
 						ParticleEffect.HEART.display(0, 0, 0, 0, 1, player.getLocation().clone().add(0, 1.5, 0), 200);
-						player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
+						player.getWorld().playSound(player.getLocation(), Sound.BURP, 1, 1);
 						if (player.getMaxHealth() < player.getHealth() + event.getDamage())
 							player.setHealth(player.getMaxHealth());
 						else

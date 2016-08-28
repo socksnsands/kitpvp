@@ -28,7 +28,7 @@ public class Ignite extends Ability {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 			List<Block> playerLineOfSight = player.getLineOfSight((HashSet<Byte>) null, 6);
 			if (!super.callEvent(player, this).isCancelled()) {
-				player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+				player.playSound(player.getLocation(), Sound.PISTON_EXTEND, 1, 1);
 				super.putOnCooldown(player);
 				for (Block blocks : playerLineOfSight) {
 					Location blocksLocation = blocks.getLocation();
@@ -37,8 +37,8 @@ public class Ignite extends Ability {
 							LivingEntity entity = (LivingEntity) entities;
 							if (!entity.equals(player)) {
 								entities.setFireTicks(5 * 20);
-								player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1, 1);
-								player.playSound(entities.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1, 1);
+								player.playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1, 1);
+								player.playSound(entities.getLocation(), Sound.LAVA, 1, 1);
 							}
 						}
 					}

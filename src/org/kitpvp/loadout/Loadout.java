@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.minecraft.server.v1_10_R1.NBTTagCompound;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_10_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +33,7 @@ public class Loadout {
 		player.closeInventory();
 		Core.getInstance().getUserManager().getUser(player).resetInventory();
 		Inventory inv = player.getInventory();
-		net.minecraft.server.v1_10_R1.ItemStack stack = CraftItemStack.asNMSCopy(new ItemStack(Material.STONE_SWORD));
+		net.minecraft.server.v1_8_R3.ItemStack stack = CraftItemStack.asNMSCopy(new ItemStack(Material.STONE_SWORD));
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setBoolean("Unbreakable", true);
 		stack.setTag(tag);

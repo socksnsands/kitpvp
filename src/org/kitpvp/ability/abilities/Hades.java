@@ -29,7 +29,7 @@ public class Hades extends Ability {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
 			if (!this.isAboveVoid(player.getLocation())) {
 				if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(name)).isCancelled()) {
-					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_HURT, 1, 1);
+					player.getWorld().playSound(player.getLocation(), Sound.BLAZE_HIT, 1, 1);
 					this.playHadesEffect(player);
 					super.putOnCooldown(player);
 				}
@@ -62,7 +62,7 @@ public class Hades extends Ability {
 								hitPlayers.add(p.getName());
 								Core.getInstance().getDamageManager().damage(p, player, 6);
 								p.setFireTicks(80);
-								p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_DOOR_WOOD, 1, 1);
+								p.getWorld().playSound(p.getLocation(), Sound.ZOMBIE_METAL, 1, 1);
 								p.setVelocity(faked.getDirection().multiply(1.2).setY(.4));
 							}
 						}
@@ -75,7 +75,7 @@ public class Hades extends Ability {
 
 	private void throwUpBlock(Location location) {
 		@SuppressWarnings("deprecation")
-		FallingBlock fb = location.getWorld().spawnFallingBlock(location.clone().add(0, -.3, 0), Material.MAGMA,
+		FallingBlock fb = location.getWorld().spawnFallingBlock(location.clone().add(0, -.3, 0), Material.HARD_CLAY,
 				(byte) 0);
 		fb.setVelocity(new Vector(0, .3, 0));
 		fb.setCustomName("no_land");

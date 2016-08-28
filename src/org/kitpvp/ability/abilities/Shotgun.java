@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
 import org.kitpvp.ability.Ability;
 import org.kitpvp.core.Core;
@@ -53,6 +54,16 @@ public class Shotgun extends Ability implements Listener {
 					le.setVelocity(arrow.getVelocity().setY(.4));
 				}
 				event.setCancelled(true);
+			}
+		}
+	}
+	
+	
+	@EventHandler
+	public void onLand(ProjectileHitEvent event){
+		if(event.getEntity() instanceof Arrow){
+			if(event.getEntity().getCustomName().equals("shotgun_shot")){
+				event.getEntity().remove();
 			}
 		}
 	}

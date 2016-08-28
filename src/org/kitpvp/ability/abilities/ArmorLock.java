@@ -18,7 +18,7 @@ import org.kitpvp.core.Core;
 public class ArmorLock extends Ability {
 
 	public ArmorLock() {
-		super("Body Shield", "Shield your body in a special material to stop all damage!", Material.DIAMOND_CHESTPLATE, Scarcity.RED, 6);
+		super("Body Shield", "Shield your body in a special material to stop all damage!", Material.DIAMOND_CHESTPLATE, Scarcity.PURPLE, 6);
 		// TODO Auto-generated constructor stub
 		super.setClickedItem(Material.DIAMOND_CHESTPLATE);
 		super.setCooldown(20*30);

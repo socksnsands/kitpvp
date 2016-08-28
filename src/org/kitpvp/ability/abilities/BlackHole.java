@@ -17,7 +17,7 @@ import org.kitpvp.util.ParticleEffect;
 public class BlackHole extends Ability {
 	public BlackHole()
 	{
-		super("Black Hole", "Pull your enemy towards a unavoidable death!", Material.OBSIDIAN, Scarcity.WHITE,15);
+		super("Black Hole", "Pull your enemy towards a unavoidable death!", Material.OBSIDIAN, Scarcity.DARK_RED,15);
 		super.setClickedItem(Material.OBSIDIAN);
 		super.setCooldown(20*35);
 	}

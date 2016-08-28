@@ -125,6 +125,7 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Monkey());
 		unlockables.add(new Ninja());
 		unlockables.add(new BlackHole());
+		unlockables.add(new ArmorLock());
 	}
 
 	public Unlockable getUnlockable(String name) {

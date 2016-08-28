@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.kitpvp.core.Core;
 import org.kitpvp.util.ParticleEffect;
 
@@ -16,7 +17,7 @@ public class BlackHoleObject {
 	private Player owner;
 	private Location loc;
 	private Item i;
-	private int clock = 2 * 20 * 5;
+	private int clock = 20 * 5;
 	public BlackHoleObject(Player owner, Location l,Item i)
 	{
 		this.owner = owner;
@@ -38,11 +39,12 @@ public class BlackHoleObject {
 
 	private void tick()
 	{
-		loc.getWorld().spigot().playEffect(loc, Effect.LARGE_SMOKE, 0, 0, 0.35f, 0.35f, 0.35f, 0f, 70, 40);
-		for(Entity s : i.getNearbyEntities(7,7,7))
+		loc.getWorld().spigot().playEffect(loc, Effect.LARGE_SMOKE, 0, 0, 0.35f, 0.35f, 0.35f, 0f, 30, 40);
+		for(Entity s : i.getNearbyEntities(4,4,4))
 		{
 			if(!(s instanceof Player)) continue;
-			s.setVelocity(i.getLocation().toVector().subtract(s.getLocation().toVector()).multiply(0.5));
+			if(s.getLocation().distance(loc) < 2) continue;
+			s.setVelocity(i.getLocation().toVector().subtract(s.getLocation().toVector()).multiply(0.2).add(new Vector(0, 0.2, 0)));
 			((Player) s).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 10));
 		}
 		for(Entity s : i.getNearbyEntities(1, 1, 1))

@@ -1,2 +1,4 @@
 
 bin/org/kitpvp/ability/abilities/Bash.class
+*.class
+*.class

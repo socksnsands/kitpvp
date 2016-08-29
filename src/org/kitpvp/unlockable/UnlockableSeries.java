@@ -47,7 +47,10 @@ public enum UnlockableSeries {
 			"Earth Laser", "Cooldown Laser",
 			"Omega Laser"),
 			Material.CHEST),
-	UNREAL_ABILITY(ChatColor.LIGHT_PURPLE + "Unreal", "These abilities can't be real?", Arrays.asList("Black Hole", "Body Shield"), Material.ENDER_CHEST);
+	UNREAL_ABILITY(ChatColor.LIGHT_PURPLE + "Unreal",
+			"These abilities can't be real?",
+			Arrays.asList("Black Hole", "Body Shield"),
+			Material.ENDER_CHEST);
 
 	private String display;
 	private String description;

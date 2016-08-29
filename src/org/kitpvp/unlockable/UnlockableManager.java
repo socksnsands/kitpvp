@@ -126,6 +126,8 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Ninja());
 		unlockables.add(new BlackHole());
 		unlockables.add(new ArmorLock());
+		unlockables.add(new DistanceLaser());
+	
 	}
 
 	public Unlockable getUnlockable(String name) {

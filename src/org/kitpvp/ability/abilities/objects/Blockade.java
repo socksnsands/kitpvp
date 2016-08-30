@@ -84,12 +84,10 @@ public class Blockade {
 
 						@Override
 						public void run() {
-							if(r == 1)
-								location.getWorld().playEffect(location, Effect.STEP_SOUND, wallBlock);
 							location.getBlock().setType(Material.AIR);
 						}
 						
-					}, i*2);
+					}, i);
 				}
 			}
 		}
@@ -108,30 +106,6 @@ public class Blockade {
 					}
 				}
 			}
-//			for(int y = 0; y < 2; y++){
-//				l.setYaw((float) (owner.getLocation().getYaw() + (Math.pow(-1, y)*5*i)));
-//				Location f = owner.getLocation().clone().add(l.getDirection().normalize().multiply(distance).toLocation(owner.getWorld()));
-//				if(!spawnPoints.contains(f)){
-//					spawnPoints.add(f);
-//				}
-//			}
-//			for(int p = 0; p < 2; p++){
-//				l.setYaw((float) (owner.getLocation().getYaw() + (Math.pow(-1, p)*5*i)));
-//				Location f = owner.getLocation().clone().add(l.getDirection().normalize().multiply(distance).toLocation(owner.getWorld()));
-//				if(!spawnPoints.contains(f)){
-//					spawnPoints.add(f);
-//				}
-//			}
-//			for(int p = 0; p < 2; p++){
-//				l.setPitch((float) (owner.getLocation().getPitch() + (Math.pow(-1, p)*5*i)));
-//				for(int y = 0; y < 2; y++){
-//					l.setYaw((float) (owner.getLocation().getYaw() + (Math.pow(-1, y)*5*i)));
-//					Location f = owner.getLocation().clone().add(l.getDirection().normalize().multiply(distance).toLocation(owner.getWorld()));
-//					if(!spawnPoints.contains(f)){
-//						spawnPoints.add(f);
-//					}
-//				}
-//			}
 		return spawnPoints;
 	}
 	

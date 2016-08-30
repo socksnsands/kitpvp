@@ -68,7 +68,7 @@ public class WindStorm extends Ability implements Listener {
 										if (!p.equals(player)) {
 											double dist = p.getLocation().distance(location);
 											if (dist <= 4.5) {
-												p.damage(2);
+												p.damage(4);
 												int h = (int) (3 - dist <= 0 ? 0 : 3 - dist);
 												int l = (int) (-3 - dist >= 0 ? 0 : -3 - dist);
 												p.setVelocity(new Vector(random.nextInt(h - l) + l,
@@ -108,14 +108,13 @@ public class WindStorm extends Ability implements Listener {
 				if (block.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR)) {
 					Random random = new Random();
 					if (random.nextInt(15) == 0) {
-						FallingBlock fs = block.getWorld().spawnFallingBlock(block.clone().add(0, 1, 0),
+						FallingBlock fs = block.getWorld().spawnFallingBlock(block.clone().add(0, 1.5, 0),
 								block.getBlock().getType(), block.getBlock().getData());
 						fs.setDropItem(false);
 						fs.setVelocity(new Vector((random.nextDouble()) - .5, (random.nextDouble() * 1.4),
 								(random.nextDouble()) - .5));
 						fs.setCustomName("no_land");
 						fs.setDropItem(false);
-						block.getBlock().setType(block.getBlock().getType());
 					}
 				}
 			}

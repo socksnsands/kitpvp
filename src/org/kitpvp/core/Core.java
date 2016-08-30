@@ -2,6 +2,7 @@ package org.kitpvp.core;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.text.DecimalFormat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -50,20 +51,19 @@ public class Core extends JavaPlugin implements Listener {
 		itemManager = new ItemManager();
 		damageManager = new DamageManager();
 
-//		if (!getConfig().contains("con.useConfigConnection")) {
-//			getConfig().set("con.useConfigConnection", true);
-//			saveConfig();
-//		}
-//
-//		if (getConfig().getBoolean("con.useConfigConnection"))
-//			;
-//		if (getConfig().contains("con.ip") && getConfig().contains("con.port")
-//				&& getConfig().contains("con.databaseName") && getConfig().contains("con.user")
-//				&& getConfig().contains("con.password"))
-//			conString = "jdbc:mysql://" + this.getConfig().getString("con.ip") + ":"
-//					+ this.getConfig().getString("con.port") + "/" + this.getConfig().getString("con.databaseName")
-//					+ "?user=" + this.getConfig().getString("con.user") + "&password="
-//					+ this.getConfig().getString("con.password") + "&autoReconnect=true";
+		if (!getConfig().contains("con.useConfigConnection")) {
+			getConfig().set("con.useConfigConnection", true);
+			saveConfig();
+		}
+
+		if (getConfig().getBoolean("con.useConfigConnection"))
+		if (getConfig().contains("con.ip") && getConfig().contains("con.port")
+				&& getConfig().contains("con.databaseName") && getConfig().contains("con.user")
+				&& getConfig().contains("con.password"))
+			conString = "jdbc:mysql://" + this.getConfig().getString("con.ip") + ":"
+					+ this.getConfig().getString("con.port") + "/" + this.getConfig().getString("con.databaseName")
+					+ "?user=" + this.getConfig().getString("con.user") + "&password="
+					+ this.getConfig().getString("con.password") + "&autoReconnect=true";
 
 		this.establishConnection();
 
@@ -89,8 +89,14 @@ public class Core extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPing(ServerListPingEvent event) {
 		event.setMaxPlayers(100);
-		event.setMotd(ChatColor.RED + "kitpvp.org \n" + ChatColor.BLUE + this.getAbilityManager().getAbilities().size()
-				+ ChatColor.GRAY + "/" + ChatColor.BLUE + "100 " + ChatColor.GRAY + "abilities created for launch!");
+		int currentAbilities = this.getAbilityManager().getAbilities().size();
+		int abilitiesToLaunch = 115;
+		double p = currentAbilities/abilitiesToLaunch;
+		p*=100;
+		DecimalFormat df = new DecimalFormat("#.##");
+		String percent = df.format(p);
+		event.setMotd(ChatColor.RED + "kitpvp.org \n" + ChatColor.BLUE + percent
+				+ "%" + ChatColor.GRAY + " ready for launch!");
 	}
 
 	public void onDisable() {

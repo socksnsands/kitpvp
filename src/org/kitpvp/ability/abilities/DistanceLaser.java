@@ -30,7 +30,7 @@ public class DistanceLaser extends Ability {
 		player.getWorld().playSound(player.getLocation(),
 				Sound.FIREWORK_LAUNCH, 1, 1);
 		ArrayList<String> players = new ArrayList<String>();
-		for (int i = 0; i < player.getLineOfSight((HashSet<Byte>)null, 100).size(); i++) {
+		for (int i = 0; i < 400; i++) {
 			Location l = player.getEyeLocation().getDirection().normalize()
 					.multiply(i / 5).toLocation(player.getWorld());
 			Location loc = player.getLocation().clone().add(l).add(0, 2, 0);
@@ -43,7 +43,7 @@ public class DistanceLaser extends Ability {
 						if (!players.contains(p.getName())) {
 							players.add(p.getName());
 							Core.getInstance().getDamageManager()
-									.damage(p, player, 10);
+									.damage(p, player, 7);
 						}
 					}
 				}

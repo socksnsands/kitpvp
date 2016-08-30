@@ -1,28 +1,27 @@
 package org.kitpvp.ability.abilities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.kitpvp.ability.Ability;
 import org.kitpvp.core.Core;
-import org.kitpvp.unlockable.Unlockable.Scarcity;
 import org.kitpvp.util.ParticleEffect;
 
 public class DistanceLaser extends Ability {
 
 	public DistanceLaser() {
 		super("Distance Laser", "A laser not limited to distance!",
-				Material.COBBLESTONE, Scarcity.RED, 10);
+				Material.IRON_BARDING, Scarcity.RED, 10);
 		super.setCooldown(20 * 20);
 		super.setClickedItem(Material.IRON_BARDING);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onInteract(Player player, Action action) {
 		if (super.callEvent(player, this).isCancelled())
@@ -31,7 +30,7 @@ public class DistanceLaser extends Ability {
 		player.getWorld().playSound(player.getLocation(),
 				Sound.FIREWORK_LAUNCH, 1, 1);
 		ArrayList<String> players = new ArrayList<String>();
-		for (int i = 0; i < 400; i++) {
+		for (int i = 0; i < player.getLineOfSight((HashSet<Byte>)null, 100).size(); i++) {
 			Location l = player.getEyeLocation().getDirection().normalize()
 					.multiply(i / 5).toLocation(player.getWorld());
 			Location loc = player.getLocation().clone().add(l).add(0, 2, 0);

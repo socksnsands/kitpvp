@@ -1,6 +1,7 @@
 package org.kitpvp.ability.abilities.objects;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -59,7 +60,7 @@ public class Blockade {
 					}
 					
 					if(q == (r-1)){
-						destroy();
+						destroy(false);
 					}
 				}
 				
@@ -68,11 +69,28 @@ public class Blockade {
 		}
 	}
 	
-	public void destroy(){
-		for(Location location : locations){
+	public void destroy(boolean instant){
+		for(int i = 0; i < locations.size(); i++){
+			Location location = locations.get(i);
+			Random random = new Random();
+			final int r = random.nextInt(2);
 			if(location.getBlock().getType().equals(wallBlock)){
-				location.getWorld().playEffect(location, Effect.STEP_SOUND, wallBlock);
-				location.getBlock().setType(Material.AIR);
+				if(instant){
+					if(r == 1)
+						location.getWorld().playEffect(location, Effect.STEP_SOUND, wallBlock);
+					location.getBlock().setType(Material.AIR);
+				}else{
+					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable(){
+
+						@Override
+						public void run() {
+							if(r == 1)
+								location.getWorld().playEffect(location, Effect.STEP_SOUND, wallBlock);
+							location.getBlock().setType(Material.AIR);
+						}
+						
+					}, i*2);
+				}
 			}
 		}
 	}

@@ -39,7 +39,7 @@ public class BlackHoleObject {
 
 	private void tick()
 	{
-		loc.getWorld().spigot().playEffect(loc, Effect.LARGE_SMOKE, 0, 0, 0.35f, 0.35f, 0.35f, 0f, 30, 40);
+		loc.getWorld().spigot().playEffect(loc, Effect.LARGE_SMOKE, 0, 0, 0.35f, 0.35f, 0.35f, 0f, 20, 40);
 		for(Entity s : i.getNearbyEntities(4,4,4))
 		{
 			if(!(s instanceof Player)) continue;

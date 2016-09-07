@@ -81,6 +81,7 @@ public class Core extends JavaPlugin implements Listener {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.connection = DriverManager.getConnection(conString);
+			this.connection.setAutoCommit(true);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

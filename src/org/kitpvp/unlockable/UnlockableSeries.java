@@ -36,7 +36,7 @@ public enum UnlockableSeries {
 	WINTER_ABILITY(
 			ChatColor.AQUA + "Winter",
 			"Limited edition: Winter 2016",
-			Arrays.asList("Frosty", "Snowball Shotgun", "Frost Laser"),
+			Arrays.asList("Frosty", "Snowball Shotgun", "Frost Laser", "Frostbite"),
 			Material.SNOW_BLOCK), 
 	LASER_ABILITY(ChatColor.RED + "Laser",
 			"Premium series",

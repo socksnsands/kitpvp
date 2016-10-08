@@ -71,6 +71,7 @@ public class UnlockableManager implements Listener {
 
 	private void registerUnlockables() {
 		// Abilities
+		unlockables.add(new FrostBite());
 		unlockables.add(new Snail());
 		unlockables.add(new FeatherBoots());
 		unlockables.add(new FlameAura());

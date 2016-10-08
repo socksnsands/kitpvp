@@ -22,7 +22,7 @@ public enum UnlockableSeries {
 			Material.CHEST), 
 	WAR_ABILITY(ChatColor.RED + "War", 
 			"Premium series",
-			Arrays.asList("Jet", "Explosive Grenade", "Flash Grenade", "Totem", "Shotgun", "Pirate"),
+			Arrays.asList("Jet", "Explosive Grenade", "Flash Grenade", "Totem", "Shotgun", "Pirate", "Snail"),
 			Material.CHEST), 
 	HEIGHTS_ABILITY(
 			ChatColor.RED + "Heights", 

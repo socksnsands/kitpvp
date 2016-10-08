@@ -71,6 +71,7 @@ public class UnlockableManager implements Listener {
 
 	private void registerUnlockables() {
 		// Abilities
+		unlockables.add(new Snail());
 		unlockables.add(new FeatherBoots());
 		unlockables.add(new FlameAura());
 		unlockables.add(new QuickShot());
@@ -180,6 +181,7 @@ public class UnlockableManager implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new Monkey(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Dolphin(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Ninja(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Snail(), Core.getInstance());
 	}
 
 	public Scarcity getRandom() {

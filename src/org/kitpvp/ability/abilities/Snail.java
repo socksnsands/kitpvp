@@ -15,7 +15,7 @@ import org.kitpvp.core.Core;
 public class Snail extends Ability implements Listener{
 
 	public Snail() {
-		super("Snail", "{H33%H} chance of giving a player slowness {H2H} when you hit them.", Material.FERMENTED_SPIDER_EYE, Scarcity.DARK_RED, 9, 1);
+		super("Snail", "_H33%H_ chance of giving a player slowness _H2H_ when you hit them for _H2_H seconds.", Material.FERMENTED_SPIDER_EYE, Scarcity.DARK_RED, 9, 1);
 	}
 
 	
@@ -25,11 +25,11 @@ public class Snail extends Ability implements Listener{
 			if(e.getDamager() instanceof Player){
 				Player p = (Player) e.getEntity();
 				Player damager = (Player) e.getDamager();
-				if(Core.getInstance().getUserManager().getUser(damager).getActiveAbilities().contains(this)){
+				if(Core.getInstance().getUserManager().getUser(damager).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Snail"))){
 					Random r = new Random();
 					int percent = r.nextInt(100);
 					if(percent < 33){
-						if(!super.callEvent(damager, this).isCancelled()){
+						if(!super.callEvent(damager, Core.getInstance().getAbilityManager().getAbility("Snail")).isCancelled()){
 							p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 1));
 						}
 					}

@@ -12,7 +12,7 @@ public class Jedi extends Ability {
 	private static String name = "Jedi";
 
 	public Jedi() {
-		super(name, "Push back anyone close!", Material.DRAGON_EGG, Scarcity.PURPLE, 8);
+		super(name, "Push back anyone close!", Material.DRAGON_EGG, Scarcity.PURPLE, 8, 1);
 		super.setClickedItem(Material.COAL);
 		super.setCooldown(20 * 22);
 	}
@@ -23,8 +23,8 @@ public class Jedi extends Ability {
 			if (!super.callEvent(player, this).isCancelled()) {
 				for (Player p : player.getWorld().getPlayers()) {
 					if (p.getLocation().distance(player.getLocation()) < 5 && p != player) {
-						p.setVelocity(new Vector((p.getLocation().getX() - player.getLocation().getX()) * 2, .7,
-								(p.getLocation().getZ() - player.getLocation().getZ()) * 2));
+						p.setVelocity(new Vector((p.getLocation().getX() - player.getLocation().getX()), .7,
+								(p.getLocation().getZ() - player.getLocation().getZ())));
 					}
 				}
 				player.getWorld().playSound(player.getLocation(), Sound.ENDERDRAGON_WINGS, 1, 1);

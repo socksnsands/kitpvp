@@ -15,7 +15,7 @@ public class Grappler extends Ability {
 	private static String name = "Grappler";
 	
 	public Grappler() {
-		super(name, "Grapple around the map!", Material.LEASH, Scarcity.DARK_RED, 14);
+		super(name, "Grapple around the map!", Material.LEASH, Scarcity.DARK_RED, 14, 1);
 		super.setClickedItem(Core.getInstance().getItemManager().createItem(name, Material.FISHING_ROD, (byte)0, 1, null));
 	}
 	

@@ -18,7 +18,7 @@ public class Stomper extends Ability implements Listener {
 	private static String name = "Stomper";
 
 	public Stomper() {
-		super(name, "Stomp on people to damage them!", Material.DIAMOND_BOOTS, Scarcity.DARK_RED, 14);
+		super(name, "Stomp on people to damage them!", Material.DIAMOND_BOOTS, Scarcity.DARK_RED, 14, 1);
 	}
 
 	@EventHandler
@@ -41,6 +41,15 @@ public class Stomper extends Ability implements Listener {
 									if (!Core.getInstance().getAbilityManager().getAbility("Anti-Stomper")
 											.callEvent(hit,
 													Core.getInstance().getAbilityManager().getAbility("Anti-Stomper"))
+											.isCancelled()) {
+										damage = 0;
+										Core.getInstance().getDamageManager().damage(player, hit, event.getDamage()/2);
+									}
+								}else if (Core.getInstance().getUserManager().getUser(hit).getActiveAbilities()
+										.contains(Core.getInstance().getAbilityManager().getAbility("Anti-Stomper II"))) {
+									if (!Core.getInstance().getAbilityManager().getAbility("Anti-Stomper II")
+											.callEvent(hit,
+													Core.getInstance().getAbilityManager().getAbility("Anti-Stomper II"))
 											.isCancelled()) {
 										damage = 0;
 										Core.getInstance().getDamageManager().damage(player, hit, event.getDamage());

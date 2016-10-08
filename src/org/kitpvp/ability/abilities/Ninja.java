@@ -13,7 +13,7 @@ public class Ninja extends Ability implements Listener {
 	private static String name = "Ninja";
 	
 	public Ninja() {
-		super(name, "Deal 2x damage from behind!", Material.NETHER_STAR, Scarcity.GOLD, 12);
+		super(name, "Deal 1.5x damage from behind!", Material.NETHER_STAR, Scarcity.GOLD, 12, 1);
 	}
 	
 	@EventHandler
@@ -24,7 +24,7 @@ public class Ninja extends Ability implements Listener {
 				Player hit = (Player) event.getEntity();
 				if(Core.getInstance().getUserManager().getUser(damager).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility(name))){
 					if(Math.abs(damager.getLocation().getPitch() - hit.getLocation().getPitch()) < 40){
-						event.setDamage(event.getDamage()*2);
+						event.setDamage(event.getDamage()*1.5);
 					}
 				}
 			}

@@ -18,7 +18,7 @@ public class MythicalLaser extends Ability {
 	private static String name = "Mythical Laser";
 
 	public MythicalLaser() {
-		super(name, "Shoot a beam of magic!", Material.ENCHANTMENT_TABLE, Scarcity.RED, 13);
+		super(name, "Shoot a beam of magic!", Material.ENCHANTMENT_TABLE, Scarcity.RED, 13, 1);
 		super.setCooldown(20 * 16);
 		super.setClickedItem(Material.GOLD_HOE);
 	}

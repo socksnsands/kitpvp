@@ -50,7 +50,7 @@ public class Core extends JavaPlugin implements Listener {
 		jetManager = new JetManager();
 		itemManager = new ItemManager();
 		damageManager = new DamageManager();
-
+		
 		if (!getConfig().contains("con.useConfigConnection")) {
 			getConfig().set("con.useConfigConnection", true);
 			saveConfig();
@@ -90,14 +90,13 @@ public class Core extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPing(ServerListPingEvent event) {
 		event.setMaxPlayers(100);
-		int currentAbilities = this.getAbilityManager().getAbilities().size();
-		int abilitiesToLaunch = 115;
-		double p = currentAbilities/abilitiesToLaunch;
-		p*=100;
-		DecimalFormat df = new DecimalFormat("#.##");
-		String percent = df.format(p);
-		event.setMotd(ChatColor.RED + "kitpvp.org \n" + ChatColor.BLUE + percent
-				+ "%" + ChatColor.GRAY + " ready for launch!");
+//		int currentAbilities = this.getAbilityManager().getAbilities().size();
+//		int abilitiesToLaunch = 115;
+//		double p = currentAbilities/abilitiesToLaunch;
+//		p*=100;
+//		DecimalFormat df = new DecimalFormat("#.##");
+//		String percent = df.format(p);
+		event.setMotd(ChatColor.RED + "kitpvp.org \n" + ChatColor.GOLD.toString() + ChatColor.MAGIC + "K" + ChatColor.GRAY + " " + "Public alpha testing!");
 	}
 
 	public void onDisable() {

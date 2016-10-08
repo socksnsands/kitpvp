@@ -11,7 +11,7 @@ public class Jet extends Ability {
 	private static String name = "Jet";
 
 	public Jet() {
-		super(name, "Fly and masacre!", Material.MINECART, Scarcity.BLACK, 22);
+		super(name, "Fly and masacre!", Material.MINECART, Scarcity.BLACK, 22, 1);
 		super.setClickedItem(Material.EMERALD);
 		super.setCooldown(Integer.MAX_VALUE);
 	}

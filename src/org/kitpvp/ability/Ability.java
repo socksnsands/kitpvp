@@ -14,21 +14,43 @@ import org.kitpvp.util.ActionBar;
 public abstract class Ability extends Unlockable {
 
 	private ItemStack clickedItem;
-
+	
+	private int level;
+	
 	private boolean hasCooldown = false;
 	private int cooldownTicks = 10;
 	private int points;
 
-	public Ability(String name, String description, ItemStack icon, Scarcity scarcity, int points) {
-		super(name, description, scarcity);
+	public Ability(String name, String description, ItemStack icon, Scarcity scarcity, int points, int level) {
+		super(getStringName(name, level), description, scarcity);
 		this.setIcon(icon);
 		this.points = points;
+		this.level = level;
 	}
 
-	public Ability(String name, String description, Material icon, Scarcity scarcity, int points) {
-		super(name, description, scarcity);
+	public Ability(String name, String description, Material icon, Scarcity scarcity, int points, int level) {
+		super(getStringName(name, level), description, scarcity);
 		this.setIcon(new ItemStack(icon));
 		this.points = points;
+		this.level = level;
+	}
+	
+	public int getLevel(){
+		return this.level;
+	}
+	
+	private static String getStringName(String name, int level){
+		if(level == 1)
+			return name;
+		if(level == 2)
+			return name + " II";
+		if(level == 3)
+			return name + " III";
+		if(level == 4)
+			return name + " IV";
+		if(level == 5)
+			return name + " V";
+		return name + " " + level;
 	}
 
 	protected void setClickedItem(ItemStack clickedItem) {

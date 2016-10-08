@@ -13,7 +13,7 @@ public class Hulk extends Ability {
 	private static String name = "Hulk";
 
 	public Hulk() {
-		super(name, "Insane strength", Material.ANVIL, Scarcity.BLACK, 30);
+		super(name, "Insane strength", Material.ANVIL, Scarcity.BLACK, 30, 1);
 		super.setCooldown(20 * 40);
 		super.setClickedItem(Material.IRON_INGOT);
 	}

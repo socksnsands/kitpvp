@@ -15,17 +15,15 @@ import org.kitpvp.util.ParticleEffect;
 
 public class CooldownLaser extends Ability {
 
-	private static String name = "Cooldown Laser";
-
 	public CooldownLaser() {
-		super(name, "Shoot a beam that resets cooldowns!", Material.SLIME_BALL, Scarcity.GOLD, 10);
-		super.setCooldown(30 * 10);
+		super("Cooldown Laser", "Shoot a beam that restarts cooldowns of any players hit by it. Has a _H18H_ second cooldown.", Material.SLIME_BALL, Scarcity.GOLD, 10, 1);
+		super.setCooldown(18 * 20);
 		super.setClickedItem(Material.SLIME_BALL);
 	}
 
 	@Override
 	public void onInteract(Player player, Action action) {
-		if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(name)).isCancelled()) {
+		if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(super.getName())).isCancelled()) {
 			super.putOnCooldown(player);
 			player.getWorld().playSound(player.getLocation(), Sound.PORTAL, 1, 1);
 			ArrayList<String> players = new ArrayList<String>();

@@ -15,7 +15,7 @@ import org.kitpvp.util.ParticleEffect;
 public class Flash extends Ability {
 
 	public Flash() {
-		super("Flash", "Instantly Flash forward!", Material.BLAZE_ROD, Scarcity.PURPLE, 8);
+		super("Flash", "Instantly Flash forward!", Material.BLAZE_ROD, Scarcity.PURPLE, 8, 1);
 		super.setClickedItem(new ItemStack(Material.BLAZE_ROD));
 		super.setCooldown(12 * 20);
 	}

@@ -20,7 +20,7 @@ public class ElectricLaser extends Ability {
 	private static String name = "Electric Laser";
 
 	public ElectricLaser() {
-		super(name, "Shoot a beam of electricity!", Material.GOLD_AXE, Scarcity.RED, 12);
+		super(name, "Shoot a beam of electricity!", Material.GOLD_AXE, Scarcity.RED, 12, 1);
 		super.setCooldown(20 * 12);
 		super.setClickedItem(Material.STICK);
 	}
@@ -41,7 +41,7 @@ public class ElectricLaser extends Ability {
 						if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
 							if (!players.contains(p.getName())) {
 								players.add(p.getName());
-								for (int sh = 0; sh < 10; sh++) {
+								for (int sh = 0; sh < 25; sh++) {
 									Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(),
 											new Runnable() {
 

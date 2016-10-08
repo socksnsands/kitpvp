@@ -17,8 +17,8 @@ public class DarkLaser extends Ability {
 
 	private static String name = "Dark Laser";
 
-	public DarkLaser() {
-		super(name, "Shoot a beam of blinding black!", Material.COAL_BLOCK, Scarcity.PURPLE, 8);
+	public DarkLaser(int level) {
+		super(name, "Shoot a beam of blinding black!", Material.COAL_BLOCK, Scarcity.PURPLE, 8, 1);
 		super.setCooldown(20 * 18);
 		super.setClickedItem(Material.STICK);
 	}

@@ -16,7 +16,7 @@ import org.kitpvp.util.ParticleEffect;
 public class FlameAura extends Ability {
 
 	public FlameAura() {
-		super("Flame Aura", "Burn nearby players every 7 seconds!", Material.FIREWORK_CHARGE, Scarcity.PURPLE, 8);
+		super("Flame Aura", "Burn nearby players every 7 seconds!", Material.FIREWORK_CHARGE, Scarcity.PURPLE, 8, 1);
 		this.startFlameAura();
 	}
 

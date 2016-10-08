@@ -1,6 +1,7 @@
 
 package org.kitpvp.unlockable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.ChatColor;
@@ -14,9 +15,12 @@ public abstract class Unlockable {
 
 	public enum Scarcity {
 
-		WHITE("White", ChatColor.WHITE, 1), BLUE("Blue", ChatColor.BLUE, .5), PURPLE("Purple", ChatColor.DARK_PURPLE,
-				.2), RED("Red", ChatColor.RED, .05), DARK_RED("Dark Red", ChatColor.DARK_RED,
-						.02), GOLD("Gold", ChatColor.GOLD, .005), BLACK("Black", ChatColor.DARK_GRAY, .001);
+		WHITE("White", ChatColor.WHITE, 1), BLUE("Blue", ChatColor.BLUE, .5), 
+		PURPLE("Purple", ChatColor.DARK_PURPLE, .2), 
+		RED("Red", ChatColor.RED, .05), 
+		DARK_RED("Dark Red", ChatColor.DARK_RED, .02), 
+		GOLD("Gold", ChatColor.GOLD, .005), 
+		BLACK("Black", ChatColor.DARK_GRAY, .001);
 
 		private String display;
 		private ChatColor color;
@@ -66,8 +70,26 @@ public abstract class Unlockable {
 		for (ItemFlag itf : ItemFlag.values()) {
 			im.addItemFlags(itf);
 		}
-		if (description != "")
-			im.setLore(Arrays.asList(ChatColor.GRAY + description));
+		if (description != ""){
+			ArrayList<String> lore = new ArrayList<String>();
+			String desc = ChatColor.GRAY + description;
+			if(desc.contains("_H"))
+			desc = desc.replaceAll("_H", ChatColor.YELLOW.toString() + "");
+			if(desc.contains("H_"))
+			desc = desc.replaceAll("H_", ChatColor.GRAY.toString() + "");
+//			String re = desc;
+//			while(re.length() > 18){
+//				for(int i = 0; i < re.length()-18; i++){
+//					if(re.charAt(i+18) == ' '){
+//						String s = re.charAt(i + 16) + re.charAt(i + 17) + re.charAt(i + 18) + "";
+//						lore.add(re.split(s, 1)[0] + s);
+//						re = re.split(s, 1)[1];
+//						break;
+//					}
+//				}
+//			}
+			im.setLore(Arrays.asList("", desc));
+		}
 		itemStack.setItemMeta(im);
 		return itemStack;
 	}

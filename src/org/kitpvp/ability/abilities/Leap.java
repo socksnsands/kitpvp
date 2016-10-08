@@ -13,7 +13,7 @@ import org.kitpvp.util.ParticleEffect;
 public class Leap extends Ability {
 
 	public Leap() {
-		super("Disengage", "Leap Away!", Material.FEATHER, Scarcity.BLUE, 8);
+		super("Disengage", "Leap Away!", Material.FEATHER, Scarcity.BLUE, 8, 1);
 		super.setClickedItem(new ItemStack(Material.FEATHER));
 		super.setCooldown(15 * 20);
 	}

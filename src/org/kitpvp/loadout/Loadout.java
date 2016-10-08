@@ -3,11 +3,13 @@ package org.kitpvp.loadout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
@@ -29,11 +31,29 @@ public class Loadout {
 		this.abilities = abilities;
 	}
 
+	private Location randomMapLocation(){
+		Random random = new Random();
+		int xa = random.nextInt(50);
+		int za = random.nextInt(113);
+		Location location = new Location(Bukkit.getWorld("world"), 429+xa, 0, -80+za);
+		int y = location.getWorld().getHighestBlockYAt(location);
+		Location l = new Location(Bukkit.getWorld("world"), location.getX(), y, location.getZ()).clone().add(0,1,0);
+//		printLocation(l);
+		return l;
+	}
+	
+	private void printLocation(Location location){
+		System.out.println(location.getWorld() + ", " + location.getX() + ", " + location.getY() + ", " + location.getZ());
+	}
+	
 	public void apply(Player player) {
 		player.closeInventory();
+		//TODO change map
+		player.teleport(randomMapLocation());
+		player.sendMessage(ChatColor.GREEN + "This map is temporary!");
 		Core.getInstance().getUserManager().getUser(player).resetInventory();
 		Inventory inv = player.getInventory();
-		net.minecraft.server.v1_8_R3.ItemStack stack = CraftItemStack.asNMSCopy(new ItemStack(Material.STONE_SWORD));
+		net.minecraft.server.v1_8_R3.ItemStack stack = CraftItemStack.asNMSCopy(new ItemStack(Material.WOOD_SWORD));
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setBoolean("Unbreakable", true);
 		stack.setTag(tag);
@@ -74,8 +94,25 @@ public class Loadout {
 		}
 		return s;
 	}
+	
+	private void cleanupList() {
+		boolean runAgain = false;
+		for (Ability ability : this.abilities) {
+			int index = abilities.lastIndexOf(ability);
+			if (index - 1 != -1) {
+				if (Core.getInstance().getUnlockableManager().isMoreRare(abilities.get(index - 1), ability)) {
+					abilities.set(index, abilities.get(index - 1));
+					abilities.set(index - 1, ability);
+					runAgain = true;
+				}
+			}
+		}
+		if (runAgain)
+			cleanupList();
+	}
 
 	public ItemStack getSelectableIcon() {
+		this.cleanupList();
 		ArrayList<String> lore = new ArrayList<>();
 		lore.addAll(Arrays.asList("",
 				ChatColor.GRAY + "Points: " + ChatColor.YELLOW + this.getPointValue() + "/" + this.getMaxPoints(),
@@ -95,6 +132,7 @@ public class Loadout {
 			ItemMeta im = item.getItemMeta();
 			List<String> lore = im.getLore();
 			lore.add("");
+			lore.add(ChatColor.AQUA + "Points: " + abilities.get(i).getPoints());
 			lore.add(ChatColor.GREEN + "Activated");
 			im.setLore(lore);
 			item.setItemMeta(im);
@@ -107,8 +145,15 @@ public class Loadout {
 				es.setItem(i, Core.getInstance().getItemManager().createItem(" ", Material.STAINED_GLASS_PANE,
 						(byte) 15, 1, null));
 		for (Ability ability : Core.getInstance().getUserManager().getUser(player).getOwnedAbilities())
-			if (!this.abilities.contains(ability))
-				es.addItem(ability.getIcon());
+			if (!this.abilities.contains(ability)){
+				ItemStack icon = ability.getIcon();
+				ItemMeta im = icon.getItemMeta();
+				List<String> lore = im.getLore();
+				lore.addAll(Arrays.asList("", ChatColor.AQUA + "Points: " + ability.getPoints()));
+				im.setLore(lore);
+				icon.setItemMeta(im);
+				es.addItem(icon);
+			}
 		player.openInventory(es);
 	}
 

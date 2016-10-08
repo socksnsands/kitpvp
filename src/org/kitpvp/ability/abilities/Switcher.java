@@ -17,7 +17,7 @@ public class Switcher extends Ability implements Listener {
 	private static String name = "Switcher";
 
 	public Switcher() {
-		super(name, "Swap places with foes!", Material.SNOW_BALL, Scarcity.PURPLE, 9);
+		super(name, "Swap places with foes!", Material.SNOW_BALL, Scarcity.PURPLE, 9, 1);
 		super.setClickedItem(Material.IRON_BARDING);
 		super.setCooldown(22 * 20);
 	}

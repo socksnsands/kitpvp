@@ -12,7 +12,7 @@ import org.kitpvp.util.ParticleEffect;
 public class Heal extends Ability {
 
 	public Heal() {
-		super("Heal", "Instantly heal your health and remove all potion effects!", Material.APPLE, Scarcity.BLUE, 4);
+		super("Heal", "Instantly heal your health and remove all potion effects!", Material.APPLE, Scarcity.BLUE, 4, 1);
 		super.setClickedItem(new ItemStack(Material.APPLE));
 		super.setCooldown(12 * 20);
 	}

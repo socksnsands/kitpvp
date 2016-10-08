@@ -18,7 +18,7 @@ public class EarthLaser extends Ability {
 	private static String name = "Earth Laser";
 
 	public EarthLaser() {
-		super(name, "Shoot an earth beam!", Material.GRASS, Scarcity.BLUE, 10);
+		super(name, "Shoot an earth beam!", Material.GRASS, Scarcity.BLUE, 10, 1);
 		super.setCooldown(20 * 12);
 		super.setClickedItem(Material.STICK);
 	}

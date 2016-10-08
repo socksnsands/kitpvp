@@ -15,7 +15,7 @@ import org.kitpvp.ability.Ability;
 public class SnowballShotgun extends Ability implements Listener {
 
 	public SnowballShotgun() {
-		super("Snowball Shotgun", "Knockback foes with a powerful shotgun!", Material.GOLD_SPADE, Scarcity.RED, 8);
+		super("Snowball Shotgun", "Knockback foes with a powerful shotgun!", Material.GOLD_SPADE, Scarcity.RED, 8, 1);
 		super.setCooldown(30);
 		super.setClickedItem(Material.GOLD_SPADE);
 	}

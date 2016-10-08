@@ -16,7 +16,7 @@ public class DistanceLaser extends Ability {
 
 	public DistanceLaser() {
 		super("Distance Laser", "A laser not limited to distance!",
-				Material.IRON_BARDING, Scarcity.RED, 10);
+				Material.IRON_BARDING, Scarcity.RED, 10, 1);
 		super.setCooldown(20 * 20);
 		super.setClickedItem(Material.IRON_BARDING);
 	}

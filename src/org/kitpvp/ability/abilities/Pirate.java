@@ -23,7 +23,7 @@ public class Pirate extends Ability implements Listener {
 	private HashMap<Player, ArmorStand> birdies = new HashMap<Player, ArmorStand>();
 	
 	public Pirate() {
-		super("Pirate", "Get a bird that blocks 10% of damage!", Material.EGG, Scarcity.RED, 8);
+		super("Pirate", "Get a bird that blocks 10% of damage!", Material.EGG, Scarcity.RED, 8, 1);
 	}
 
 	@EventHandler

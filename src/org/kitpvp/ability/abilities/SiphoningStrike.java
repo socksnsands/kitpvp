@@ -20,7 +20,7 @@ import org.kitpvp.util.ParticleEffect;
 public class SiphoningStrike extends Ability {
 
 	public SiphoningStrike() {
-		super("Siphoning Strike", "Strike your foes!", Material.BONE, Scarcity.BLUE, 10);
+		super("Siphoning Strike", "Strike your foes!", Material.BONE, Scarcity.BLUE, 10, 1);
 		super.setCooldown(15 * 20);
 		super.setClickedItem(new ItemStack(Material.BONE));
 	}

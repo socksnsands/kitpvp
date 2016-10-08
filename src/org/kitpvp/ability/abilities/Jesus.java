@@ -25,7 +25,7 @@ public class Jesus extends Ability implements Listener {
 	private ArrayList<String> haveBeenSaved = new ArrayList<String>();
 
 	public Jesus() {
-		super("Jesus", "Come back to life!", Material.GOLDEN_APPLE, Scarcity.GOLD, 18);
+		super("Jesus", "Come back to life!", Material.GOLDEN_APPLE, Scarcity.GOLD, 18, 1);
 	}
 
 	@EventHandler

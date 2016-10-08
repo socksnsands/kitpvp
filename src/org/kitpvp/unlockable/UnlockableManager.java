@@ -79,17 +79,23 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Jesus());
 		unlockables.add(new WindStorm());
 		unlockables.add(new Ignite());
-		unlockables.add(new BulkUp());
+		unlockables.add(new BulkUp(1));
+		unlockables.add(new BulkUp(2));
+		unlockables.add(new BulkUp(3));
 		unlockables.add(new Totem());
 		unlockables.add(new Frosty());
 		unlockables.add(new SnowballShotgun());
-		unlockables.add(new AntiStomper());
+		unlockables.add(new AntiStomper(1));
+		unlockables.add(new AntiStomper(2));
 		unlockables.add(new Stomper());
 		// unlockables.add(new Trampoline());
-		unlockables.add(new Aphrodite());
+		unlockables.add(new Aphrodite(1));
+		unlockables.add(new Aphrodite(2));
 		unlockables.add(new Noob());
-		unlockables.add(new DamageLaser());
-		unlockables.add(new DarkLaser());
+		unlockables.add(new DamageLaser(1));
+		unlockables.add(new DamageLaser(2));
+		unlockables.add(new DamageLaser(3));
+		unlockables.add(new DarkLaser(1));
 		unlockables.add(new FireLaser());
 		unlockables.add(new FrostLaser());
 		unlockables.add(new MythicalLaser());
@@ -125,7 +131,7 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Monkey());
 		unlockables.add(new Ninja());
 		unlockables.add(new BlackHole());
-		unlockables.add(new ArmorLock());
+		unlockables.add(new ArmorLock(1));
 		unlockables.add(new DistanceLaser());
 	
 	}
@@ -165,7 +171,8 @@ public class UnlockableManager implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new SnowballShotgun(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Noob(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Stomper(), Core.getInstance());
-		Bukkit.getServer().getPluginManager().registerEvents(new Aphrodite(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Aphrodite(1), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Aphrodite(2), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Switcher(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Spiderman(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Pirate(), Core.getInstance());

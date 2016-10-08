@@ -21,7 +21,7 @@ public class Poseidon extends Ability {
 	private static String name = "Poseidon";
 
 	public Poseidon() {
-		super(name, "Shoot a wave!", Material.WATER_BUCKET, Scarcity.DARK_RED, 18);
+		super(name, "Shoot a wave!", Material.WATER_BUCKET, Scarcity.GOLD, 18, 1);
 		super.setClickedItem(Material.PRISMARINE_SHARD);
 		super.setCooldown(20 * 35);
 	}

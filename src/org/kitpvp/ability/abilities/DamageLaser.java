@@ -17,8 +17,8 @@ public class DamageLaser extends Ability {
 
 	private static String name = "Damage Laser";
 
-	public DamageLaser() {
-		super(name, "Shoot a beam of damage!", Material.COBBLESTONE, Scarcity.BLUE, 5);
+	public DamageLaser(int level) {
+		super(name, "Shoot a beam damaging any player it hits _H" + (1.5 + level) +"H_ hearts. Has a cooldown of _H10H_ seconds.", Material.COBBLESTONE, Scarcity.BLUE, 3+(level*2), level);
 		super.setCooldown(20 * 10);
 		super.setClickedItem(Material.STICK);
 	}
@@ -39,7 +39,7 @@ public class DamageLaser extends Ability {
 						if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
 							if (!players.contains(p.getName())) {
 								players.add(p.getName());
-								Core.getInstance().getDamageManager().damage(p, player, 5);
+								Core.getInstance().getDamageManager().damage(p, player, 3 + super.getLevel());
 							}
 						}
 					}

@@ -12,7 +12,7 @@ import org.kitpvp.ability.Ability;
 public class Totem extends Ability {
 
 	public Totem() {
-		super("Totem", "Create totem buffs!", Material.ARMOR_STAND, Scarcity.RED, 10);
+		super("Totem", "Create totem buffs!", Material.ARMOR_STAND, Scarcity.RED, 10, 1);
 		super.setCooldown(15 * 20);
 		super.setClickedItem(new ItemStack(Material.IRON_BARDING));
 	}
@@ -27,18 +27,18 @@ public class Totem extends Ability {
 				Random random = new Random();
 
 				PotionEffectType type = PotionEffectType.REGENERATION;
-				int amplifier = 2;
+				int amplifier = 4;
 				Material topMaterial = Material.STAINED_GLASS;
 				byte topByte = 6;
 
-				int q = random.nextInt(3);
+				int q = random.nextInt(5);
 
 				if (q == 0) {
 					type = PotionEffectType.INCREASE_DAMAGE;
 					amplifier = 0;
 					topMaterial = Material.STAINED_GLASS;
 					topByte = 14;
-				} else if (q == 1) {
+				} else if (q >= 3) {
 					type = PotionEffectType.DAMAGE_RESISTANCE;
 					amplifier = 1;
 					topMaterial = Material.STAINED_GLASS;

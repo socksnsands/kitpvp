@@ -17,7 +17,7 @@ public class Zeus extends Ability {
 	private static String name = "Zeus";
 
 	public Zeus() {
-		super(name, "Strike down lightning!", Material.WOOD_AXE, Scarcity.PURPLE, 9);
+		super(name, "Strike down lightning!", Material.WOOD_AXE, Scarcity.RED, 9, 1);
 		super.setClickedItem(Material.WOOD_AXE);
 		super.setCooldown(20 * 28);
 	}

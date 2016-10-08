@@ -40,7 +40,7 @@ public class Blockade {
 	}
 	
 	private void startDespawn(){
-		final int r = 10;
+		final int r = 20;
 		for(int i = 0; i < r; i++){
 			final int q = i;
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable(){
@@ -65,7 +65,7 @@ public class Blockade {
 				}
 				
 			
-			}, i*20);
+			}, i*10);
 		}
 	}
 	

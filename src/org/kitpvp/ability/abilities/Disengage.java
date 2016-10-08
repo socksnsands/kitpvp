@@ -13,7 +13,7 @@ import org.kitpvp.util.ParticleEffect;
 public class Disengage extends Ability {
 
 	public Disengage() {
-		super("Disengage", "Leap Away!", Material.QUARTZ, Scarcity.BLUE, 8);
+		super("Disengage", "Leap Away!", Material.QUARTZ, Scarcity.BLUE, 8, 1);
 		super.setClickedItem(new ItemStack(Material.QUARTZ));
 		super.setCooldown(12 * 20);
 	}

@@ -56,7 +56,14 @@ public class LoadoutManager implements Listener {
 									event.setWillClose(true);
 									event.setWillDestroy(true);
 
-									name = ChatColor.translateAlternateColorCodes('&', event.getName());
+									String rName = event.getName();
+									if(rName.length() > 17){
+										player.sendMessage(ChatColor.RED + "Your kit name can only contain 17 characters (including color codes)!");
+										rName = rName.substring(0, 17);
+										player.sendMessage(ChatColor.YELLOW + "Kit name changed to: " + ChatColor.translateAlternateColorCodes('&', rName));
+									}
+										
+									name = ChatColor.translateAlternateColorCodes('&', rName);
 								} else {
 									event.setWillClose(false);
 									event.setWillDestroy(false);

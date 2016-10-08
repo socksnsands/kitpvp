@@ -18,7 +18,7 @@ public class FrostLaser extends Ability {
 	private static String name = "Frost Laser";
 
 	public FrostLaser() {
-		super(name, "Shoot a beam of frost!", Material.PACKED_ICE, Scarcity.PURPLE, 12);
+		super(name, "Shoot a beam of frost!", Material.PACKED_ICE, Scarcity.PURPLE, 12, 1);
 		super.setCooldown(20 * 12);
 		super.setClickedItem(Material.STICK);
 	}

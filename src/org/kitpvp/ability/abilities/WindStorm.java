@@ -27,7 +27,7 @@ import org.kitpvp.util.ParticleEffect;
 public class WindStorm extends Ability implements Listener {
 
 	public WindStorm() {
-		super("Wind Storm", "Summon a storm of deadly winds!", Material.WOOL, Scarcity.DARK_RED, 16);
+		super("Wind Storm", "Summon a storm of deadly winds!", Material.WOOL, Scarcity.DARK_RED, 16, 1);
 		super.setClickedItem(Material.SUGAR);
 		super.setCooldown(60 * 20);
 	}
@@ -111,7 +111,7 @@ public class WindStorm extends Ability implements Listener {
 						FallingBlock fs = block.getWorld().spawnFallingBlock(block.clone().add(0, 1.5, 0),
 								block.getBlock().getType(), block.getBlock().getData());
 						fs.setDropItem(false);
-						fs.setVelocity(new Vector((random.nextDouble()) - .5, (random.nextDouble() * 1.4),
+						fs.setVelocity(new Vector((random.nextDouble()) - .5, 1.2,
 								(random.nextDouble()) - .5));
 						fs.setCustomName("no_land");
 						fs.setDropItem(false);

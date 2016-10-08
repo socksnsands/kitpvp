@@ -12,7 +12,7 @@ public class Dolphin extends Ability implements Listener {
 	private static String name = "Dolphin";
 	
 	public Dolphin() {
-		super(name, "Press shift while in water to throw yourself forward!", Material.WATER_BUCKET, Scarcity.RED, 9);
+		super(name, "Press shift while in water to throw yourself forward!", Material.WATER_BUCKET, Scarcity.RED, 9, 1);
 	}
 	
 	@EventHandler

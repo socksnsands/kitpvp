@@ -281,10 +281,13 @@ public class UserManager implements Listener {
 			user = new User(event.getPlayer().getUniqueId().toString());
 			users.add(user);
 		}
-		if (user.getRank() != null)
-			event.setJoinMessage(ChatColor.GREEN + "+ " + user.getRank().getColor() + event.getPlayer().getName());
-		else
+//		if (user.getRank() != null)
+//			event.setJoinMessage(ChatColor.GREEN + "+ " + user.getRank().getColor() + event.getPlayer().getName());
+//		else
+		if(event.getPlayer().hasPlayedBefore())
 			event.setJoinMessage(ChatColor.GREEN + "+ " + ChatColor.WHITE + event.getPlayer().getName());
+		else
+			event.setJoinMessage(ChatColor.GREEN + "+ " + ChatColor.WHITE + event.getPlayer().getName() + ChatColor.LIGHT_PURPLE + " (new!)");
 		user.setSafe(true);
 		user.giveSpawnInventory();
 	}
@@ -351,9 +354,7 @@ public class UserManager implements Listener {
 
 	@EventHandler
 	public void onLeave(PlayerQuitEvent event) {
-		event.setQuitMessage(ChatColor.RED + "- "
-				+ Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor()
-				+ event.getPlayer().getName());
+		event.setQuitMessage(ChatColor.RED + "- " + ChatColor.WHITE + event.getPlayer().getName());
 		leave(event.getPlayer());
 	}
 

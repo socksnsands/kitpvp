@@ -16,7 +16,7 @@ public class FireLaser extends Ability {
 	private static String name = "Fire Laser";
 
 	public FireLaser() {
-		super(name, "Shoot a beam of fire!", Material.BLAZE_ROD, Scarcity.PURPLE, 10);
+		super(name, "Shoot a beam of fire!", Material.BLAZE_ROD, Scarcity.PURPLE, 10, 1);
 		super.setCooldown(20 * 12);
 		super.setClickedItem(Material.BLAZE_ROD);
 	}

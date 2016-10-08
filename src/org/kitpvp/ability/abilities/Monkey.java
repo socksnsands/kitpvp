@@ -12,7 +12,7 @@ public class Monkey extends Ability implements Listener {
 	private static String name = "Monkey";
 	
 	public Monkey() {
-		super(name, "Press shift while next to a wall to throw yourself forward!", Material.VINE, Scarcity.DARK_RED, 13);
+		super(name, "Press shift while next to a wall to throw yourself forward!", Material.VINE, Scarcity.DARK_RED, 13, 1);
 	}
 	
 	@EventHandler

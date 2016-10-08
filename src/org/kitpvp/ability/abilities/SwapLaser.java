@@ -16,7 +16,7 @@ public class SwapLaser extends Ability {
 	private static String name = "Swap Laser";
 
 	public SwapLaser() {
-		super(name, "Shoot a beam swapping your health with that of your foe!", Material.BEACON, Scarcity.BLACK, 24);
+		super(name, "Shoot a beam swapping your health with that of your foe!", Material.BEACON, Scarcity.BLACK, 24, 1);
 		super.setCooldown(20 * 70);
 		super.setClickedItem(Material.COAL);
 	}

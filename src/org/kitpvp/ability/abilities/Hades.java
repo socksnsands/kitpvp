@@ -19,7 +19,7 @@ public class Hades extends Ability {
 	private static String name = "Hades";
 
 	public Hades() {
-		super(name, "Shoot a wave of lava!", Material.LAVA_BUCKET, Scarcity.RED, 12);
+		super(name, "Shoot a wave of lava!", Material.LAVA_BUCKET, Scarcity.RED, 12, 1);
 		super.setClickedItem(Material.MAGMA_CREAM);
 		super.setCooldown(20 * 30);
 	}
@@ -60,8 +60,8 @@ public class Hades extends Ability {
 							if (p != player && !hitPlayers.contains(p.getName())
 									&& p.getLocation().distance(loc) < 1.5) {
 								hitPlayers.add(p.getName());
-								Core.getInstance().getDamageManager().damage(p, player, 6);
-								p.setFireTicks(80);
+								Core.getInstance().getDamageManager().damage(p, player, 10);
+								p.setFireTicks(200);
 								p.getWorld().playSound(p.getLocation(), Sound.ZOMBIE_METAL, 1, 1);
 								p.setVelocity(faked.getDirection().multiply(1.2).setY(.4));
 							}

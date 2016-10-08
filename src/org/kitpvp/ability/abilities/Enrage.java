@@ -27,7 +27,7 @@ public class Enrage extends Ability {
 	 */
 
 	public Enrage() {
-		super("Enrage", "Randomly become Enraged every", Material.BLAZE_POWDER, Scarcity.PURPLE, 10);
+		super("Enrage", "Randomly become enraged every 10 seconds", Material.BLAZE_POWDER, Scarcity.PURPLE, 10, 1);
 		this.startEnrageCycle();
 	}
 
@@ -44,8 +44,7 @@ public class Enrage extends Ability {
 								Player player = (Player) user.getPlayer();
 								Random random = new Random();
 								if (random.nextInt(2) == 0) {
-									PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20,
-											0);
+									PotionEffect strength = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5 * 20, 0);
 									PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 5 * 20, 0);
 
 									player.addPotionEffect(strength);
@@ -54,7 +53,7 @@ public class Enrage extends Ability {
 									ParticleEffect.REDSTONE.display(0, 0, 0, 0, 1, player.getLocation(), 200);
 									// FIX: ParticleEffect.REDSTONE.display(,
 									// player.getLocation(), 2.0);
-									player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
+									player.playSound(player.getLocation(), Sound.FIRE_IGNITE, 1, 1);
 								}
 							}
 						}

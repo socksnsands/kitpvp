@@ -15,7 +15,7 @@ import org.kitpvp.core.Core;
 public class Spiderman extends Ability implements Listener {
 
 	public Spiderman() {
-		super("Spiderman", "Shoot webs!", Material.WEB, Scarcity.BLUE, 7);
+		super("Spiderman", "Shoot webs!", Material.WEB, Scarcity.BLUE, 4, 1);
 		super.setClickedItem(Material.STRING);
 		super.setCooldown(20*14);
 	}

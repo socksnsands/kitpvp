@@ -11,9 +11,9 @@ import org.kitpvp.ability.Ability;
 public class QuickShot extends Ability {
 
 	public QuickShot() {
-		super("Quick Shot", "Instantly shoot an arrow!", new ItemStack(Material.ARROW), Scarcity.BLUE, 5);
+		super("Quick Shot", "Instantly shoot an arrow!", new ItemStack(Material.ARROW), Scarcity.BLUE, 5, 1);
 		super.setClickedItem(new ItemStack(Material.STONE_HOE));
-		super.setCooldown(8 * 20);
+		super.setCooldown(5 * 20);
 	}
 
 	@Override

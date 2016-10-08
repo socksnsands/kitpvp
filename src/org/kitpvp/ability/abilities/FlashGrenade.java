@@ -19,7 +19,7 @@ public class FlashGrenade extends Ability {
 	private static String name = "Flash Grenade";
 
 	public FlashGrenade() {
-		super(name, "Throw a flash grenade!", Material.GLOWSTONE_DUST, Scarcity.BLUE, 5);
+		super(name, "Throw a flash grenade!", Material.GLOWSTONE_DUST, Scarcity.BLUE, 5, 1);
 		super.setClickedItem(Material.GLOWSTONE_DUST);
 		super.setCooldown(20 * 14);
 	}

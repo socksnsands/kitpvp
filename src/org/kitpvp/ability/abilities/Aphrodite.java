@@ -15,10 +15,8 @@ import org.kitpvp.util.ParticleEffect;
 
 public class Aphrodite extends Ability implements Listener {
 
-	private static String name = "Aphrodite";
-
-	public Aphrodite() {
-		super(name, "10% of attacks heal you!", Material.RED_ROSE, Scarcity.RED, 14);
+	public Aphrodite(int level) {
+		super("Aphrodite", "_H" + level + "0%H_ of damage dealt to you (from any cause) will heal you instead of damage you.", Material.RED_ROSE, Scarcity.RED, 11+(level*3), level);
 	}
 
 	@EventHandler
@@ -26,11 +24,11 @@ public class Aphrodite extends Ability implements Listener {
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 			User user = Core.getInstance().getUserManager().getUser(player);
-			if (user.getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility(name))) {
+			if (user.getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility(super.getName()))) {
 				Random random = new Random();
-				int r = random.nextInt(10);
-				if (r == 7) {
-					if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(name))
+				int r = random.nextInt(100 + 1);
+				if (r >= 100-(10*super.getLevel())) {
+					if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(super.getName()))
 							.isCancelled()) {
 						ParticleEffect.HEART.display(0, 0, 0, 0, 1, player.getLocation().clone().add(0, 1.5, 0), 200);
 						player.getWorld().playSound(player.getLocation(), Sound.BURP, 1, 1);

@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -173,6 +174,8 @@ public class User {
 	public void giveSpawnInventory() {
 		this.resetInventory();
 
+		getPlayer().teleport(new Location(Bukkit.getWorld("world"), 50, 68, 0));
+		
 		Inventory inv = getPlayer().getInventory();
 		ItemManager im = Core.getInstance().getItemManager();
 		inv.setItem(0, im.getFFAItem());

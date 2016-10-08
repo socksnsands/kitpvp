@@ -16,7 +16,7 @@ import org.kitpvp.core.Core;
 public class Shotgun extends Ability implements Listener {
 
 	public Shotgun() {
-		super("Shotgun", "Knockback foes with a powerful shotgun!", Material.ARROW, Scarcity.DARK_RED, 8);
+		super("Shotgun", "Knockback foes with a powerful shotgun!", Material.ARROW, Scarcity.DARK_RED, 8, 1);
 		super.setCooldown(20*2);
 		super.setClickedItem(Material.STONE_SPADE);
 	}
@@ -49,7 +49,7 @@ public class Shotgun extends Ability implements Listener {
 					if(arrow.getShooter() instanceof Player)
 						Core.getInstance().getDamageManager().damage(le, (Player)arrow.getShooter(), -1);
 					if (le.getHealth() > 1)
-						le.setHealth(le.getHealth() - 2);
+						le.setHealth(le.getHealth() - 3);
 					le.playEffect(EntityEffect.HURT);
 					le.setVelocity(arrow.getVelocity().setY(.4));
 				}
@@ -57,7 +57,6 @@ public class Shotgun extends Ability implements Listener {
 			}
 		}
 	}
-	
 	
 	@EventHandler
 	public void onLand(ProjectileHitEvent event){

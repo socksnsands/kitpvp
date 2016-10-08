@@ -18,7 +18,7 @@ import org.kitpvp.util.ParticleEffect;
 public class WitherAway extends Ability {
 
 	public WitherAway() {
-		super("Wither Away", "Wither nearby players for 6 seconds!", Material.SKULL, Scarcity.RED, 12);
+		super("Wither Away", "Wither nearby players for 6 seconds!", Material.SKULL, Scarcity.RED, 12, 1);
 		this.startWitherAway();
 	}
 

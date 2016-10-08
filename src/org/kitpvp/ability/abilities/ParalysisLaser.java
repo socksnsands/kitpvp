@@ -18,7 +18,7 @@ public class ParalysisLaser extends Ability {
 	private static String name = "Paralysis Laser";
 
 	public ParalysisLaser() {
-		super(name, "Shoot a beam of paralyzing dust!", Material.EMERALD_BLOCK, Scarcity.DARK_RED, 15);
+		super(name, "Shoot a beam of paralyzing dust!", Material.EMERALD, Scarcity.DARK_RED, 13, 1);
 		super.setCooldown(20 * 12);
 		super.setClickedItem(Material.STICK);
 	}

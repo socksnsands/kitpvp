@@ -17,7 +17,7 @@ public class ExplosiveGrenade extends Ability {
 	private static String name = "Explosive Grenade";
 
 	public ExplosiveGrenade() {
-		super(name, "Throw an explosive grenade!", Material.SULPHUR, Scarcity.WHITE, 6);
+		super(name, "Throw an explosive grenade!", Material.SULPHUR, Scarcity.BLUE, 6, 1);
 		super.setClickedItem(Material.SULPHUR);
 		super.setCooldown(20 * 14);
 	}
@@ -41,7 +41,7 @@ public class ExplosiveGrenade extends Ability {
 							if (entity instanceof Player) {
 								Player le = (Player) entity;
 								Core.getInstance().getDamageManager().damage(le, player,
-										10 - (le.getLocation().distance(item.getLocation())));
+										16 - (le.getLocation().distance(item.getLocation())));
 							}
 						}
 						item.remove();

@@ -12,7 +12,7 @@ import org.kitpvp.core.Core;
 public class Anvil extends Ability implements Listener {
 
 	public Anvil() {
-		super("Anvil", "Deal no knockback to players_L_and receive no knockback.", Material.ANVIL, Scarcity.RED, 12, 1);
+		super("Anvil", "Deal no knockback to players_L_and receive no knockback.", Material.ANVIL, Scarcity.GOLD, 14, 1);
 	}
 	
 	@EventHandler

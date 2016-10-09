@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 import org.kitpvp.ability.Ability;
 import org.kitpvp.core.Core;
 import org.kitpvp.util.ParticleEffect;
@@ -39,7 +40,7 @@ public class MythicalLaser extends Ability {
 						if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
 							if (!players.contains(p.getName())) {
 								players.add(p.getName());
-								Core.getInstance().getDamageManager().setVelocity(player, player.getLocation().getDirection().multiply(2));
+								Core.getInstance().getDamageManager().setVelocity(p, player.getLocation().getDirection().multiply(2).add(new Vector(0,.6,0)));
 								Core.getInstance().getDamageManager().damage(p, player, 6);
 							}
 						}

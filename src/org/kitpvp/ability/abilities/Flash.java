@@ -15,7 +15,7 @@ import org.kitpvp.util.ParticleEffect;
 public class Flash extends Ability {
 
 	public Flash(int level) {
-		super("Flash", "Instantly teleport _L_ _H" + 5+(level*3) + "H_ blocks forward._L_ Has a cooldown of _H12H_ seconds.", Material.BLAZE_ROD, Scarcity.PURPLE, 8 + (level*2), level);
+		super("Flash", "Instantly teleport _L_ _H" + (5+(level*3)) + "H_ blocks forward._L_ Has a cooldown of _H12H_ seconds.", Material.BLAZE_ROD, Scarcity.PURPLE, 8 + (level*2), level);
 		super.setClickedItem(new ItemStack(Material.BLAZE_ROD));
 		super.setCooldown(12 * 20);
 	}

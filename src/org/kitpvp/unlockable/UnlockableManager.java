@@ -1,6 +1,7 @@
 package org.kitpvp.unlockable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -218,6 +220,12 @@ public class UnlockableManager implements Listener {
 		for (UnlockableSeries series : UnlockableSeries.values()) {
 			if (user.getQuantityOfSeries(series) > 0) {
 				ItemStack item = series.getIcon();
+				ArrayList<String> lore = new ArrayList<String>();
+				lore.addAll(item.getItemMeta().getLore());
+				lore.addAll(Arrays.asList("", ChatColor.GRAY + "Shift + left click to", "open instantly."));
+				ItemMeta im = item.getItemMeta();
+				im.setLore(lore);
+				item.setItemMeta(im);
 				item.setAmount(user.getQuantityOfSeries(series));
 				inv.addItem(item);
 			}
@@ -361,7 +369,57 @@ public class UnlockableManager implements Listener {
 						String current = ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName());
 						if (this.isSeries(current)) {
 							if (event.getWhoClicked() instanceof Player) {
-								this.openSeries((Player) event.getWhoClicked(), this.getSeries(current));
+								Player player = (Player) event.getWhoClicked();
+								if(!event.getClick().equals(ClickType.SHIFT_LEFT)){
+									this.openSeries(player, this.getSeries(current));
+								}else{
+									Unlockable unlockable = this.getRandomUnlockable(this.getSeries(current));
+									player.closeInventory();
+									player.sendMessage(ChatColor.GRAY + "You unlocked " + unlockable.getScarcity().getColor() + unlockable.getName() + ChatColor.GRAY + "!");
+
+									Ability ability = Core.getInstance().getAbilityManager().getAbility(ChatColor.stripColor(unlockable.getName()));
+									Color start = Color.WHITE;
+									if (ability.getScarcity().equals(Scarcity.BLUE)) {
+										start = Color.BLUE;
+									} else if (ability.getScarcity().equals(Scarcity.PURPLE)) {
+										start = Color.PURPLE;
+									} else if (ability.getScarcity().equals(Scarcity.RED)) {
+										start = Color.RED;
+									} else if (ability.getScarcity().equals(Scarcity.DARK_RED)) {
+										start = Color.fromBGR(0, 0, 255);
+									} else if (ability.getScarcity().equals(Scarcity.GOLD)) {
+										start = Color.ORANGE;
+										Bukkit.broadcastMessage("");
+										Bukkit.broadcastMessage(ChatColor.GRAY + player.getName() + ChatColor.GRAY
+												+ " has unlocked a " + ChatColor.GOLD + "gold" + ChatColor.GRAY + " ability!");
+										Bukkit.broadcastMessage("");
+										for(Player p : Bukkit.getServer().getOnlinePlayers()){
+										p.playSound(p.getLocation(), Sound.WITHER_DEATH, 1, 1);
+										}
+									} else if (ability.getScarcity().equals(Scarcity.BLACK)) {
+										start = Color.BLACK;
+										Bukkit.broadcastMessage("");
+										Bukkit.broadcastMessage(
+												ChatColor.GRAY + player.getName() + ChatColor.GRAY + " has unlocked a "
+														+ ChatColor.BLACK + "black" + ChatColor.GRAY + " ability!");
+										Bukkit.broadcastMessage("");
+										for(Player p : Bukkit.getServer().getOnlinePlayers()){
+											p.playSound(p.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
+										}
+									}
+									FireworkEffect effect = FireworkEffect.builder().trail(false).flicker(true).withColor(start)
+											.with(FireworkEffect.Type.BURST).build();
+									Firework fw = player.getWorld().spawn(player.getLocation(), Firework.class);
+									FireworkMeta meta = fw.getFireworkMeta();
+									meta.clearEffects();
+									meta.addEffect(effect);
+									meta.setPower(1);
+									fw.setFireworkMeta(meta);
+
+									// TODO give the user the ability
+									Core.getInstance().getUserManager().getUser(player).addUnlockable(ability);
+									Core.getInstance().getUserManager().getUser(player).removeSeries(this.getSeries(current));
+								}
 							}
 						}
 					}

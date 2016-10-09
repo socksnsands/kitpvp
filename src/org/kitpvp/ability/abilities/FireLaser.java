@@ -16,7 +16,7 @@ public class FireLaser extends Ability {
 	private static String name = "Fire Laser";
 
 	public FireLaser(int level) {
-		super(name, "Shoot a beam of fire _L_lighting enemies on fire for _H" + (4 + (2*level)) + "H_ seconds _L_as well as dealing _H" + level + ".5H_ hearts of damage. _L_Has a cooldown of _H12H_ seconds.", Material.BLAZE_ROD, Scarcity.PURPLE, 10 + level*3, level);
+		super(name, "Shoot a beam of fire _L_lighting enemies on fire for _H" + (4 + (2*level)) + "H_ seconds _L_as well as dealing _H" + level + ".5H_ hearts of damage._L_ Has a cooldown of _H12H_ seconds.", Material.BLAZE_ROD, Scarcity.PURPLE, 10 + level*3, level);
 		super.setCooldown(20 * 12);
 		super.setClickedItem(Material.BLAZE_ROD);
 	}

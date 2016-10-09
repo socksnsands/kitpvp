@@ -12,3 +12,9 @@ commands:
     description: Set ranks!
   pay:
     description: Pay money/coins/series!
+  msg:
+    description: Message a player!
+  message:
+    description: Message a player!
+  r:
+    description: Reply to a message!

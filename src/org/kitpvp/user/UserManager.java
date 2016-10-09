@@ -197,8 +197,9 @@ public class UserManager implements Listener {
 			//random between 10-20
 			int moneyPerKill = random.nextInt(11) + 10;
 			killer.sendMessage(ChatColor.GRAY + "You have been awarded with " + ChatColor.GOLD + moneyPerKill
-					+ ChatColor.GRAY + " coins!");
-			int i = random.nextInt(5);
+					+ ChatColor.GRAY + " coins and " + ChatColor.AQUA + "10" + ChatColor.GRAY + " xp!");
+			user.addExperience(10);
+			int i = random.nextInt(20);
 			if(i == 0){
 				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.LASER_ABILITY);
 				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.LASER_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
@@ -297,10 +298,10 @@ public class UserManager implements Listener {
 	public void onChat(AsyncPlayerChatEvent event) {
 		if (!event.isCancelled()) {
 			for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-				player.sendMessage(Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor()
+				player.sendMessage(Core.getInstance().getUserManager().getUser(ChatColor.WHITE.toString() + Core.getInstance().getUserManager().getUser(event.getPlayer()).getLevel() + event.getPlayer()).getRank().getColor()
 						+ event.getPlayer().getName() + ": " + ChatColor.GRAY + event.getMessage());
 				if (event.getMessage().toUpperCase().contains(player.getName().toUpperCase())) {
-					player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
+					player.playSound(player.getLocation(), Sound.CAT_MEOW, 1, 1);
 				}
 			}
 			event.setCancelled(true);

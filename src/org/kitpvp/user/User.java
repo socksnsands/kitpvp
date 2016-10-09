@@ -32,6 +32,10 @@ public class User {
 	private HashMap<Ability, Integer> cooldowns = new HashMap<Ability, Integer>();
 	private ArrayList<Loadout> loadouts = new ArrayList<Loadout>();
 	private Loadout activeLoadout;
+	
+	private int experience = 0;
+	
+	private int wood = 0, ore = 0, food = 0;
 
 	private Rank rank;
 
@@ -47,6 +51,48 @@ public class User {
 
 	public String getUUID() {
 		return this.uuid;
+	}
+	
+	public int getWood(){
+		return wood;
+	}
+	
+	public void setExperience(int amount){
+		this.experience = amount;
+	}
+	
+	public void addExperience(int amount){
+		this.experience+=amount;
+	}
+	
+	public int getExperience(){
+		return this.experience;
+	}
+	
+	public int getLevel(){
+		if(this.experience == 0)
+			return 0;
+		return (int)(this.experience/Math.pow(.82, this.experience));
+	}
+	
+	public int getOres(){
+		return ore;
+	}
+	
+	public int getFood(){
+		return food;
+	}
+	
+	public void setWood(int amount){
+		this.wood = amount;
+	}
+	
+	public void setOres(int amount){
+		this.ore = amount;
+	}
+	
+	public void setFood(int amount){
+		this.food = amount;
 	}
 
 	public Loadout getActiveLoadout() {

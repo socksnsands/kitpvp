@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 
 public enum Rank {
 
-	DEFAULT(ChatColor.WHITE, 2), STAFF(ChatColor.YELLOW, 3), ADMIN(ChatColor.RED, 7);
+	DEFAULT(ChatColor.WHITE, 2), STAFF(ChatColor.YELLOW, 3), ADMIN(ChatColor.RED, 7), OWNER(ChatColor.DARK_RED, 9);
 
 	private ChatColor color;
 	private int maxLoadouts;

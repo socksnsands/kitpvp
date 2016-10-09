@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kitpvp.ability.AbilityManager;
 import org.kitpvp.ability.abilities.objects.JetManager;
@@ -22,6 +23,7 @@ import org.kitpvp.commands.PayCommand;
 import org.kitpvp.commands.SetRankCommand;
 import org.kitpvp.damage.DamageManager;
 import org.kitpvp.loadout.LoadoutManager;
+import org.kitpvp.tradeup.TradeupManager;
 import org.kitpvp.unlockable.UnlockableManager;
 import org.kitpvp.user.UserManager;
 import org.kitpvp.util.ItemManager;
@@ -69,7 +71,8 @@ public class Core extends JavaPlugin implements Listener {
 
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 		Bukkit.getServer().getPluginManager().registerEvents(new LoadoutManager(), this);
-
+		Bukkit.getServer().getPluginManager().registerEvents(new TradeupManager(), this);
+		
 		registerCommands();
 	}
 
@@ -88,6 +91,12 @@ public class Core extends JavaPlugin implements Listener {
 	}
 
 	@EventHandler
+	public void onChange(WeatherChangeEvent event){
+		event.getWorld().setStorm(false);
+		event.setCancelled(true);
+	}
+	
+	@EventHandler
 	public void onPing(ServerListPingEvent event) {
 		event.setMaxPlayers(100);
 //		int currentAbilities = this.getAbilityManager().getAbilities().size();
@@ -96,7 +105,7 @@ public class Core extends JavaPlugin implements Listener {
 //		p*=100;
 //		DecimalFormat df = new DecimalFormat("#.##");
 //		String percent = df.format(p);
-		event.setMotd(ChatColor.RED + "kitpvp.org \n" + ChatColor.GOLD.toString() + ChatColor.MAGIC + "K" + ChatColor.GRAY + " " + "Public alpha testing!");
+		event.setMotd(ChatColor.RED + "kitpvp.org \n" + ChatColor.GOLD.toString() + ChatColor.MAGIC + "K" + ChatColor.GRAY + " " + "Pre-alpha! Total of " + ChatColor.YELLOW + Core.getInstance().getAbilityManager().getAbilities().size() + ChatColor.GRAY + " abilities!");
 	}
 
 	public void onDisable() {
@@ -107,7 +116,7 @@ public class Core extends JavaPlugin implements Listener {
 				}
 			}
 		}
-		this.stopServer("Server restarting!");
+		this.stopServer("Kitpvp.org restarting!");
 	}
 
 	public void stopServer(String reason) {

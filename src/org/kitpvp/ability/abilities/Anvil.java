@@ -12,7 +12,7 @@ import org.kitpvp.core.Core;
 public class Anvil extends Ability implements Listener {
 
 	public Anvil() {
-		super("Anvil", "Deal no knockback to players and receive no knockback.", Material.ANVIL, Scarcity.RED, 12, 1);
+		super("Anvil", "Deal no knockback to players_L_and receive no knockback.", Material.ANVIL, Scarcity.RED, 12, 1);
 	}
 	
 	@EventHandler
@@ -22,9 +22,11 @@ public class Anvil extends Ability implements Listener {
 			if(!(event.getEntity() instanceof Player))
 				return;
 			Player d = (Player) event.getEntity();
-			if(Core.getInstance().getUserManager().getUser(player).getActiveAbilities().contains(this) || Core.getInstance().getUserManager().getUser(d).getActiveAbilities().contains(this)){
-				if(!super.callEvent(player, this).isCancelled()){
-					event.getEntity().setVelocity(new Vector(0, 0, 0));
+			if(Core.getInstance().getUserManager().getUser(player).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil")) || Core.getInstance().getUserManager().getUser(d).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil"))){
+				if(!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility("Anvil")).isCancelled()){
+					event.setCancelled(true);
+					Core.getInstance().getDamageManager().damage(d, player, event.getDamage());
+					d.setVelocity(new Vector(0, -.01, 0));
 				}
 			}
 		}

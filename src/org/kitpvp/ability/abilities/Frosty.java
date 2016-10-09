@@ -33,7 +33,7 @@ public class Frosty extends Ability implements Listener {
 				return;
 			Random random = new Random();
 			int i = random.nextInt(15);
-			if (i < 2) {
+			if (i < 3) {
 				if (!super.callEvent(player, this).isCancelled()) {
 					if (event.getEntity() instanceof LivingEntity) {
 						LivingEntity le = (LivingEntity) event.getEntity();
@@ -41,7 +41,7 @@ public class Frosty extends Ability implements Listener {
 								Effect.STEP_SOUND, Material.ICE);
 						event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.GLASS,
 								1, 1);
-						le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 1));
+						le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 4));
 					}
 				}
 			}

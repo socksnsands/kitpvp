@@ -14,7 +14,7 @@ import org.kitpvp.util.ParticleEffect;
 public class FrostBite extends Ability implements Listener{
 
 	public FrostBite() {
-		super("Frostbite", "Explodes a chilling bite at nearby players.", Material.SNOW_BLOCK, Scarcity.DARK_RED, 11, 1);
+		super("Frostbite", "Explodes a chilling bite _L_at nearby players.", Material.SNOW_BLOCK, Scarcity.DARK_RED, 11, 1);
 		super.setClickedItem(Material.WOOL);
 		super.setCooldown(20 * 20);
 	}

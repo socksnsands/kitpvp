@@ -94,6 +94,10 @@ public abstract class Ability extends Unlockable {
 	public int getPoints() {
 		return this.points;
 	}
+	
+	protected Ability getAbility(){
+		return this;
+	}
 
 	public ItemStack getClickedItem() {
 		ItemStack f = clickedItem;

@@ -18,7 +18,7 @@ public class DarkLaser extends Ability {
 	private static String name = "Dark Laser";
 
 	public DarkLaser(int level) {
-		super(name, "Shoot a beam of blinding black!", Material.COAL_BLOCK, Scarcity.PURPLE, 8, 1);
+		super(name, "Shoot a beam that blinds players_L_ for _H" + (level*3) + "H_ seconds as well_L_ as dealing _H1H_ heart of damage._L_ Has a cooldown of _H18H_ seconds.", Material.COAL_BLOCK, Scarcity.PURPLE, 8 + (level*3), level);
 		super.setCooldown(20 * 18);
 		super.setClickedItem(Material.STICK);
 	}
@@ -39,7 +39,7 @@ public class DarkLaser extends Ability {
 						if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
 							if (!players.contains(p.getName())) {
 								players.add(p.getName());
-								p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
+								p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30*super.getLevel(), 0));
 								Core.getInstance().getDamageManager().damage(p, player, 2);
 							}
 						}

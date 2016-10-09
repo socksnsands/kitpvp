@@ -16,7 +16,7 @@ import org.kitpvp.util.ParticleEffect;
 public class Aphrodite extends Ability implements Listener {
 
 	public Aphrodite(int level) {
-		super("Aphrodite", "_H" + level + "0%H_ of damage dealt to you (from any cause) will heal you instead of damage you.", Material.RED_ROSE, Scarcity.RED, 11+(level*3), level);
+		super("Aphrodite", "_H" + level + "0%H_ of damage dealt to you _L_(from any cause) will heal you instead _L_of damage you.", Material.RED_ROSE, Scarcity.RED, 11+(level*3), level);
 	}
 
 	@EventHandler

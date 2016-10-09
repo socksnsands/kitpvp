@@ -85,7 +85,7 @@ public class AbilityManager implements Listener {
 							user.getPlayer()
 									.sendMessage(ability.getScarcity().getColor() + ability.getName() + ChatColor.GRAY
 											+ " is still on cooldown for " + ChatColor.RED
-											+ this.round(user.getRemainingCooldown(ability) / 20, 1) + "s"
+											+ this.round((double)user.getRemainingCooldown(ability) / 20.0, 1) + "s"
 											+ ChatColor.GRAY + "!");
 						}
 					}

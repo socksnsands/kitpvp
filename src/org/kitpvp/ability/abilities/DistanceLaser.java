@@ -14,14 +14,13 @@ import org.kitpvp.util.ParticleEffect;
 
 public class DistanceLaser extends Ability {
 
-	public DistanceLaser() {
-		super("Distance Laser", "A laser not limited to distance!",
-				Material.IRON_BARDING, Scarcity.RED, 10, 1);
+	public DistanceLaser(int level) {
+		super("Distance Laser", "Deals _H" + (2 + level) + ".5H_ hearts of damage _L_and travels _H80H_ blocks._L_ Has a cooldown of _H20H_ seconds.",
+				Material.IRON_BARDING, Scarcity.RED, 10 + (level*2), level);
 		super.setCooldown(20 * 20);
 		super.setClickedItem(Material.IRON_BARDING);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onInteract(Player player, Action action) {
 		if (super.callEvent(player, this).isCancelled())
@@ -43,7 +42,7 @@ public class DistanceLaser extends Ability {
 						if (!players.contains(p.getName())) {
 							players.add(p.getName());
 							Core.getInstance().getDamageManager()
-									.damage(p, player, 7);
+									.damage(p, player, 5+(super.getLevel()*2));
 						}
 					}
 				}

@@ -27,7 +27,7 @@ public class Enrage extends Ability {
 	 */
 
 	public Enrage() {
-		super("Enrage", "Randomly become enraged every 10 seconds", Material.BLAZE_POWDER, Scarcity.PURPLE, 10, 1);
+		super("Enrage", "Gain a _H50%H_ chance to become _L_enraged every _H10H_ seconds giving you speed _L_and resistance for _H5H_ seconds.", Material.BLAZE_POWDER, Scarcity.PURPLE, 10, 1);
 		this.startEnrageCycle();
 	}
 

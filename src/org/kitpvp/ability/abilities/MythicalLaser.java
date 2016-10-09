@@ -39,7 +39,7 @@ public class MythicalLaser extends Ability {
 						if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
 							if (!players.contains(p.getName())) {
 								players.add(p.getName());
-								p.setVelocity(player.getLocation().getDirection().multiply(2));
+								Core.getInstance().getDamageManager().setVelocity(player, player.getLocation().getDirection().multiply(2));
 								Core.getInstance().getDamageManager().damage(p, player, 6);
 							}
 						}

@@ -18,10 +18,10 @@ public class FlashGrenade extends Ability {
 
 	private static String name = "Flash Grenade";
 
-	public FlashGrenade() {
-		super(name, "Throw a flash grenade!", Material.GLOWSTONE_DUST, Scarcity.BLUE, 5, 1);
+	public FlashGrenade(int level) {
+		super(name, "Throw a flash grenade _L_that blinds nearby players (_H5H_ blocks)_L_ for _H" + (2 + (level*2)) + "H_ seconds._L_ Has a cooldown of _H10H_ seconds.", Material.GLOWSTONE_DUST, Scarcity.BLUE, 5+level, level);
 		super.setClickedItem(Material.GLOWSTONE_DUST);
-		super.setCooldown(20 * 14);
+		super.setCooldown(20 * 10);
 	}
 
 	@Override

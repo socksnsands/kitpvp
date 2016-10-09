@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -141,7 +142,7 @@ public class JetManager implements Listener {
 					if (player.getLocation().distance(event.getEntity().getLocation()) < 3
 							&& player != arrow.getShooter()) {
 						if(arrow.getShooter() instanceof Player)
-						Core.getInstance().getDamageManager().damage(player, (Player)arrow.getShooter(), 6);
+						Core.getInstance().getDamageManager().damage(player, (Player)arrow.getShooter(), 7);
 					}
 				}
 				event.getEntity().remove();
@@ -232,7 +233,10 @@ public class JetManager implements Listener {
 										if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
 											if (!players.contains(p.getName())) {
 												players.add(p.getName());
-												Core.getInstance().getDamageManager().damage(p, player, 2);
+												Core.getInstance().getDamageManager().setLastDamaged(p, player);
+												p.setHealth(p.getHealth()-2);
+												p.playEffect(EntityEffect.HURT);
+												player.playSound(player.getLocation(), Sound.NOTE_PLING, 1, 1);
 											}
 										}
 									}

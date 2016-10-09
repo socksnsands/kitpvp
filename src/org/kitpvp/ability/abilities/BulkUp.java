@@ -13,7 +13,7 @@ import org.kitpvp.util.ParticleEffect;
 public class BulkUp extends Ability {
 
 	public BulkUp(int level) {
-		super("Bulk Up", "Gain " + 2+(2*level) + " absorbtion hearts. Has a _H20H_ second cooldown.", Material.GOLD_CHESTPLATE, Scarcity.BLUE, 3+level, level);
+		super("Bulk Up", "Gain " + (2+(2*level)) + " absorbtion hearts._L_ Has a _H20H_ second cooldown.", Material.GOLD_CHESTPLATE, Scarcity.BLUE, 3+level, level);
 		super.setClickedItem(new ItemStack(Material.GOLD_BLOCK));
 		super.setCooldown(20 * 20);
 	}
@@ -25,7 +25,7 @@ public class BulkUp extends Ability {
 				player.removePotionEffect(PotionEffectType.ABSORPTION);
 			if (!super.callEvent(player, this).isCancelled()) {
 				player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
-				PotionEffect absorb = new PotionEffect(PotionEffectType.ABSORPTION, 60 * 20, (2*super.getLevel()));
+				PotionEffect absorb = new PotionEffect(PotionEffectType.ABSORPTION, 60 * 20, (2 + 2*super.getLevel()));
 				ParticleEffect.CRIT_MAGIC.display(0, 0, 0, 0, 1, player.getLocation(), 200);
 				player.addPotionEffect(absorb);
 				super.putOnCooldown(player);

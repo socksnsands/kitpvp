@@ -74,9 +74,12 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new FrostBite());
 		unlockables.add(new Snail());
 		unlockables.add(new FeatherBoots());
-		unlockables.add(new FlameAura());
+		unlockables.add(new FlameAura(1));
+		unlockables.add(new FlameAura(2));
 		unlockables.add(new QuickShot());
-		unlockables.add(new Flash());
+		unlockables.add(new Flash(1));
+		unlockables.add(new Flash(2));
+		unlockables.add(new Flash(3));
 		unlockables.add(new Shocker());
 		unlockables.add(new Jesus());
 		unlockables.add(new WindStorm());
@@ -98,8 +101,12 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new DamageLaser(2));
 		unlockables.add(new DamageLaser(3));
 		unlockables.add(new DarkLaser(1));
-		unlockables.add(new FireLaser());
-		unlockables.add(new FrostLaser());
+		unlockables.add(new FireLaser(1));
+		unlockables.add(new FireLaser(2));
+		unlockables.add(new FireLaser(3));
+		unlockables.add(new FrostLaser(1));
+		unlockables.add(new FrostLaser(2));
+		unlockables.add(new FrostLaser(3));
 		unlockables.add(new MythicalLaser());
 		unlockables.add(new ParalysisLaser());
 		unlockables.add(new SwapLaser());
@@ -108,13 +115,17 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Poseidon());
 		unlockables.add(new Hades());
 		unlockables.add(new Hulk());
-		unlockables.add(new ElectricLaser());
+		unlockables.add(new ElectricLaser(1));
+		unlockables.add(new ElectricLaser(2));
+		unlockables.add(new ElectricLaser(3));
 		unlockables.add(new EarthLaser());
 		unlockables.add(new Jet());
 		unlockables.add(new CooldownLaser());
 		unlockables.add(new Jedi());
 		unlockables.add(new Enrage());
-		unlockables.add(new ExplosiveGrenade());
+		unlockables.add(new ExplosiveGrenade(1));
+		unlockables.add(new ExplosiveGrenade(2));
+		unlockables.add(new ExplosiveGrenade(3));
 		unlockables.add(new Heal());
 		unlockables.add(new OmegaLaser());
 		unlockables.add(new SiphoningStrike());
@@ -122,7 +133,9 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Disengage());
 		unlockables.add(new Leap());
 		unlockables.add(new Shotgun());
-		unlockables.add(new FlashGrenade());
+		unlockables.add(new FlashGrenade(1));
+		unlockables.add(new FlashGrenade(2));
+		unlockables.add(new FlashGrenade(3));
 		unlockables.add(new Spiderman());
 		unlockables.add(new Pirate());
 		unlockables.add(new Anvil());
@@ -134,8 +147,8 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Ninja());
 		unlockables.add(new BlackHole());
 		unlockables.add(new ArmorLock(1));
-		unlockables.add(new DistanceLaser());
-	
+		unlockables.add(new DistanceLaser(1));
+		unlockables.add(new DistanceLaser(2));
 	}
 
 	public Unlockable getUnlockable(String name) {

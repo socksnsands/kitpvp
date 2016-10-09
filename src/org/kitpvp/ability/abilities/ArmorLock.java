@@ -19,7 +19,7 @@ import org.kitpvp.core.Core;
 public class ArmorLock extends Ability {
 
 	public ArmorLock(int level) {
-		super("Body Shield", "Blocks all damage for _H" + 3*level + "H_ seconds. Has a {H30H} second cooldown.", Material.DIAMOND, Scarcity.PURPLE, 6, level);
+		super("Body Shield", "Blocks all damage for _H" + 3*level + "H_ seconds._L_ Has a _H30H_ second cooldown.", Material.DIAMOND, Scarcity.PURPLE, 6 + (level*2), level);
 		// TODO Auto-generated constructor stub
 		super.setClickedItem(Material.DIAMOND);
 		super.setCooldown(20*30);

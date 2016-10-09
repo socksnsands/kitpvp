@@ -7,8 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.kitpvp.ability.Ability;
 import org.kitpvp.core.Core;
 import org.kitpvp.util.ParticleEffect;
@@ -18,7 +16,7 @@ public class DamageLaser extends Ability {
 	private static String name = "Damage Laser";
 
 	public DamageLaser(int level) {
-		super(name, "Shoot a beam damaging any player it hits _H" + (1.5 + level) +"H_ hearts. Has a cooldown of _H10H_ seconds.", Material.COBBLESTONE, Scarcity.BLUE, 3+(level*2), level);
+		super(name, "Shoot a beam damaging any_L_ player it hits _H" + (1.5 + level) +"H_ hearts._L_ Has a cooldown of _H10H_ seconds.", Material.COBBLESTONE, Scarcity.BLUE, 3+(level*2), level);
 		super.setCooldown(20 * 10);
 		super.setClickedItem(Material.STICK);
 	}

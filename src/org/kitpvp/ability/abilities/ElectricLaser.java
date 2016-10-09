@@ -17,17 +17,15 @@ import org.kitpvp.util.ParticleEffect;
 
 public class ElectricLaser extends Ability {
 
-	private static String name = "Electric Laser";
-
-	public ElectricLaser() {
-		super(name, "Shoot a beam of electricity!", Material.GOLD_AXE, Scarcity.RED, 12, 1);
+	public ElectricLaser(int level) {
+		super("Electric Laser", "Shoot a beam of electricity _L_shocking hit players for _H" + (1+ (level*2)) + "H_ seconds._L_ Has a cooldown of _H12H_ seconds.", Material.GOLD_AXE, Scarcity.RED, 12 + (level*2), level);
 		super.setCooldown(20 * 12);
 		super.setClickedItem(Material.STICK);
 	}
 
 	@Override
 	public void onInteract(Player player, Action action) {
-		if (!super.callEvent(player, Core.getInstance().getAbilityManager().getAbility(name)).isCancelled()) {
+		if (!super.callEvent(player, super.getAbility()).isCancelled()) {
 			super.putOnCooldown(player);
 			player.getWorld().playSound(player.getLocation(), Sound.AMBIENCE_THUNDER, 1, 1);
 			ArrayList<String> players = new ArrayList<String>();

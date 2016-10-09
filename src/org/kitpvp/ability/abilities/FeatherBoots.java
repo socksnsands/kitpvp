@@ -14,7 +14,7 @@ import org.kitpvp.core.Core;
 public class FeatherBoots extends Ability implements Listener {
 
 	public FeatherBoots() {
-		super("Feather Boots", "Take 1/4 original fall damage!", new ItemStack(Material.FEATHER), Scarcity.WHITE, 4, 1);
+		super("Feather Boots", "Take no fall damage.", new ItemStack(Material.FEATHER), Scarcity.BLUE, 4, 1);
 	}
 
 	@EventHandler
@@ -26,7 +26,7 @@ public class FeatherBoots extends Ability implements Listener {
 				if (event.getCause().equals(DamageCause.FALL)) {
 					AbilityUseEvent e = super.callEvent(player, this);
 					if (!e.isCancelled()) {
-						event.setDamage(event.getDamage() / 4);
+						e.setCancelled(true);
 					}
 				}
 			}

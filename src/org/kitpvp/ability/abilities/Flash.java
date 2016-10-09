@@ -14,8 +14,8 @@ import org.kitpvp.util.ParticleEffect;
 
 public class Flash extends Ability {
 
-	public Flash() {
-		super("Flash", "Instantly Flash forward!", Material.BLAZE_ROD, Scarcity.PURPLE, 8, 1);
+	public Flash(int level) {
+		super("Flash", "Instantly teleport _L_ _H" + 5+(level*3) + "H_ blocks forward._L_ Has a cooldown of _H12H_ seconds.", Material.BLAZE_ROD, Scarcity.PURPLE, 8 + (level*2), level);
 		super.setClickedItem(new ItemStack(Material.BLAZE_ROD));
 		super.setCooldown(12 * 20);
 	}
@@ -25,9 +25,9 @@ public class Flash extends Ability {
 	public void onInteract(Player player, Action action) {
 		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)
 				|| action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
-			if (!super.callEvent(player, this).isCancelled()) {
-				Location location = player.getLineOfSight((HashSet<Byte>) null, 8)
-						.get(player.getLineOfSight((HashSet<Byte>) null, 8).size() - 1).getLocation();
+			if (!super.callEvent(player, super.getAbility()).isCancelled()) {
+				Location location = player.getLineOfSight((HashSet<Byte>) null, 5+(super.getLevel()*3))
+						.get(player.getLineOfSight((HashSet<Byte>) null, 5+(super.getLevel()*3)).size() - 1).getLocation();
 				location.setYaw(player.getLocation().getYaw());
 				location.setPitch(player.getLocation().getPitch());
 				player.teleport(location);

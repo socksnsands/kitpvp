@@ -3,6 +3,8 @@ package org.kitpvp.unlockable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -71,12 +73,21 @@ public abstract class Unlockable {
 			im.addItemFlags(itf);
 		}
 		if (description != ""){
-			ArrayList<String> lore = new ArrayList<String>();
 			String desc = ChatColor.GRAY + description;
 			if(desc.contains("_H"))
 			desc = desc.replaceAll("_H", ChatColor.YELLOW.toString() + "");
 			if(desc.contains("H_"))
 			desc = desc.replaceAll("H_", ChatColor.GRAY.toString() + "");
+			
+			ArrayList<String> lore = new ArrayList<String>();
+			lore.add("");
+			
+			List<String> strings = Arrays.asList(desc.split("_L_"));
+			List<String> f = new ArrayList<String>();
+			strings.forEach(s -> {
+				f.add(ChatColor.GRAY + s.trim());
+			});
+			lore.addAll(f);
 //			String re = desc;
 //			while(re.length() > 18){
 //				for(int i = 0; i < re.length()-18; i++){
@@ -88,7 +99,7 @@ public abstract class Unlockable {
 //					}
 //				}
 //			}
-			im.setLore(Arrays.asList("", desc));
+			im.setLore(lore);
 		}
 		itemStack.setItemMeta(im);
 		return itemStack;

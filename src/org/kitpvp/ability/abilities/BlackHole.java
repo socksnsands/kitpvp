@@ -17,7 +17,7 @@ import org.kitpvp.util.ParticleEffect;
 public class BlackHole extends Ability {
 	public BlackHole()
 	{
-		super("Black Hole", "Sucks nearby enemies in, not allowing them to move and constantly damaging them. Has a {H35H} second cooldown.", Material.OBSIDIAN, Scarcity.GOLD, 15, 1);
+		super("Black Hole", "Sucks nearby enemies in, not allowing them _L_to move and constantly damaging them._L_ Has a {H35H} second cooldown.", Material.OBSIDIAN, Scarcity.GOLD, 15, 1);
 		super.setClickedItem(Material.OBSIDIAN);
 		super.setCooldown(20*35);
 	}

@@ -15,8 +15,8 @@ public class FireLaser extends Ability {
 
 	private static String name = "Fire Laser";
 
-	public FireLaser() {
-		super(name, "Shoot a beam of fire!", Material.BLAZE_ROD, Scarcity.PURPLE, 10, 1);
+	public FireLaser(int level) {
+		super(name, "Shoot a beam of fire _L_lighting enemies on fire for _H" + (4 + (2*level)) + "H_ seconds _L_as well as dealing _H" + level + ".5H_ hearts of damage. _L_Has a cooldown of _H12H_ seconds.", Material.BLAZE_ROD, Scarcity.PURPLE, 10 + level*3, level);
 		super.setCooldown(20 * 12);
 		super.setClickedItem(Material.BLAZE_ROD);
 	}
@@ -37,8 +37,8 @@ public class FireLaser extends Ability {
 						if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
 							if (!players.contains(p.getName())) {
 								players.add(p.getName());
-								p.setFireTicks(p.getFireTicks() + 90);
-								Core.getInstance().getDamageManager().damage(p, player, 3);
+								p.setFireTicks(60 + (40*super.getLevel()));
+								Core.getInstance().getDamageManager().damage(p, player, 1 + 2*super.getLevel());
 							}
 						}
 					}

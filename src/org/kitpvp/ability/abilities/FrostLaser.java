@@ -17,9 +17,9 @@ public class FrostLaser extends Ability {
 
 	private static String name = "Frost Laser";
 
-	public FrostLaser() {
-		super(name, "Shoot a beam of frost!", Material.PACKED_ICE, Scarcity.PURPLE, 12, 1);
-		super.setCooldown(20 * 12);
+	public FrostLaser(int level) {
+		super(name, "Shoot a beam of frost _L_giving hit players slowness _H" + (level+1) + "H_ for _H2H_ seconds_L_ as well as dealing _H2.5H_ hearts of damage._L_ Has a cooldown of _H14H_ seconds..", Material.PACKED_ICE, Scarcity.RED, 12 + (level*2), level);
+		super.setCooldown(20 * 14);
 		super.setClickedItem(Material.STICK);
 	}
 
@@ -40,7 +40,6 @@ public class FrostLaser extends Ability {
 							if (!players.contains(p.getName())) {
 								players.add(p.getName());
 								p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 1));
-								p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 40, 1));
 								Core.getInstance().getDamageManager().damage(p, player, 5);
 							}
 						}

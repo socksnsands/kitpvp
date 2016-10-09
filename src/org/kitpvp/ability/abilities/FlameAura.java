@@ -15,8 +15,8 @@ import org.kitpvp.util.ParticleEffect;
 
 public class FlameAura extends Ability {
 
-	public FlameAura() {
-		super("Flame Aura", "Burn nearby players every 7 seconds!", Material.FIREWORK_CHARGE, Scarcity.PURPLE, 8, 1);
+	public FlameAura(int level) {
+		super("Flame Aura", "25% chance to burn nearby_L_ (_H5H_ blocks) players for _H3H_ seconds _L_every _H" + (7-(2*level)) + "H_ seconds.", Material.FIREWORK_CHARGE, Scarcity.PURPLE, 8+(level*3), level);
 		this.startFlameAura();
 	}
 
@@ -36,9 +36,9 @@ public class FlameAura extends Ability {
 										User u = Core.getInstance().getUserManager().getUser(player);
 										if (!u.isSafe()) {
 											Random random = new Random();
-											ParticleEffect.FLAME.display(3, 3, 3, 3, 2, player.getLocation(), 200);
 											if (random.nextInt(4) == 0) {
 												player.setFireTicks(20 * 3);
+												ParticleEffect.FLAME.display(3, 3, 3, 0, 2, player.getLocation().clone().add(0,1.5,0), 200);
 											}
 										}
 									}
@@ -48,7 +48,7 @@ public class FlameAura extends Ability {
 					}
 			}
 
-		}, 7 * 20, 7 * 20);
+		}, (7-(2*super.getLevel())) * 20, (7-(2*super.getLevel())) * 20);
 	}
 
 	private AbilityUseEvent getEvent(Player player) {

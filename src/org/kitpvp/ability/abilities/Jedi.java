@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 import org.kitpvp.ability.Ability;
+import org.kitpvp.core.Core;
 
 public class Jedi extends Ability {
 
@@ -23,7 +24,7 @@ public class Jedi extends Ability {
 			if (!super.callEvent(player, this).isCancelled()) {
 				for (Player p : player.getWorld().getPlayers()) {
 					if (p.getLocation().distance(player.getLocation()) < 5 && p != player) {
-						p.setVelocity(new Vector((p.getLocation().getX() - player.getLocation().getX()), .7,
+						Core.getInstance().getDamageManager().setVelocity(p, new Vector((p.getLocation().getX() - player.getLocation().getX()), .7,
 								(p.getLocation().getZ() - player.getLocation().getZ())));
 					}
 				}

@@ -18,7 +18,7 @@ public class EarthLaser extends Ability {
 	private static String name = "Earth Laser";
 
 	public EarthLaser() {
-		super(name, "Shoot an earth beam!", Material.GRASS, Scarcity.BLUE, 10, 1);
+		super(name, "Shoot a laser that throws people _L_a few blocks in the air._L_ Has a cooldown of _H12H_ seconds.", Material.GRASS, Scarcity.BLUE, 10, 1);
 		super.setCooldown(20 * 12);
 		super.setClickedItem(Material.STICK);
 	}
@@ -39,7 +39,9 @@ public class EarthLaser extends Ability {
 						if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
 							if (!players.contains(p.getName())) {
 								players.add(p.getName());
+								Core.getInstance().getDamageManager().setVelocity(p, new Vector(0, 1, 0));
 								p.setVelocity(new Vector(0, 1, 0));
+								@SuppressWarnings("deprecation")
 								FallingBlock fb = p.getWorld().spawnFallingBlock(p.getLocation().clone().add(0, 1.5, 0),
 										p.getLocation().clone().add(0, -1, 0).getBlock().getType(), (byte) 0);
 								fb.setVelocity(new Vector(0, .4, 0));

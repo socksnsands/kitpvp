@@ -16,7 +16,7 @@ import org.kitpvp.util.ParticleEffect;
 public class CooldownLaser extends Ability {
 
 	public CooldownLaser() {
-		super("Cooldown Laser", "Shoot a beam that restarts cooldowns of any players hit by it. Has a _H18H_ second cooldown.", Material.SLIME_BALL, Scarcity.GOLD, 10, 1);
+		super("Cooldown Laser", "Shoot a beam that restarts cooldowns_L_ of any players hit by it._L_ Has a _H18H_ second cooldown.", Material.SLIME_BALL, Scarcity.GOLD, 10, 1);
 		super.setCooldown(18 * 20);
 		super.setClickedItem(Material.SLIME_BALL);
 	}

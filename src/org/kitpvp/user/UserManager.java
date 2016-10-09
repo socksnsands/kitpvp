@@ -64,9 +64,10 @@ public class UserManager implements Listener {
 
 	public boolean isLoadedUser(Player player) {
 		for (User user : users)
-			if (user.getPlayer().equals(player))
-				return true;
-		return false;
+			if(user.getPlayer() != null)
+				if (user.getPlayer().equals(player))
+					return true;
+			return false;
 	}
 
 	public boolean isLoadedUser(String uuid) {

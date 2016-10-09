@@ -3,6 +3,8 @@ package org.kitpvp.damage;
 import java.util.HashMap;
 
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+import org.kitpvp.core.Core;
 
 public class DamageManager {
 
@@ -23,7 +25,13 @@ public class DamageManager {
 			return true;
 		return false;
 	}
-
+	
+	public void setVelocity(Player player, Vector velocity){
+		if(Core.getInstance().getUserManager().getUser(player).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil")))
+			return;
+		player.setVelocity(velocity);
+	}
+	
 	public void damage(Player damaged, Player damager, double amount) {
 		this.setLastDamaged(damaged, damager);
 		if(amount != -1)

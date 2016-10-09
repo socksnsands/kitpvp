@@ -16,8 +16,8 @@ public class ExplosiveGrenade extends Ability {
 
 	private static String name = "Explosive Grenade";
 
-	public ExplosiveGrenade() {
-		super(name, "Throw an explosive grenade!", Material.SULPHUR, Scarcity.BLUE, 6, 1);
+	public ExplosiveGrenade(int level) {
+		super(name, "Throw an explosive grenade _L_dealing up to _H" + (6 + level) + "H_ hearts of damage_L_ to players within _H5H_ blocks.", Material.SULPHUR, Scarcity.BLUE, 6 + (level*3), level);
 		super.setClickedItem(Material.SULPHUR);
 		super.setCooldown(20 * 14);
 	}
@@ -31,6 +31,7 @@ public class ExplosiveGrenade extends Ability {
 				item.setPickupDelay(Integer.MAX_VALUE);
 				item.setVelocity(player.getLocation().getDirection().multiply(1.2));
 				super.putOnCooldown(player);
+				final int level = super.getLevel();
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
 
 					@Override
@@ -41,7 +42,7 @@ public class ExplosiveGrenade extends Ability {
 							if (entity instanceof Player) {
 								Player le = (Player) entity;
 								Core.getInstance().getDamageManager().damage(le, player,
-										16 - (le.getLocation().distance(item.getLocation())));
+										(12 + level*2) - (le.getLocation().distance(item.getLocation())));
 							}
 						}
 						item.remove();

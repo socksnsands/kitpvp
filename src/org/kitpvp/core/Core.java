@@ -2,7 +2,6 @@ package org.kitpvp.core;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.text.DecimalFormat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,6 +17,7 @@ import org.kitpvp.ability.AbilityManager;
 import org.kitpvp.ability.abilities.objects.JetManager;
 import org.kitpvp.ability.abilities.objects.TotemManager;
 import org.kitpvp.commands.BalanceCommand;
+import org.kitpvp.commands.MessageCommand;
 import org.kitpvp.commands.PayCommand;
 import org.kitpvp.commands.SetRankCommand;
 import org.kitpvp.damage.DamageManager;
@@ -122,6 +122,9 @@ public class Core extends JavaPlugin implements Listener {
 		getCommand("bal").setExecutor(new BalanceCommand());
 		getCommand("setrank").setExecutor(new SetRankCommand());
 		getCommand("pay").setExecutor(new PayCommand());
+		getCommand("msg").setExecutor(new MessageCommand());
+		getCommand("message").setExecutor(new MessageCommand());
+		getCommand("r").setExecutor(new MessageCommand());
 	}
 
 	public DamageManager getDamageManager() {

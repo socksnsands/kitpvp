@@ -1,9 +1,9 @@
 package org.kitpvp.util;
 
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_7_R4.*;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class AnvilGui {
 	private class AnvilContainer extends ContainerAnvil {
 		public AnvilContainer(EntityHuman entity) {
-			super(entity.inventory, entity.world, new BlockPosition(0, 0, 0), entity);
+			super(entity.inventory, entity.world, 0, 0, 0, entity);
 		}
 
 		@Override
@@ -192,8 +192,7 @@ public class AnvilGui {
 		int c = p.nextContainerCounter();
 
 		// Send the packet
-		p.playerConnection
-				.sendPacket(new PacketPlayOutOpenWindow(c, "minecraft:anvil", new ChatMessage("Repairing"), 0));
+		p.playerConnection.sendPacket(new PacketPlayOutOpenWindow(c, 8, "Repairing", 9, true));
 		// Set their active container to the container
 		p.activeContainer = container;
 

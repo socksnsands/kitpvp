@@ -8,7 +8,8 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemFlag;
+import org.bukkit.entity.Player;
+//import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.kitpvp.core.Core;
@@ -64,14 +65,14 @@ public abstract class Unlockable {
 	}
 
 	public ItemStack getIcon() {
-		ItemStack itemStack = new ItemStack(Material.BARRIER);
+		ItemStack itemStack = new ItemStack(Material.REDSTONE_BLOCK);
 		if (icon != null)
 			itemStack = icon;
 		ItemMeta im = itemStack.getItemMeta();
 		im.setDisplayName(this.scarcity.getColor() + this.name);
-		for (ItemFlag itf : ItemFlag.values()) {
-			im.addItemFlags(itf);
-		}
+//		for (ItemFlag itf : ItemFlag.values()) {
+//			im.addItemFlags(itf);
+//		}
 		if (description != ""){
 			String desc = ChatColor.GRAY + description;
 			if(desc.contains("_H"))

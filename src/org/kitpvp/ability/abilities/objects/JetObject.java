@@ -1,5 +1,7 @@
 package org.kitpvp.ability.abilities.objects;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,14 +25,19 @@ public class JetObject {
 	private int missileAmmo = 20;
 	private double fuel = 800;
 
+	private ArrayList<Arrow> missiles = new ArrayList<>();
+	
 	public JetObject(Player player) {
 		this.player = player;
 		pInv = player.getInventory().getContents();
 		jet = player.getWorld().spawn(player.getLocation(), Minecart.class);
 		jet.setPassenger(player);
-		jet.setCustomName("jet");
 		this.setupInv();
 		Core.getInstance().getJetManager().addJet(this);
+	}
+	
+	public ArrayList<Arrow> getMissiles(){
+		return missiles;
 	}
 
 	public void switchSpeed() {
@@ -76,7 +83,7 @@ public class JetObject {
 		if (!(this.missileAmmo <= 0)) {
 			this.missileAmmo--;
 			Arrow arrow = player.launchProjectile(Arrow.class);
-			arrow.setCustomName("jet_missile");
+			this.missiles.add(arrow);
 		}
 		// if(this.missileAmmo <= 0)
 		// this.despawn();
@@ -96,7 +103,7 @@ public class JetObject {
 		ParticleEffect.CLOUD.display(1, 1, 1, 0, 4, jet.getLocation(), 50);
 		jet.getWorld().playSound(jet.getLocation(), Sound.ZOMBIE_METAL, 1, 1);
 		jet.remove();
-		if (Bukkit.getServer().getOnlinePlayers().contains(player))
+		if (Core.getInstance().getUserManager().isLoadedUser(player))
 			Core.getInstance().getUserManager().getUser(player)
 					.setCooldown(Core.getInstance().getAbilityManager().getAbility("Jet"), 20 * 70);
 		this.resetPlayerInventory();

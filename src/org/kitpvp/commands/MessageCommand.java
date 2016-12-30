@@ -8,10 +8,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.kitpvp.core.Core;
 
 public class MessageCommand implements CommandExecutor {
 
-		HashMap<String, String> reply = new HashMap<String, String>();
+		private HashMap<String, String> reply = new HashMap<String, String>();
 	
 		  public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args)
 		  {
@@ -32,12 +33,14 @@ public class MessageCommand implements CommandExecutor {
 		          m = m + (i > 1 ? " " : "") + args[i];
 		        }
 		        Player t = Bukkit.getServer().getPlayer(args[0]);
-		        if (t != null)
-		        {
-		       	 p.sendMessage(ChatColor.DARK_AQUA + "" +ChatColor.BOLD + sender.getName() + " -> " + ChatColor.AQUA + "" + t.getName() + ChatColor.AQUA + ": " + m);
-		    		t.sendMessage(ChatColor.AQUA + "" + sender.getName() + ChatColor.BOLD + ChatColor.DARK_AQUA + " -> " + t.getName() + ChatColor.AQUA + ": " + m);
+		        if (t != null){
+		        	String msg = ChatColor.GRAY + "(" + Core.getInstance().getUserManager().getUser(p).getRank().getColor() + p.getName() + ChatColor.GRAY + " -> " + Core.getInstance().getUserManager().getUser(t).getRank().getColor() + t.getName() + ChatColor.GRAY + "): " + m;
+		       	 	p.sendMessage(msg);
+		    		t.sendMessage(msg);
 		    		reply.put(p.getName(), t.getName());
 		    		reply.put(t.getName(), p.getName());
+		        }else{
+		        	p.sendMessage(ChatColor.RED.toString() + args[0] + " is not online.");
 		        }
 		      }
 		    }else{
@@ -48,9 +51,15 @@ public class MessageCommand implements CommandExecutor {
 		 		        for (int i = 1; i < args.length; i++) {
 		 		          m = m + (i > 1 ? " " : "") + args[i];
 		 		        }
-		    			p.sendMessage(ChatColor.AQUA + "" + sender.getName() + ChatColor.BOLD + ChatColor.DARK_AQUA + " -> " + t.getName() + ChatColor.AQUA + ": " + m);
+		 		        if(t != null){
+		 		        	String msg = ChatColor.GRAY + "(" + Core.getInstance().getUserManager().getUser(p).getRank().getColor() + p.getName() + ChatColor.GRAY + " -> " + Core.getInstance().getUserManager().getUser(t).getRank().getColor() + t.getName() + ChatColor.GRAY + "): " + m;
+		 		        	p.sendMessage(msg);
+		    				t.sendMessage(msg);
+		 		        }else{
+		 		        	p.sendMessage(ChatColor.RED + reply.get(p.getName()) + " is not online.");
+		 		        }
 		    		}else{
-		    			p.sendMessage(ChatColor.GRAY + "You have nobody to reply to.");
+		    			p.sendMessage(ChatColor.RED + "You have nobody to reply to.");
 		    		}
 		    	}
 		    }

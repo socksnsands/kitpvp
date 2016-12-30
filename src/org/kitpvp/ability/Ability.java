@@ -20,7 +20,7 @@ public abstract class Ability extends Unlockable {
 	private boolean hasCooldown = false;
 	private int cooldownTicks = 10;
 	private int points;
-
+	
 	public Ability(String name, String description, ItemStack icon, Scarcity scarcity, int points, int level) {
 		super(getStringName(name, level), description, scarcity);
 		this.setIcon(icon);
@@ -62,6 +62,8 @@ public abstract class Ability extends Unlockable {
 	}
 
 	final public AbilityUseEvent callEvent(Player player, Ability ability) {
+		if(this.hasCooldown)
+			putOnCooldown(player);
 		AbilityUseEvent event = new AbilityUseEvent(player, ability);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		return event;

@@ -5,19 +5,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_7_R4.NBTTagCompound;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.kitpvp.ability.Ability;
 import org.kitpvp.core.Core;
+import org.kitpvp.user.Specialty;
+import org.kitpvp.user.User;
 
 public class Loadout {
 
@@ -38,39 +41,68 @@ public class Loadout {
 		Location location = new Location(Bukkit.getWorld("world"), 429+xa, 0, -80+za);
 		int y = location.getWorld().getHighestBlockYAt(location);
 		Location l = new Location(Bukkit.getWorld("world"), location.getX(), y, location.getZ()).clone().add(0,1,0);
-//		printLocation(l);
 		return l;
 	}
 	
-	private void printLocation(Location location){
-		System.out.println(location.getWorld() + ", " + location.getX() + ", " + location.getY() + ", " + location.getZ());
-	}
-	
 	public void apply(Player player) {
+		User user = Core.getInstance().getUserManager().getUser(player);
 		player.closeInventory();
 		//TODO change map
 		player.teleport(randomMapLocation());
 		player.sendMessage(ChatColor.GREEN + "This map is temporary!");
 		Core.getInstance().getUserManager().getUser(player).resetInventory();
 		Inventory inv = player.getInventory();
-		net.minecraft.server.v1_8_R3.ItemStack stack = CraftItemStack.asNMSCopy(new ItemStack(Material.WOOD_SWORD));
+		net.minecraft.server.v1_7_R4.ItemStack stack = CraftItemStack.asNMSCopy(new ItemStack(Material.WOOD_SWORD));
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setBoolean("Unbreakable", true);
 		stack.setTag(tag);
 		ItemStack is = CraftItemStack.asCraftMirror(stack);
+		
+		net.minecraft.server.v1_7_R4.ItemStack chest = CraftItemStack.asNMSCopy(new ItemStack(Material.LEATHER_CHESTPLATE));
+		chest.setTag(tag);
+		ItemStack hIs = CraftItemStack.asCraftMirror(chest);
+		
+		player.getInventory().setChestplate(hIs);
+		
+		net.minecraft.server.v1_7_R4.ItemStack leggings = CraftItemStack.asNMSCopy(new ItemStack(Material.LEATHER_LEGGINGS));
+		leggings.setTag(tag);
+		ItemStack lIs = CraftItemStack.asCraftMirror(leggings);
+		
+		player.getInventory().setLeggings(lIs);
+		
+		net.minecraft.server.v1_7_R4.ItemStack boots = CraftItemStack.asNMSCopy(new ItemStack(Material.LEATHER_BOOTS));
+		boots.setTag(tag);
+		ItemStack bIs = CraftItemStack.asCraftMirror(boots);
+		
+		player.getInventory().setBoots(bIs);
+		
+//		ItemStack is = new ItemStack(Material.WOOD_SWORD);
+//		is.addUnsafeEnchantment(Enchantment.DURABILITY, 100);
 
 		inv.setItem(0, is);
-		Core.getInstance().getUserManager().getUser(player).getActiveAbilities().clear();
-		Core.getInstance().getUserManager().getUser(player).clearCooldowns();
+		user.getActiveAbilities().clear();
+		user.clearCooldowns();
 		for (Ability ability : this.abilities) {
 			Core.getInstance().getUserManager().getUser(player).getActiveAbilities().add(ability);
 			if (ability.getClickedItem() != null) {
 				inv.addItem(ability.getClickedItem());
 			}
 		}
-		do {
-			inv.addItem(new ItemStack(Material.MUSHROOM_SOUP));
-		} while (!(inv.firstEmpty() < 0));
+		
+		Specialty specialty = user.getSpecialty();
+		if(specialty.equals(Specialty.CHEMIST) || user.getSpecialty().equals(Specialty.SOUPER)){
+			do {
+				if(specialty.equals(Specialty.SOUPER))
+					inv.addItem(new ItemStack(Material.MUSHROOM_SOUP));
+				else
+					inv.addItem(new ItemStack(Material.POTION, 1, (short) 16421));
+			} while (!(inv.firstEmpty() < 0));
+		}else{
+			if(specialty.equals(Specialty.COOK))
+				inv.addItem(new ItemStack(Material.COOKIE, 40, (byte)0));
+			if(specialty.equals(Specialty.BRUTE))
+				player.setMaxHealth(200);
+		}
 		Core.getInstance().getUserManager().getUser(player).setSafe(false);
 		Core.getInstance().getUserManager().getUser(player).setActiveLoadout(this);
 	}

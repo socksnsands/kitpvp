@@ -78,7 +78,6 @@ public class Hades extends Ability {
 		FallingBlock fb = location.getWorld().spawnFallingBlock(location.clone().add(0, -.3, 0), Material.HARD_CLAY,
 				(byte) 0);
 		fb.setVelocity(new Vector(0, .3, 0));
-		fb.setCustomName("no_land");
 		fb.setDropItem(false);
 	}
 

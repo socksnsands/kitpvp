@@ -1,10 +1,10 @@
 package org.kitpvp.ability.abilities;
 
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_7_R4.NBTTagCompound;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -25,40 +25,40 @@ public class ArmorLock extends Ability {
 		super.setCooldown(20*30);
 	}
 	
-	@Override
-	public void onInteract(Player player, Action action) {
-		if(super.callEvent(player, this).isCancelled())
-			return;
-		super.putOnCooldown(player);
-		
-		player.setVelocity(new Vector(0, 0, 0));
-		
-		Creeper c =  (Creeper) player.getWorld().spawnEntity(player.getLocation(),EntityType.CREEPER);
-		c.setNoDamageTicks(Integer.MAX_VALUE);
-		c.setPowered(true);
-		c.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE));
-		noAI(c);
-		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * super.getLevel()*3, 100));
-		player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * super.getLevel()*3, 100));
-		player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20 * super.getLevel()*3, -5));
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
-
-			@Override
-			public void run() {
-				c.remove();
-			}
-
-		}, 20 * super.getLevel()*3);
-	}
-	
-	void noAI(Entity bukkitEntity) {
-	    net.minecraft.server.v1_8_R3.Entity nmsEntity = ((CraftEntity) bukkitEntity).getHandle();
-	    NBTTagCompound tag = nmsEntity.getNBTTag();
-	    if (tag == null) {
-	        tag = new NBTTagCompound();
-	    }
-	    nmsEntity.c(tag);
-	    tag.setInt("NoAI", 1);
-	    nmsEntity.f(tag);
-	}
+//	@Override
+//	public void onInteract(Player player, Action action) {
+//		if(super.callEvent(player, this).isCancelled())
+//			return;
+//		super.putOnCooldown(player);
+//		
+//		player.setVelocity(new Vector(0, 0, 0));
+//		
+//		Creeper c =  (Creeper) player.getWorld().spawnEntity(player.getLocation(),EntityType.CREEPER);
+//		c.setNoDamageTicks(Integer.MAX_VALUE);
+//		c.setPowered(true);
+//		c.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE));
+//		noAI(c);
+//		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * super.getLevel()*3, 100));
+//		player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * super.getLevel()*3, 100));
+//		player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20 * super.getLevel()*3, -5));
+//		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				c.remove();
+//			}
+//
+//		}, 20 * super.getLevel()*3);
+//	}
+//	
+//	void noAI(Entity bukkitEntity) {
+//	    net.minecraft.server.v1_7_R4.Entity nmsEntity = ((CraftEntity) bukkitEntity).getHandle();
+//	    NBTTagCompound tag = nmsEntity.getNBTTag();
+//	    if (tag == null) {
+//	        tag = new NBTTagCompound();
+//	    }
+//	    nmsEntity.c(tag);
+//	    tag.setInt("NoAI", 1);
+//	    nmsEntity.f(tag);
+//	}
 }

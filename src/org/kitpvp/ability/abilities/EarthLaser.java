@@ -45,7 +45,6 @@ public class EarthLaser extends Ability {
 								FallingBlock fb = p.getWorld().spawnFallingBlock(p.getLocation().clone().add(0, 1.5, 0),
 										p.getLocation().clone().add(0, -1, 0).getBlock().getType(), (byte) 0);
 								fb.setVelocity(new Vector(0, .4, 0));
-								fb.setCustomName("no_land");
 								fb.setDropItem(false);
 							}
 						}

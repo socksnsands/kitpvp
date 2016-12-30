@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -40,19 +42,21 @@ public class Jesus extends Ability implements Listener {
 			haveBeenSaved.remove(event.getPlayer().getName());
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onDamage(EntityDamageEvent event){
 		if(event.getEntity() instanceof Player){
 			Player player = (Player) event.getEntity();
 			if(event.isCancelled())
 				return;
-			if(player.getHealth() - event.getDamage() <= 0){
+			Damageable dm = player;
+			if(dm.getHealth() - event.getDamage() <= 0){
 				if (Core.getInstance().getUserManager().getUser(player).getActiveAbilities()
 						.contains(Core.getInstance().getAbilityManager().getAbility("Jesus"))) {
 					if (!haveBeenSaved.contains(player.getName())) {
 						event.setDamage(0);
 						player.setHealth(20.0);
-						event.getEntity().sendMessage(ChatColor.GOLD + "You were revived!");
+						((Player) event.getEntity()).sendMessage(ChatColor.GOLD + "You were revived!");
 						this.playJesusEffect(player);
 						haveBeenSaved.add(player.getName());
 					} else {

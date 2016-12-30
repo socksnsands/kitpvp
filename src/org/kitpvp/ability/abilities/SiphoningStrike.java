@@ -25,35 +25,35 @@ public class SiphoningStrike extends Ability {
 		super.setClickedItem(new ItemStack(Material.BONE));
 	}
 
-	@Override
-	public void onInteract(Player player, Action action) {
-
-		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
-			List<Block> playerLineOfSight = player.getLineOfSight((HashSet<Byte>) null, 3);
-			if (!super.callEvent(player, this).isCancelled()) {
-				player.playSound(player.getLocation(), Sound.DIG_STONE, 1, 1);
-				super.putOnCooldown(player);
-				for (Block blocks : playerLineOfSight) {
-					Location blocksLocation = blocks.getLocation();
-					for (Entity entities : blocksLocation.getWorld().getNearbyEntities(blocksLocation, 1, 1, 1)) {
-						if ((entities instanceof LivingEntity)) {
-							LivingEntity entity = (LivingEntity) entities;
-							if (!entity.equals(player)) {
-								
-								PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 6 * 20, 1);
-								entity.addPotionEffect(wither);
-								
-								player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1, 1);
-								player.playSound(entities.getLocation(), Sound.CREEPER_HISS, 1, 1);
-								ParticleEffect.DRAGONBREATH.display(1, 1, 1, 1, 2, player.getLocation(), 200);
-							}
-						}
-					}
-				}
-			}
-
-		}
-
-	}
+//	@Override
+//	public void onInteract(Player player, Action action) {
+//
+//		if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
+//			List<Block> playerLineOfSight = player.getLineOfSight((HashSet<Byte>) null, 3);
+//			if (!super.callEvent(player, this).isCancelled()) {
+//				player.playSound(player.getLocation(), Sound.DIG_STONE, 1, 1);
+//				super.putOnCooldown(player);
+//				for (Block blocks : playerLineOfSight) {
+//					Location blocksLocation = blocks.getLocation();
+//					for (Entity entities : blocksLocation.getWorld().getNearbyEntities(blocksLocation, 1, 1, 1)) {
+//						if ((entities instanceof LivingEntity)) {
+//							LivingEntity entity = (LivingEntity) entities;
+//							if (!entity.equals(player)) {
+//								
+//								PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 6 * 20, 1);
+//								entity.addPotionEffect(wither);
+//								
+//								player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1, 1);
+//								player.playSound(entities.getLocation(), Sound.CREEPER_HISS, 1, 1);
+//								ParticleEffect.DRAGONBREATH.display(1, 1, 1, 1, 2, player.getLocation(), 200);
+//							}
+//						}
+//					}
+//				}
+//			}
+//
+//		}
+//
+//	}
 
 }

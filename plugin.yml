@@ -18,3 +18,5 @@ commands:
     description: Message a player!
   r:
     description: Reply to a message!
+  stats:
+    description: Check your stats.

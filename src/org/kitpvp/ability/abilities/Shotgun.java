@@ -1,8 +1,11 @@
 package org.kitpvp.ability.abilities;
 
+import java.util.ArrayList;
+
 import org.bukkit.EntityEffect;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +18,8 @@ import org.kitpvp.core.Core;
 
 public class Shotgun extends Ability implements Listener {
 
+	ArrayList<Arrow> arrows = new ArrayList<>();
+	
 	public Shotgun() {
 		super("Shotgun", "Knockback foes with a powerful shotgun!", Material.ARROW, Scarcity.DARK_RED, 8, 1);
 		super.setCooldown(20*2);
@@ -27,7 +32,7 @@ public class Shotgun extends Ability implements Listener {
 			if (!super.callEvent(player, this).isCancelled()) {
 				for (int i = 0; i < 5; i++) {
 					Arrow arrow = (Arrow) player.launchProjectile(Arrow.class);
-					arrow.setCustomName("shotgun_shot");
+					arrows.add(arrow);
 					Vector velocity = player.getLocation().getDirection();
 					double accuracy = .1;
 					velocity.add(new Vector(Math.random() * accuracy - accuracy, Math.random() * accuracy - accuracy,
@@ -43,13 +48,14 @@ public class Shotgun extends Ability implements Listener {
 	public void onDamage(EntityDamageByEntityEvent event) {
 		if (event.getDamager() instanceof Arrow) {
 			Arrow arrow = (Arrow) event.getDamager();
-			if (arrow.getCustomName().equals("shotgun_shot")) {
+			if (arrows.contains(arrow)) {
 				if (event.getEntity() instanceof Player) {
 					Player le = (Player) event.getEntity();
 					if(arrow.getShooter() instanceof Player)
 						Core.getInstance().getDamageManager().damage(le, (Player)arrow.getShooter(), -1);
-					if (le.getHealth() > 1)
-						le.setHealth(le.getHealth() - 3);
+					Damageable dm = le;
+					if (dm.getHealth() > 1)
+						le.setHealth(dm.getHealth() - 3);
 					le.playEffect(EntityEffect.HURT);
 					le.setVelocity(arrow.getVelocity().setY(.4));
 				}
@@ -61,7 +67,8 @@ public class Shotgun extends Ability implements Listener {
 	@EventHandler
 	public void onLand(ProjectileHitEvent event){
 		if(event.getEntity() instanceof Arrow){
-			if(event.getEntity().getCustomName().equals("shotgun_shot")){
+			if(this.arrows.contains((Arrow)event.getEntity())){
+				this.arrows.remove((Arrow)event.getEntity());
 				event.getEntity().remove();
 			}
 		}

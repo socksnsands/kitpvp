@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
@@ -90,10 +91,30 @@ public class JetManager implements Listener {
 		}, 1, 1);
 	}
 
+	public boolean isJet(Minecart minecart){
+		for(JetObject jo : this.jets){
+			if(jo.getMinecart().equals(minecart)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isJetMissile(Arrow arrow){
+		for(JetObject jo : this.jets){
+			for(Arrow a : jo.getMissiles()){
+				if(a.equals(arrow)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	@EventHandler
 	public void onClick(PlayerInteractEntityEvent event) {
 		if (event.getRightClicked() instanceof Minecart) {
-			if (event.getRightClicked().getCustomName().equals("jet")) {
+			if(isJet((Minecart) event.getRightClicked())){
 				event.setCancelled(true);
 			}
 		}
@@ -135,9 +156,9 @@ public class JetManager implements Listener {
 	@EventHandler
 	public void onHit(ProjectileHitEvent event) {
 		if (event.getEntity() instanceof Arrow) {
-			if (event.getEntity().getCustomName().equals("jet_missile")) {
+			Arrow arrow = (Arrow) event.getEntity();
+			if (this.isJetMissile(arrow)) {
 				event.getEntity().getWorld().createExplosion(event.getEntity().getLocation(), 0);
-				Arrow arrow = (Arrow) event.getEntity();
 				for (Player player : event.getEntity().getWorld().getPlayers()) {
 					if (player.getLocation().distance(event.getEntity().getLocation()) < 3
 							&& player != arrow.getShooter()) {
@@ -184,8 +205,7 @@ public class JetManager implements Listener {
 		for (Entity entity : event.getPlayer().getWorld().getEntities()) {
 			if (entity instanceof Minecart) {
 				Minecart minecart = (Minecart) entity;
-				if (minecart.getCustomName() != null)
-					if (minecart.getCustomName().equalsIgnoreCase("jet")) {
+					if (isJet(minecart)) {
 						if (minecart.getPassenger().equals(event.getPlayer())) {
 							minecart.remove();
 						}
@@ -234,7 +254,8 @@ public class JetManager implements Listener {
 											if (!players.contains(p.getName())) {
 												players.add(p.getName());
 												Core.getInstance().getDamageManager().setLastDamaged(p, player);
-												p.setHealth(p.getHealth()-2);
+												Damageable dm = p;
+												p.setHealth(dm.getHealth()-2);
 												p.playEffect(EntityEffect.HURT);
 												player.playSound(player.getLocation(), Sound.NOTE_PLING, 1, 1);
 											}

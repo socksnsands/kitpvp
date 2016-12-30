@@ -34,6 +34,16 @@ public class BalanceCommand implements CommandExecutor {
 			} else {
 				arg0.sendMessage("Command for players only!");
 			}
+		}else if(arg1.getName().equalsIgnoreCase("stats")){
+			if (arg0 instanceof Player) {
+				Player player = (Player) arg0;
+				User user = Core.getInstance().getUserManager().getUser(player);
+				player.sendMessage(ChatColor.GRAY + "Rank: " + user.getRank().getColor() + user.getRank().toString().toLowerCase());
+				player.sendMessage(ChatColor.GRAY + "Level: " + ChatColor.DARK_AQUA + user.getLevel());
+				player.sendMessage(ChatColor.GRAY + "Chest Find Chance: " + ChatColor.DARK_PURPLE + user.getChestFindChance());
+			} else {
+				arg0.sendMessage("Command for players only!");
+			}
 		}
 		return false;
 	}

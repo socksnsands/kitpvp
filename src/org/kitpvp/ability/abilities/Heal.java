@@ -2,6 +2,7 @@ package org.kitpvp.ability.abilities;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
@@ -25,10 +26,11 @@ public class Heal extends Ability {
 					for(PotionEffect potionEffect : player.getActivePotionEffects()){
 						player.removePotionEffect(potionEffect.getType());
 					}
-					if(player.getHealth() + 20 < player.getMaxHealth()){
-						player.setHealth(player.getHealth() + 20);
+					Damageable dm = player;
+					if(dm.getHealth() + 20 < dm.getMaxHealth()){
+						player.setHealth(dm.getHealth() + 20);
 					}else{
-						player.setHealth(player.getMaxHealth());
+						player.setHealth(dm.getMaxHealth());
 					}
 					ParticleEffect.HEART.display(0, 0, 0, 0, 1, player.getLocation().clone().add(0,1.5,0), 200);
 					super.putOnCooldown(player);

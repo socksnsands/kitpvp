@@ -75,7 +75,28 @@ public class Core extends JavaPlugin implements Listener {
 		
 		registerCommands();
 	}
+	
+	public boolean onWhitelist(){
+		return Bukkit.getServer().hasWhitelist();
+	}
+	
+	public void setWhitelistReason(String reason){
+		getConfig().set("whitelist.reason", reason);
+		saveConfig();
+	}
+	
+	public String getWhitelistReason(){
+		return getConfig().getString("whitelist.reason");
+	}
+	
+	public void turnOnWhitelist(){
+		Bukkit.getServer().setWhitelist(true);
+	}
 
+	public boolean hideAbilities(){
+		return true;
+	}
+	
 	public Connection getConnection() {
 		return this.connection;
 	}
@@ -105,7 +126,7 @@ public class Core extends JavaPlugin implements Listener {
 //		p*=100;
 //		DecimalFormat df = new DecimalFormat("#.##");
 //		String percent = df.format(p);
-		event.setMotd(ChatColor.RED + "kitpvp.org \n" + ChatColor.GOLD.toString() + ChatColor.MAGIC + "K" + ChatColor.GRAY + " " + "Pre-alpha! Total of " + ChatColor.YELLOW + Core.getInstance().getAbilityManager().getAbilities().size() + ChatColor.GRAY + " abilities!");
+		event.setMotd(ChatColor.GOLD + "kitpvp.org \n" + ChatColor.GOLD.toString() + ChatColor.MAGIC + "K" + ChatColor.GRAY + " " + ChatColor.translateAlternateColorCodes('&', getConfig().getString("motd")));
 	}
 
 	public void onDisable() {
@@ -134,6 +155,7 @@ public class Core extends JavaPlugin implements Listener {
 		getCommand("msg").setExecutor(new MessageCommand());
 		getCommand("message").setExecutor(new MessageCommand());
 		getCommand("r").setExecutor(new MessageCommand());
+		getCommand("stats").setExecutor(new BalanceCommand());
 	}
 
 	public DamageManager getDamageManager() {

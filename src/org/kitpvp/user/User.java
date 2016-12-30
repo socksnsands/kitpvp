@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -34,35 +35,53 @@ public class User {
 	private Loadout activeLoadout;
 	
 	private int experience = 0;
-	
-	private int wood = 0, ore = 0, food = 0;
-
 	private Rank rank;
-
 	private int balance = 0;
-
+	private Specialty specialty;
+	
 	private boolean isSafe = true;
 
 	public User(String uuid) {
 		this.uuid = uuid;
 		
 		rank = Rank.DEFAULT;
+		specialty = Specialty.SOUPER.getDefaultSpecialty();
 	}
 
 	public String getUUID() {
 		return this.uuid;
 	}
 	
-	public int getWood(){
-		return wood;
+	public Specialty getSpecialty(){
+		return this.specialty;
+	}
+	
+	public void setSpecialty(Specialty specialty){
+		this.specialty = specialty;
+	}
+	
+	public double getChestFindChance(){
+		double r = this.rank.getBonusPercent();
+		r+=(this.getLevel()/50.0);
+		//default percent
+		r+=3;
+		return r;
 	}
 	
 	public void setExperience(int amount){
+		int c = getLevel();
 		this.experience = amount;
+		int n = getLevel();
+		if(n > c){
+			this.getPlayer().sendMessage("");
+			this.getPlayer().sendMessage(ChatColor.GOLD + "     " + ChatColor.MAGIC + "K" + ChatColor.GRAY + " Level up! New level: " + ChatColor.GOLD + n + ChatColor.GRAY + "!");
+			this.getPlayer().sendMessage("");
+			this.getPlayer().playSound(this.getPlayer().getLocation(), Sound.LEVEL_UP, 1, 1);
+		}
 	}
 	
 	public void addExperience(int amount){
-		this.experience+=amount;
+		setExperience(experience+amount);
 	}
 	
 	public int getExperience(){
@@ -72,27 +91,11 @@ public class User {
 	public int getLevel(){
 		if(this.experience == 0)
 			return 0;
-		return (int)(this.experience/Math.pow(.82, this.experience));
-	}
-	
-	public int getOres(){
-		return ore;
-	}
-	
-	public int getFood(){
-		return food;
-	}
-	
-	public void setWood(int amount){
-		this.wood = amount;
-	}
-	
-	public void setOres(int amount){
-		this.ore = amount;
-	}
-	
-	public void setFood(int amount){
-		this.food = amount;
+		int lv = 0;
+		while(lv/Math.pow(.48, lv) < this.experience){
+			lv++;
+		}
+		return lv;
 	}
 
 	public Loadout getActiveLoadout() {

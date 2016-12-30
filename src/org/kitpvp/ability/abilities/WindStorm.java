@@ -90,8 +90,8 @@ public class WindStorm extends Ability implements Listener {
 	@EventHandler
 	public void onBlockFall(EntityChangeBlockEvent event) {
 		if (event.getEntity() instanceof FallingBlock) {
-			if (event.getEntity().getName().equals("no_land")) {
-				FallingBlock fs = (FallingBlock) event.getEntity();
+			FallingBlock fs = (FallingBlock) event.getEntity();
+			if (!fs.getDropItem() && fs.getBlockId() != Material.WEB.getId()) {
 				fs.getLocation().getWorld().playEffect(fs.getLocation(), Effect.STEP_SOUND,
 						Material.getMaterial(fs.getBlockId()));
 				event.setCancelled(true);
@@ -113,7 +113,6 @@ public class WindStorm extends Ability implements Listener {
 						fs.setDropItem(false);
 						fs.setVelocity(new Vector((random.nextDouble()) - .5, 1.2,
 								(random.nextDouble()) - .5));
-						fs.setCustomName("no_land");
 						fs.setDropItem(false);
 					}
 				}

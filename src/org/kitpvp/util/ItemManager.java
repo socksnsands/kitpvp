@@ -36,7 +36,7 @@ public class ItemManager {
 	}
 
 	public ItemStack getUnlockableOpener() {
-		return this.createItem(ChatColor.GREEN + "Unlockables " + ChatColor.GRAY + "(Right click)", Material.CHEST,
+		return this.createItem(ChatColor.GREEN + "Unlockables " + ChatColor.GRAY + "(Right click)", Material.TRIPWIRE_HOOK,
 				(byte) 0, 1, null);
 	}
 

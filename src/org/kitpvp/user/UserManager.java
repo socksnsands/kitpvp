@@ -7,12 +7,18 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -24,6 +30,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -32,6 +39,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.kitpvp.core.Core;
 import org.kitpvp.core.LoadDataTask;
 import org.kitpvp.core.PushDataTask;
@@ -117,11 +125,67 @@ public class UserManager implements Listener {
 			}
 		}
 	}
+	
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onKb(EntityDamageByEntityEvent event){
+		if(event.getDamager() instanceof Player){
+			Player p = (Player) event.getDamager();
+			if(this.isLoadedUser(p)){
+				if(this.getUser(p).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil"))){
+					return;
+				}
+			}
+		}
+		if(event.getEntity() instanceof Player){
+			Player p = (Player) event.getEntity();
+			if(this.isLoadedUser(p)){
+				if(this.getUser(p).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil"))){
+					return;
+				}
+			}
+		}
+		if(event.getEntity() instanceof Damageable){
+			Damageable dm = (Damageable) event.getEntity();
+			event.setCancelled(true);
+			dm.damage(event.getDamage());
+			dm.setVelocity(event.getDamager().getLocation().getDirection().multiply(.4).setY(.3));
+			if(event.getDamager() instanceof Player){
+				Player p =(Player) event.getDamager();
+				applyKnockBack(p, dm, dm.getLocation(), p.getItemInHand().getEnchantmentLevel(Enchantment.KNOCKBACK), p.isSprinting(), false, .5, .35);
+			}
+		}
+	}
 
 	@EventHandler
 	public void onLoseHunger(FoodLevelChangeEvent event) {
 		event.setCancelled(true);
 	}
+	
+	private void applyKnockBack(Player hitter, final Entity en, final Location loc, int knock, final boolean sprint, final boolean gapple, final double velocity, final double height)
+	  {
+	    if ((en instanceof Player))
+	    {
+	      final Player player = (Player)en;
+	        new BukkitRunnable()
+	        {
+	          public void run()
+	          {
+	            org.bukkit.util.Vector vector = player.getLocation().toVector().subtract(loc.toVector()).normalize();
+	            
+	            double d = velocity + (sprint ? 1 : 0) * 0.05D - 0.05D;
+	            double b = height;
+	            if ((!player.isOnGround()))
+	            {
+	              b -= 0.5D;
+	              if (b < 0.0D) {
+	                b = 0.0D;
+	              }
+	            }
+	            player.setVelocity(vector.multiply(d).setY(b));
+	          }
+	        }.runTask(Core.getInstance());
+	    }
+	  }
 
 	@EventHandler
 	public void onClickInventory(InventoryClickEvent event) {
@@ -145,10 +209,19 @@ public class UserManager implements Listener {
 			this.users.add(user);
 	}
 
-//	@EventHandler
-//	public void onPreLogin(AsyncPlayerPreLoginEvent e) {
-//		
-//	}
+	@EventHandler
+	public void onPreLogin(AsyncPlayerPreLoginEvent e) {
+		boolean allowed = false;
+		for(OfflinePlayer p : Core.getInstance().getServer().getWhitelistedPlayers()){
+			if(p.getUniqueId().toString().equals(e.getUniqueId().toString())){
+				allowed = true;
+			}
+		}
+		if(!allowed)
+			e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ChatColor.translateAlternateColorCodes('&', Core.getInstance().getConfig().getString("whitelist.reason")));
+		else
+			e.allow();
+	}
 
 	@EventHandler
 	public void onRightClick(PlayerInteractEvent event) {
@@ -197,39 +270,42 @@ public class UserManager implements Listener {
 			//random between 10-20
 			int moneyPerKill = random.nextInt(11) + 10;
 			killer.sendMessage(ChatColor.GRAY + "You have been awarded with " + ChatColor.GOLD + moneyPerKill
-					+ ChatColor.GRAY + " coins and " + ChatColor.AQUA + "10" + ChatColor.GRAY + " xp!");
-			user.addExperience(10);
-			int i = random.nextInt(20);
-			if(i == 0){
-				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.LASER_ABILITY);
-				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.LASER_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
-			}
-			if(i == 1){
-				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.GOD_ABILITY);
-				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.GOD_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
-
-			}
-			if(i == 2){
-				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.WAR_ABILITY);
-				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.WAR_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
-
-			}
-			if(i == 3){
-				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.SUPERHERO_ABILITY);
-				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.SUPERHERO_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
-
-			}
-			if(i == 4){
-				Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.HEIGHTS_ABILITY);
-				killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.HEIGHTS_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
-
-			}
-
+					+ ChatColor.GRAY + " coins and " + ChatColor.DARK_AQUA + "10" + ChatColor.GRAY + " xp!");
+			Core.getInstance().getUserManager().getUser(killer).addExperience(10);
 			Core.getInstance().getUserManager().getUser(killer).addMoney(moneyPerKill);
+			
+			double r = random.nextInt(101*100);
+			if(r*100 < Core.getInstance().getUserManager().getUser(killer).getChestFindChance()){
+				this.giveRandomSeries(killer);
+			}
 		}
 
 		event.setDeathMessage(deathMessage);
 
+	}
+	
+	private void giveRandomSeries(Player killer){
+		Random random = new Random();
+		int i = random.nextInt(5);
+		if(i == 0){
+			Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.LASER_ABILITY);
+			killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.LASER_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
+		}
+		if(i == 2){
+			Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.WAR_ABILITY);
+			killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.WAR_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
+
+		}
+		if(i == 3){
+			Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.SUPERHERO_ABILITY);
+			killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.SUPERHERO_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
+
+		}
+		if(i == 4){
+			Core.getInstance().getUserManager().getUser(killer).addSeries(UnlockableSeries.HEIGHTS_ABILITY);
+			killer.sendMessage(ChatColor.GREEN + "Found " + UnlockableSeries.HEIGHTS_ABILITY.getDisplay() + ChatColor.GREEN + " series!");
+
+		}
 	}
 	
 	@EventHandler
@@ -261,7 +337,7 @@ public class UserManager implements Listener {
 		if (user.isSafe() && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
 			event.setCancelled(true);
 		}else{
-			if(!event.getItemDrop().getItemStack().getType().equals(Material.MUSHROOM_SOUP) && !event.getItemDrop().getItemStack().getType().equals(Material.BOWL) && !event.getItemDrop().getItemStack().getType().equals(Material.STONE_SWORD) ){
+			if(!event.getItemDrop().getItemStack().getType().equals(Material.POTION) && !event.getItemDrop().getItemStack().getType().equals(Material.MUSHROOM_SOUP) && !event.getItemDrop().getItemStack().getType().equals(Material.BOWL) && !event.getItemDrop().getItemStack().getType().equals(Material.WOOD_SWORD) ){
 				event.setCancelled(true);
 			}
 		}
@@ -292,13 +368,18 @@ public class UserManager implements Listener {
 			event.setJoinMessage(ChatColor.GREEN + "+ " + ChatColor.WHITE + event.getPlayer().getName() + ChatColor.LIGHT_PURPLE + " (new!)");
 		user.setSafe(true);
 		user.giveSpawnInventory();
+		if(user != null && user.getRank() != null){
+			event.getPlayer().setPlayerListName(user.getRank().getColor() + event.getPlayer().getName());
+			event.getPlayer().setCustomName(user.getRank().getColor() + event.getPlayer().getName());
+			event.getPlayer().setDisplayName(user.getRank().getColor() + event.getPlayer().getName());
+		}
 	}
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		if (!event.isCancelled()) {
 			for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-				player.sendMessage(Core.getInstance().getUserManager().getUser(ChatColor.WHITE.toString() + Core.getInstance().getUserManager().getUser(event.getPlayer()).getLevel() + event.getPlayer()).getRank().getColor()
+				player.sendMessage(ChatColor.DARK_AQUA.toString() + Core.getInstance().getUserManager().getUser(event.getPlayer()).getLevel() + " " + Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor()
 						+ event.getPlayer().getName() + ": " + ChatColor.GRAY + event.getMessage());
 				if (event.getMessage().toUpperCase().contains(player.getName().toUpperCase())) {
 					player.playSound(player.getLocation(), Sound.CAT_MEOW, 1, 1);
@@ -330,7 +411,8 @@ public class UserManager implements Listener {
 			if (event.getItem().getType() == null)
 				return;
 			if (event.getItem().getType().equals(Material.MUSHROOM_SOUP)) {
-				if (event.getPlayer().getHealth() != event.getPlayer().getMaxHealth()) {
+				Damageable dm = event.getPlayer();
+				if (dm.getHealth() != dm.getMaxHealth()) {
 					this.eatSoup(event.getPlayer());
 					event.getItem().setType(Material.BOWL);
 					event.getPlayer().updateInventory();
@@ -340,11 +422,12 @@ public class UserManager implements Listener {
 	}
 
 	private void eatSoup(Player player) {
-		if (player.getHealth() < player.getMaxHealth()) {
-			if (player.getHealth() + 7 > player.getMaxHealth()) {
-				player.setHealth(player.getMaxHealth());
+		Damageable dm = player;
+		if (dm.getHealth() < dm.getMaxHealth()) {
+			if (dm.getHealth() + 7 > dm.getMaxHealth()) {
+				player.setHealth(dm.getMaxHealth());
 			} else {
-				player.setHealth(player.getHealth() + 7);
+				player.setHealth(dm.getHealth() + 7);
 			}
 		}
 	}

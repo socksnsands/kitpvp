@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,10 +33,11 @@ public class Aphrodite extends Ability implements Listener {
 							.isCancelled()) {
 						ParticleEffect.HEART.display(0, 0, 0, 0, 1, player.getLocation().clone().add(0, 1.5, 0), 200);
 						player.getWorld().playSound(player.getLocation(), Sound.BURP, 1, 1);
-						if (player.getMaxHealth() < player.getHealth() + event.getDamage())
-							player.setHealth(player.getMaxHealth());
+						Damageable dm = player;
+						if (dm.getMaxHealth() < dm.getHealth() + event.getDamage())
+							dm.setHealth(dm.getMaxHealth());
 						else
-							player.setHealth(player.getHealth() + event.getDamage());
+							dm.setHealth(dm.getHealth() + event.getDamage());
 						event.setCancelled(true);
 					}
 				}

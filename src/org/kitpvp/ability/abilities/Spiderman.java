@@ -25,7 +25,6 @@ public class Spiderman extends Ability implements Listener {
 		if(action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)){
 			FallingBlock fb = player.getWorld().spawnFallingBlock(player.getLocation().clone().add(0,1,0), Material.WEB, (byte) 0);
 			fb.setVelocity(player.getLocation().getDirection().multiply(1.2));
-			fb.setCustomName("spiderman_web");
 			fb.setDropItem(false);
 			super.putOnCooldown(player);
 		}
@@ -34,7 +33,8 @@ public class Spiderman extends Ability implements Listener {
 	@EventHandler
 	public void onBlockFall(EntityChangeBlockEvent event) {
 		if (event.getEntity() instanceof FallingBlock) {
-			if (event.getEntity().getName().equals("spiderman_web")) {
+			FallingBlock fb = (FallingBlock)event.getEntity();
+			if (fb.getBlockId() == Material.WEB.getId()) {
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable(){
 
 					@Override

@@ -39,6 +39,11 @@ public class SetRankCommand implements CommandExecutor {
 								+ Rank.valueOf(args[1].toUpperCase()).getColor() + args[1].toLowerCase()
 								+ ChatColor.GREEN + "!");
 						target.sendMessage(ChatColor.GREEN + "Your rank was set to " + Rank.valueOf(args[1].toUpperCase()).getColor() + args[1].toLowerCase() + ChatColor.GREEN +"!");
+						if(user != null && user.getRank() != null){
+							target.setPlayerListName(user.getRank().getColor() + target.getName());
+							target.setCustomName(user.getRank().getColor() + target.getName());
+							target.setDisplayName(user.getRank().getColor() + target.getName());
+						}
 					} catch (Exception ex) {
 						sender.sendMessage(ChatColor.RED + "Rank \"" + args[1] + "\" not found!");
 						sender.sendMessage(ChatColor.RED + "Rank list:");

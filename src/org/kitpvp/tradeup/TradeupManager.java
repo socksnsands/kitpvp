@@ -108,11 +108,11 @@ public class TradeupManager implements Listener {
 				}
 			}
 		}
-		if(gui.getContents().length == 0){
+		if(gui.getItem(0) == null || gui.getItem(0).getType().equals(Material.AIR)){
 			ItemStack n = new ItemStack(Material.REDSTONE_BLOCK);
 			ItemMeta nm = n.getItemMeta();
 			nm.setDisplayName(ChatColor.DARK_RED + "None Available!");
-			nm.setLore(Arrays.asList("", ChatColor.GRAY + "You do not have enough of", "any ability to be able", "to trade it up!"));
+			nm.setLore(Arrays.asList("", ChatColor.GRAY + "You do not have enough of", ChatColor.GRAY + "any ability to be able", ChatColor.GRAY + "to trade it up!"));
 			n.setItemMeta(nm);
 			gui.addItem(n);
 		}

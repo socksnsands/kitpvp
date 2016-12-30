@@ -85,7 +85,7 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Shocker());
 		unlockables.add(new Jesus());
 		unlockables.add(new WindStorm());
-		unlockables.add(new Ignite());
+//		unlockables.add(new Ignite());
 		unlockables.add(new BulkUp(1));
 		unlockables.add(new BulkUp(2));
 		unlockables.add(new BulkUp(3));
@@ -130,7 +130,7 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new ExplosiveGrenade(3));
 		unlockables.add(new Heal());
 		unlockables.add(new OmegaLaser());
-		unlockables.add(new SiphoningStrike());
+//		unlockables.add(new SiphoningStrike());
 		unlockables.add(new WitherAway());
 		unlockables.add(new Disengage());
 		unlockables.add(new Leap());
@@ -139,7 +139,7 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new FlashGrenade(2));
 		unlockables.add(new FlashGrenade(3));
 		unlockables.add(new Spiderman());
-		unlockables.add(new Pirate());
+//		unlockables.add(new Pirate());
 		unlockables.add(new Anvil());
 		unlockables.add(new ParalysisBlockade());
 		unlockables.add(new IceBlockade());
@@ -222,7 +222,7 @@ public class UnlockableManager implements Listener {
 				ItemStack item = series.getIcon();
 				ArrayList<String> lore = new ArrayList<String>();
 				lore.addAll(item.getItemMeta().getLore());
-				lore.addAll(Arrays.asList("", ChatColor.GRAY + "Shift + left click to", "open instantly."));
+				lore.addAll(Arrays.asList("", ChatColor.GRAY + "Shift + left click to", ChatColor.GRAY + "open instantly."));
 				ItemMeta im = item.getItemMeta();
 				im.setLore(lore);
 				item.setItemMeta(im);

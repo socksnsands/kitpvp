@@ -36,6 +36,26 @@ public class DeveloperCommand implements CommandExecutor {
 				player.getInventory().addItem(Core.getInstance().getItemManager().getUnlockableOpener());
 				return false;
 			}
+			
+			if(arg3[0].equalsIgnoreCase("motd")){
+		        String m = "";
+		        for (int i = 1; i < arg3.length; i++) {
+		        	m = m + (i > 1 ? " " : "") + arg3[i];
+		        }
+		        Core.getInstance().getConfig().set("motd", m);
+		        Core.getInstance().saveConfig();
+		        return false;
+			}
+			
+			if(arg3[0].equalsIgnoreCase("whitelistreason")){
+		        String m = "";
+		        for (int i = 1; i < arg3.length; i++) {
+		        	m = m + (i > 1 ? " " : "") + arg3[i];
+		        }
+		        Core.getInstance().getConfig().set("whitelist.reason", m);
+		        Core.getInstance().saveConfig();
+		        return false;
+			}
 
 			if (arg3[0].equalsIgnoreCase("giveseries")) {
 				if (arg3.length >= 3) {
@@ -44,7 +64,13 @@ public class DeveloperCommand implements CommandExecutor {
 							User user = Core.getInstance().getUserManager().getUser(player);
 							try {
 								UnlockableSeries series = UnlockableSeries.valueOf(arg3[2]);
-								user.addSeries(series);
+								int a = 1;
+								if(arg3.length >= 4)
+									try{
+										a = Integer.valueOf(arg3[3]);
+									}catch(Exception ex){}
+								for(int i = 0; i < a; i++)
+									user.addSeries(series);
 							} catch (IllegalArgumentException ex) {
 								arg0.sendMessage("Series \"" + arg3[2] + "\" not found!");
 								arg0.sendMessage("Series list:");

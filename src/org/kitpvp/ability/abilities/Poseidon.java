@@ -22,7 +22,7 @@ public class Poseidon extends Ability {
 
 	public Poseidon() {
 		super(name, "Shoot a wave!", Material.WATER_BUCKET, Scarcity.GOLD, 18, 1);
-		super.setClickedItem(Material.PRISMARINE_SHARD);
+		super.setClickedItem(Material.LAPIS_BLOCK);
 		super.setCooldown(20 * 35);
 	}
 
@@ -80,7 +80,6 @@ public class Poseidon extends Ability {
 		FallingBlock fb = location.getWorld().spawnFallingBlock(location.clone().add(0, -.3, 0), Material.LAPIS_BLOCK,
 				(byte) 0);
 		fb.setVelocity(new Vector(0, .3, 0));
-		fb.setCustomName("no_land");
 		fb.setDropItem(false);
 	}
 

@@ -3,6 +3,7 @@ package org.kitpvp.ability.abilities;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffect;
@@ -36,8 +37,9 @@ public class SwapLaser extends Ability {
 					if (i % 5 == 0) {
 						for (Player p : player.getWorld().getPlayers()) {
 							if (p != player && p.getLocation().clone().add(0, 1, 0).distance(loc) < 1) {
-								double health = p.getHealth();
-								p.setHealth(player.getHealth());
+								Damageable dm = p, dm2 = player;
+								double health = dm.getHealth();
+								p.setHealth(dm2.getHealth());
 								player.setHealth(health);
 								p.getWorld().playSound(p.getLocation(), Sound.PORTAL_TRAVEL, 1, 1);
 								ha = true;

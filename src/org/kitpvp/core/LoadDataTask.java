@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.kitpvp.loadout.Loadout;
 import org.kitpvp.unlockable.UnlockableSeries;
+import org.kitpvp.user.Specialty;
 import org.kitpvp.user.User;
 import org.kitpvp.user.rank.Rank;
 
@@ -39,6 +40,8 @@ public class LoadDataTask extends BukkitRunnable {
 				String rank = resultSet.getString("rank");
 				String loadouts = resultSet.getString("kit");
 				int money = resultSet.getInt("money");
+				String specialty = resultSet.getString("specialty");
+
 				boolean g = false;
 				for(Rank r : Rank.values()){
 					if(r.toString().toUpperCase().equals(rank)){
@@ -62,9 +65,11 @@ public class LoadDataTask extends BukkitRunnable {
 					}
 				}
 				
+				user.setSpecialty(Specialty.valueOf(specialty));
+				
 			}else{
 				PreparedStatement ps = Core.getInstance().getConnection().prepareStatement(
-						"INSERT INTO `users` (`uuid`, `rank`, `kit`, `abilities`, `series`, `money`) VALUES (?, ?, ?, ?, ?, ?)"
+						"INSERT INTO `users` (`uuid`, `rank`, `kit`, `abilities`, `series`, `money`, `specialty`) VALUES (?, ?, ?, ?, ?, ?, ?)"
 				);
 				User user = Core.getInstance().getUserManager().getUser(uuid);
 				user.addSeries(UnlockableSeries.GOD_ABILITY);
@@ -79,6 +84,7 @@ public class LoadDataTask extends BukkitRunnable {
 				ps.setString(4, "");
 				ps.setString(5, "");
 				ps.setInt(6, 0);
+				ps.setString(7, Specialty.getDefaultSpecialty().toString());
 				ps.executeUpdate();
 				ps.close();
 			}

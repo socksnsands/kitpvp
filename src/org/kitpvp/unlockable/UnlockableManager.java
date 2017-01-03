@@ -151,6 +151,8 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new ArmorLock(1));
 		unlockables.add(new DistanceLaser(1));
 		unlockables.add(new DistanceLaser(2));
+		unlockables.add(new Timelord());
+
 	}
 
 	public Unlockable getUnlockable(String name) {
@@ -198,6 +200,7 @@ public class UnlockableManager implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new Dolphin(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Ninja(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Snail(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Timelord(), Core.getInstance());
 	}
 
 	public Scarcity getRandom() {

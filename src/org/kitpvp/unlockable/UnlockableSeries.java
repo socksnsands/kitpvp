@@ -49,7 +49,7 @@ public enum UnlockableSeries {
 			Material.CHEST),
 	UNREAL_ABILITY(ChatColor.RED + "Unreal",
 			"Premium series",
-			Arrays.asList("Black Hole", "Body Shield"),
+			Arrays.asList("Black Hole", "Body Shield", "Timelord"),
 			Material.ENDER_CHEST);
 
 	private String display;

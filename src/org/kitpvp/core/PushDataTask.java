@@ -20,7 +20,7 @@ public class PushDataTask extends BukkitRunnable {
 			User user = Core.getInstance().getUserManager().getUser(uuid);
 			
 			PreparedStatement s = Core.getInstance().getConnection().prepareStatement(
-					"UPDATE `users` SET `rank` = ?, `kit` = ?, `abilities` = ?, `series` = ?, `money` = ? WHERE `uuid` = ?");
+					"UPDATE `users` SET `rank` = ?, `kit` = ?, `abilities` = ?, `series` = ?, `money` = ?, `specialty` = ? WHERE `uuid` = ?");
 			s.setString(6, uuid);
 			if(user.getRank() != null)
 				s.setString(1, user.getRank().toString());
@@ -37,6 +37,7 @@ public class PushDataTask extends BukkitRunnable {
 			s.setString(3, user.encodeAllAbilities());
 			s.setString(4, user.encodeAllSeries());
 			s.setInt(5, user.getBalance());
+			s.setString(7, user.getSpecialty().toString());
 			s.executeUpdate();
 			s.close();
 			

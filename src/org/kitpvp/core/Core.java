@@ -17,6 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.kitpvp.ability.AbilityManager;
 import org.kitpvp.ability.abilities.objects.JetManager;
 import org.kitpvp.ability.abilities.objects.TotemManager;
+import org.kitpvp.cheat.CheatManager;
+import org.kitpvp.cheat.cheats.detection.PvpListener;
 import org.kitpvp.commands.BalanceCommand;
 import org.kitpvp.commands.MessageCommand;
 import org.kitpvp.commands.PayCommand;
@@ -32,8 +34,10 @@ public class Core extends JavaPlugin implements Listener {
 
 	private static Core instance;
 
+	private boolean debugMode = false;
+	
 	private Connection connection;
-	private String conString = "jdbc:mysql://s21.hosthorde.com:3306/32694?user=32694&password=c6aea7813b&autoReconnect=true";
+	private String conString = "jdbc:mysql://107.191.107.12/cust_31?user=cust_31&password=e676949eb0&autoReconnect=true";
 	private UnlockableManager unlockableManager;
 	private AbilityManager abilityManager;
 	private UserManager userManager;
@@ -41,6 +45,8 @@ public class Core extends JavaPlugin implements Listener {
 	private JetManager jetManager;
 	private ItemManager itemManager;
 	private DamageManager damageManager;
+	private CheatManager cheatManager;
+
 
 	public void onEnable() {
 		instance = this;
@@ -52,6 +58,7 @@ public class Core extends JavaPlugin implements Listener {
 		jetManager = new JetManager();
 		itemManager = new ItemManager();
 		damageManager = new DamageManager();
+		cheatManager = new CheatManager();
 		
 		if (!getConfig().contains("con.useConfigConnection")) {
 			getConfig().set("con.useConfigConnection", true);
@@ -72,8 +79,17 @@ public class Core extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 		Bukkit.getServer().getPluginManager().registerEvents(new LoadoutManager(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new TradeupManager(), this);
-		
+		Bukkit.getServer().getPluginManager().registerEvents(new PvpListener(), this);
+
 		registerCommands();
+	}
+	
+	public boolean getDebug(){
+		return this.debugMode;
+	}
+	
+	public void toggleDebug(){
+		this.debugMode = !this.debugMode;
 	}
 	
 	public boolean onWhitelist(){
@@ -113,19 +129,13 @@ public class Core extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void onChange(WeatherChangeEvent event){
-		event.getWorld().setStorm(false);
+//		event.getWorld().setStorm(false);
 		event.setCancelled(true);
 	}
 	
 	@EventHandler
 	public void onPing(ServerListPingEvent event) {
 		event.setMaxPlayers(100);
-//		int currentAbilities = this.getAbilityManager().getAbilities().size();
-//		int abilitiesToLaunch = 115;
-//		double p = currentAbilities/abilitiesToLaunch;
-//		p*=100;
-//		DecimalFormat df = new DecimalFormat("#.##");
-//		String percent = df.format(p);
 		event.setMotd(ChatColor.GOLD + "kitpvp.org \n" + ChatColor.GOLD.toString() + ChatColor.MAGIC + "K" + ChatColor.GRAY + " " + ChatColor.translateAlternateColorCodes('&', getConfig().getString("motd")));
 	}
 
@@ -137,7 +147,7 @@ public class Core extends JavaPlugin implements Listener {
 				}
 			}
 		}
-		this.stopServer("Kitpvp.org restarting!");
+		this.stopServer("kitpvp.org restarting!");
 	}
 
 	public void stopServer(String reason) {
@@ -184,6 +194,10 @@ public class Core extends JavaPlugin implements Listener {
 
 	public ItemManager getItemManager() {
 		return this.itemManager;
+	}
+
+	public CheatManager getCheatManager() {
+		return this.cheatManager;
 	}
 
 	public static Core getInstance() {

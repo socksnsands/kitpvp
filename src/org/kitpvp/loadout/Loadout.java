@@ -36,14 +36,15 @@ public class Loadout {
 
 	private Location randomMapLocation(){
 		Random random = new Random();
-		int xa = random.nextInt(50);
-		int za = random.nextInt(113);
-		Location location = new Location(Bukkit.getWorld("world"), 429+xa, 0, -80+za);
+		int xa = random.nextInt(23);
+		int za = random.nextInt(24);
+		Location location = new Location(Bukkit.getWorld("world"), 22+xa, 0, 162+za);
 		int y = location.getWorld().getHighestBlockYAt(location);
 		Location l = new Location(Bukkit.getWorld("world"), location.getX(), y, location.getZ()).clone().add(0,1,0);
 		return l;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void apply(Player player) {
 		User user = Core.getInstance().getUserManager().getUser(player);
 		player.closeInventory();
@@ -58,23 +59,23 @@ public class Loadout {
 		stack.setTag(tag);
 		ItemStack is = CraftItemStack.asCraftMirror(stack);
 		
-		net.minecraft.server.v1_7_R4.ItemStack chest = CraftItemStack.asNMSCopy(new ItemStack(Material.LEATHER_CHESTPLATE));
-		chest.setTag(tag);
-		ItemStack hIs = CraftItemStack.asCraftMirror(chest);
-		
-		player.getInventory().setChestplate(hIs);
-		
-		net.minecraft.server.v1_7_R4.ItemStack leggings = CraftItemStack.asNMSCopy(new ItemStack(Material.LEATHER_LEGGINGS));
-		leggings.setTag(tag);
-		ItemStack lIs = CraftItemStack.asCraftMirror(leggings);
-		
-		player.getInventory().setLeggings(lIs);
-		
-		net.minecraft.server.v1_7_R4.ItemStack boots = CraftItemStack.asNMSCopy(new ItemStack(Material.LEATHER_BOOTS));
-		boots.setTag(tag);
-		ItemStack bIs = CraftItemStack.asCraftMirror(boots);
-		
-		player.getInventory().setBoots(bIs);
+//		net.minecraft.server.v1_7_R4.ItemStack chest = CraftItemStack.asNMSCopy(new ItemStack(Material.LEATHER_CHESTPLATE));
+//		chest.setTag(tag);
+//		ItemStack hIs = CraftItemStack.asCraftMirror(chest);
+//		
+//		player.getInventory().setChestplate(hIs);
+//		
+//		net.minecraft.server.v1_7_R4.ItemStack leggings = CraftItemStack.asNMSCopy(new ItemStack(Material.LEATHER_LEGGINGS));
+//		leggings.setTag(tag);
+//		ItemStack lIs = CraftItemStack.asCraftMirror(leggings);
+//		
+//		player.getInventory().setLeggings(lIs);
+//		
+//		net.minecraft.server.v1_7_R4.ItemStack boots = CraftItemStack.asNMSCopy(new ItemStack(Material.LEATHER_BOOTS));
+//		boots.setTag(tag);
+//		ItemStack bIs = CraftItemStack.asCraftMirror(boots);
+//		
+//		player.getInventory().setBoots(bIs);
 		
 //		ItemStack is = new ItemStack(Material.WOOD_SWORD);
 //		is.addUnsafeEnchantment(Enchantment.DURABILITY, 100);
@@ -100,8 +101,10 @@ public class Loadout {
 		}else{
 			if(specialty.equals(Specialty.COOK))
 				inv.addItem(new ItemStack(Material.COOKIE, 40, (byte)0));
-			if(specialty.equals(Specialty.BRUTE))
-				player.setMaxHealth(200);
+			if(specialty.equals(Specialty.BRUTE)){
+				player.setMaxHealth(140);
+				player.setHealth(140);
+			}
 		}
 		Core.getInstance().getUserManager().getUser(player).setSafe(false);
 		Core.getInstance().getUserManager().getUser(player).setActiveLoadout(this);

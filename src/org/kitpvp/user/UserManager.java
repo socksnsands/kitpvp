@@ -22,8 +22,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -44,6 +46,7 @@ import org.kitpvp.core.Core;
 import org.kitpvp.core.LoadDataTask;
 import org.kitpvp.core.PushDataTask;
 import org.kitpvp.unlockable.UnlockableSeries;
+import org.kitpvp.user.rank.Rank;
 
 public class UserManager implements Listener {
 
@@ -126,66 +129,66 @@ public class UserManager implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onKb(EntityDamageByEntityEvent event){
-		if(event.getDamager() instanceof Player){
-			Player p = (Player) event.getDamager();
-			if(this.isLoadedUser(p)){
-				if(this.getUser(p).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil"))){
-					return;
-				}
-			}
-		}
-		if(event.getEntity() instanceof Player){
-			Player p = (Player) event.getEntity();
-			if(this.isLoadedUser(p)){
-				if(this.getUser(p).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil"))){
-					return;
-				}
-			}
-		}
-		if(event.getEntity() instanceof Damageable){
-			Damageable dm = (Damageable) event.getEntity();
-			event.setCancelled(true);
-			dm.damage(event.getDamage());
-			dm.setVelocity(event.getDamager().getLocation().getDirection().multiply(.4).setY(.3));
-			if(event.getDamager() instanceof Player){
-				Player p =(Player) event.getDamager();
-				applyKnockBack(p, dm, dm.getLocation(), p.getItemInHand().getEnchantmentLevel(Enchantment.KNOCKBACK), p.isSprinting(), false, .5, .35);
-			}
-		}
-	}
+//	@EventHandler(priority = EventPriority.MONITOR)
+//	public void onKb(EntityDamageByEntityEvent event){
+//		if(event.getDamager() instanceof Player){
+//			Player p = (Player) event.getDamager();
+//			if(this.isLoadedUser(p)){
+//				if(this.getUser(p).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil"))){
+//					return;
+//				}
+//			}
+//		}
+//		if(event.getEntity() instanceof Player){
+//			Player p = (Player) event.getEntity();
+//			if(this.isLoadedUser(p)){
+//				if(this.getUser(p).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil"))){
+//					return;
+//				}
+//			}
+//		}
+//		if(event.getEntity() instanceof Damageable){
+//			Damageable dm = (Damageable) event.getEntity();
+//			event.setCancelled(true);
+//			dm.damage(event.getDamage());
+//			dm.setVelocity(event.getDamager().getLocation().getDirection().multiply(.4).setY(.3));
+//			if(event.getDamager() instanceof Player){
+//				Player p =(Player) event.getDamager();
+//				applyKnockBack(p, dm, dm.getLocation(), p.getItemInHand().getEnchantmentLevel(Enchantment.KNOCKBACK), p.isSprinting(), false, .5, .35);
+//			}
+//		}
+//	}
 
 	@EventHandler
 	public void onLoseHunger(FoodLevelChangeEvent event) {
 		event.setCancelled(true);
 	}
 	
-	private void applyKnockBack(Player hitter, final Entity en, final Location loc, int knock, final boolean sprint, final boolean gapple, final double velocity, final double height)
-	  {
-	    if ((en instanceof Player))
-	    {
-	      final Player player = (Player)en;
-	        new BukkitRunnable()
-	        {
-	          public void run()
-	          {
-	            org.bukkit.util.Vector vector = player.getLocation().toVector().subtract(loc.toVector()).normalize();
-	            
-	            double d = velocity + (sprint ? 1 : 0) * 0.05D - 0.05D;
-	            double b = height;
-	            if ((!player.isOnGround()))
-	            {
-	              b -= 0.5D;
-	              if (b < 0.0D) {
-	                b = 0.0D;
-	              }
-	            }
-	            player.setVelocity(vector.multiply(d).setY(b));
-	          }
-	        }.runTask(Core.getInstance());
-	    }
-	  }
+//	private void applyKnockBack(Player hitter, final Entity en, final Location loc, int knock, final boolean sprint, final boolean gapple, final double velocity, final double height)
+//	  {
+//	    if ((en instanceof Player))
+//	    {
+//	      final Player player = (Player)en;
+//	        new BukkitRunnable()
+//	        {
+//	          public void run()
+//	          {
+//	            org.bukkit.util.Vector vector = player.getLocation().toVector().subtract(loc.toVector()).normalize();
+//	            
+//	            double d = velocity + (sprint ? 1 : 0) * 0.05D - 0.05D;
+//	            double b = height;
+//	            if ((!player.isOnGround()))
+//	            {
+//	              b -= 0.5D;
+//	              if (b < 0.0D) {
+//	                b = 0.0D;
+//	              }
+//	            }
+//	            player.setVelocity(vector.multiply(d).setY(b));
+//	          }
+//	        }.runTask(Core.getInstance());
+//	    }
+//	  }
 
 	@EventHandler
 	public void onClickInventory(InventoryClickEvent event) {
@@ -197,6 +200,18 @@ public class UserManager implements Listener {
 					User user = Core.getInstance().getUserManager().getUser(player);
 					if (user.hasLoadout(current)) {
 						user.getLoadout(current).apply(player);
+					}
+				}
+				event.setCancelled(true);
+			}
+			if (event.getInventory().getTitle().equals(ChatColor.UNDERLINE + "Path Selector")) {
+				Player player = (Player) event.getWhoClicked();
+				if (event.getCurrentItem()!= null) {
+					User user = Core.getInstance().getUserManager().getUser(player);
+					if (Specialty.isSpecialty(event.getCurrentItem())) {
+						user.setSpecialty(Specialty.getSpecialty(event.getCurrentItem()));
+						user.getPlayer().closeInventory();
+						user.getPlayer().sendMessage(ChatColor.GREEN + "Path selected: " +event.getCurrentItem().getItemMeta().getDisplayName());
 					}
 				}
 				event.setCancelled(true);
@@ -236,6 +251,11 @@ public class UserManager implements Listener {
 				}
 				event.setCancelled(true);
 			}
+			if (event.getPlayer().getItemInHand().equals(Core.getInstance().getItemManager().getPathItem())) {
+				User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
+				user.openPathSelector();
+				event.setCancelled(true);
+			}
 		}
 	}
 
@@ -252,7 +272,7 @@ public class UserManager implements Listener {
 		
 		ArrayList<ItemStack> toRemoveDrops = new ArrayList<>();
 		for(ItemStack drop : event.getDrops()){
-			if(!drop.getType().equals(Material.MUSHROOM_SOUP) && !drop.getType().equals(Material.STONE_SWORD) && !drop.getType().equals(Material.BOWL)){
+			if(!drop.getType().equals(Material.MUSHROOM_SOUP) && !drop.getType().equals(Material.WOOD_SWORD) && !drop.getType().equals(Material.BOWL) && !drop.getType().equals(Material.POTION) && !drop.getType().equals(Material.COOKIE)){
 				toRemoveDrops.add(drop);
 			}
 		}
@@ -274,10 +294,11 @@ public class UserManager implements Listener {
 			Core.getInstance().getUserManager().getUser(killer).addExperience(10);
 			Core.getInstance().getUserManager().getUser(killer).addMoney(moneyPerKill);
 			
-			double r = random.nextInt(101*100);
-			if(r*100 < Core.getInstance().getUserManager().getUser(killer).getChestFindChance()){
+			//TODO make random
+//			double r = random.nextInt(101*100);
+//			if(r*100 < Core.getInstance().getUserManager().getUser(killer).getChestFindChance()){
 				this.giveRandomSeries(killer);
-			}
+//			}
 		}
 
 		event.setDeathMessage(deathMessage);
@@ -329,6 +350,31 @@ public class UserManager implements Listener {
 		if (user.isSafe() && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
 			event.setCancelled(true);
 		}
+		if(event.getItem().getItemStack().getType().equals(Material.BOWL) || event.getItem().getItemStack().getType().equals(Material.MUSHROOM_SOUP)){
+			if(!user.getSpecialty().equals(Specialty.SOUPER)){
+				event.setCancelled(true);
+			}
+		}
+		if(event.getItem().getItemStack().getType().equals(Material.POTION)){
+			if(!user.getSpecialty().equals(Specialty.CHEMIST)){
+				event.setCancelled(true);
+			}
+		}
+		if(event.getItem().getItemStack().getType().equals(Material.COOKIE)){
+			if(!user.getSpecialty().equals(Specialty.COOK)){
+				event.setCancelled(true);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onRegen(EntityRegainHealthEvent event){
+		if(event.getEntity() instanceof Player){
+			Player p = (Player) event.getEntity();
+			if(Core.getInstance().getUserManager().getUser(p).getSpecialty().equals(Specialty.BRUTE)){
+				event.setCancelled(true);
+			}
+		}
 	}
 
 	@EventHandler
@@ -337,7 +383,7 @@ public class UserManager implements Listener {
 		if (user.isSafe() && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
 			event.setCancelled(true);
 		}else{
-			if(!event.getItemDrop().getItemStack().getType().equals(Material.POTION) && !event.getItemDrop().getItemStack().getType().equals(Material.MUSHROOM_SOUP) && !event.getItemDrop().getItemStack().getType().equals(Material.BOWL) && !event.getItemDrop().getItemStack().getType().equals(Material.WOOD_SWORD) ){
+			if(!event.getItemDrop().getItemStack().getType().equals(Material.POTION) && !event.getItemDrop().getItemStack().getType().equals(Material.MUSHROOM_SOUP) && !event.getItemDrop().getItemStack().getType().equals(Material.COOKIE) && !event.getItemDrop().getItemStack().getType().equals(Material.BOWL) && !event.getItemDrop().getItemStack().getType().equals(Material.WOOD_SWORD) ){
 				event.setCancelled(true);
 			}
 		}
@@ -351,9 +397,13 @@ public class UserManager implements Listener {
 	}
 
 	@EventHandler
-	public void onJoin(PlayerJoinEvent event) {
-		LoadDataTask ldt = new LoadDataTask(event.getPlayer().getUniqueId().toString());
+	public void onLogin(AsyncPlayerPreLoginEvent event){
+		LoadDataTask ldt = new LoadDataTask(event.getUniqueId().toString());
 		ldt.runTaskAsynchronously(Core.getInstance());
+	}
+	
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
 		User user = Core.getInstance().getUserManager().getUser(event.getPlayer().getUniqueId().toString());
 		if (user == null) {
 			user = new User(event.getPlayer().getUniqueId().toString());
@@ -376,10 +426,21 @@ public class UserManager implements Listener {
 	}
 
 	@EventHandler
+	public void onPlace(BlockPlaceEvent event){
+		if(!event.getPlayer().getGameMode().equals(GameMode.CREATIVE)){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		if (!event.isCancelled()) {
 			for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-				player.sendMessage(ChatColor.DARK_AQUA.toString() + Core.getInstance().getUserManager().getUser(event.getPlayer()).getLevel() + " " + Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor()
+				player.sendMessage(
+//						ChatColor.DARK_AQUA.toString() + Core.getInstance().getUserManager().getUser(event.getPlayer()).getLevel() + " " + 
+						Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getColor() +
+				Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().getPrefix() +
+				(Core.getInstance().getUserManager().getUser(event.getPlayer()).getRank().equals(Rank.DEFAULT) ? "" : " ")
 						+ event.getPlayer().getName() + ": " + ChatColor.GRAY + event.getMessage());
 				if (event.getMessage().toUpperCase().contains(player.getName().toUpperCase())) {
 					player.playSound(player.getLocation(), Sound.CAT_MEOW, 1, 1);
@@ -412,10 +473,26 @@ public class UserManager implements Listener {
 				return;
 			if (event.getItem().getType().equals(Material.MUSHROOM_SOUP)) {
 				Damageable dm = event.getPlayer();
-				if (dm.getHealth() != dm.getMaxHealth()) {
-					this.eatSoup(event.getPlayer());
-					event.getItem().setType(Material.BOWL);
-					event.getPlayer().updateInventory();
+				if(Core.getInstance().getUserManager().getUser(event.getPlayer()).getSpecialty().equals(Specialty.SOUPER)){
+					if (dm.getHealth() != dm.getMaxHealth()) {
+						this.eatSoup(event.getPlayer());
+						event.getItem().setType(Material.BOWL);
+						event.getPlayer().updateInventory();
+					}
+				}
+			}
+			if (event.getItem().getType().equals(Material.COOKIE)) {
+				Damageable dm = event.getPlayer();
+				if(Core.getInstance().getUserManager().getUser(event.getPlayer()).getSpecialty().equals(Specialty.COOK)){
+					if (dm.getHealth() != dm.getMaxHealth()) {
+						this.eatCookie(event.getPlayer());
+						if(event.getItem().getAmount() <= 1){
+							event.getItem().setType(Material.AIR);
+						}else{
+							event.getPlayer().getItemInHand().setAmount(event.getPlayer().getItemInHand().getAmount()-1);
+						}
+						event.getPlayer().updateInventory();
+					}
 				}
 			}
 		}
@@ -428,6 +505,17 @@ public class UserManager implements Listener {
 				player.setHealth(dm.getMaxHealth());
 			} else {
 				player.setHealth(dm.getHealth() + 7);
+			}
+		}
+	}
+	
+	private void eatCookie(Player player) {
+		Damageable dm = player;
+		if (dm.getHealth() < dm.getMaxHealth()) {
+			if (dm.getHealth() + 4 > dm.getMaxHealth()) {
+				player.setHealth(dm.getMaxHealth());
+			} else {
+				player.setHealth(dm.getHealth() + 4);
 			}
 		}
 	}

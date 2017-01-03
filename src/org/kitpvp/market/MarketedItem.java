@@ -3,19 +3,20 @@ package org.kitpvp.market;
 import java.util.Date;
 
 import org.bukkit.entity.Player;
+import org.kitpvp.ability.Ability;
 
 public class MarketedItem {
 
 	private Player player;
 	private int cost;
-	private Object object;
+	private Ability object;
 	private Date created;
 	private boolean cancelled = false;
 	
-	public MarketedItem(Player player, int cost, Object marketedObject){
+	public MarketedItem(Player player, int cost, Ability ability){
 		this.player = player;
 		this.cost = cost;
-		this.object = marketedObject;
+		this.object = ability;
 		this.created = new Date();
 	}
 	
@@ -35,7 +36,7 @@ public class MarketedItem {
 		return this.cost;
 	}
 	
-	public Object getObject(){
+	public Ability getAbility(){
 		return this.object;
 	}
 	

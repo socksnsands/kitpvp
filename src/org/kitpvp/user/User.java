@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.kitpvp.ability.Ability;
+import org.kitpvp.cheat.Cheat;
+import org.kitpvp.cheat.Cheat.ActionType;
 import org.kitpvp.core.Core;
 import org.kitpvp.loadout.Loadout;
 import org.kitpvp.unlockable.Unlockable;
@@ -26,6 +28,8 @@ import org.kitpvp.util.ItemManager;
 public class User {
 
 	private String uuid;
+	
+	private HashMap<Cheat, Integer> offenses = new HashMap<Cheat, Integer>();
 
 	private HashMap<Unlockable, Integer> ownedUnlockables = new HashMap<Unlockable, Integer>();
 	private HashMap<UnlockableSeries, Integer> ownedSeries = new HashMap<UnlockableSeries, Integer>();
@@ -45,7 +49,21 @@ public class User {
 		this.uuid = uuid;
 		
 		rank = Rank.DEFAULT;
-		specialty = Specialty.SOUPER.getDefaultSpecialty();
+		specialty = Specialty.getDefaultSpecialty();
+	}
+	
+	public void addOffense(Cheat cheat){
+		if(!this.offenses.containsKey(cheat)){
+			this.offenses.put(cheat, 1);
+		}else{
+			this.offenses.put(cheat, this.offenses.get(cheat) + 1);
+		}
+		if(Core.getInstance().getDebug()){
+			System.out.println(getPlayer().getName() + " has " + this.offenses.get(cheat) + " offenses in " + cheat.getId() + "!");
+		}
+		if(this.offenses.get(cheat) > cheat.getOffensesFor(ActionType.BAN)){
+			Bukkit.broadcastMessage(ChatColor.RED.toString() + ChatColor.BOLD + " ! " + ChatColor.YELLOW + "We believe that " + getPlayer().getName() + " is hacking (" + cheat.getId() + ")!");
+		}
 	}
 
 	public String getUUID() {
@@ -61,11 +79,13 @@ public class User {
 	}
 	
 	public double getChestFindChance(){
-		double r = this.rank.getBonusPercent();
-		r+=(this.getLevel()/50.0);
+//		double r = this.rank.getBonusPercent();
+//		r+=(this.getLevel()/50.0);
 		//default percent
-		r+=3;
-		return r;
+//		r+=3;
+		//TODO
+		//change back to ^ that, for now, 100% chance
+		return 100;
 	}
 	
 	public void setExperience(int amount){
@@ -92,7 +112,7 @@ public class User {
 		if(this.experience == 0)
 			return 0;
 		int lv = 0;
-		while(lv/Math.pow(.48, lv) < this.experience){
+		while(lv/Math.pow(.4, lv) < this.experience){
 			lv++;
 		}
 		return lv;
@@ -124,6 +144,7 @@ public class User {
 	}
 
 	public void resetInventory() {
+		getPlayer().setMaxHealth(20);
 		getPlayer().getInventory().clear();
 		getPlayer().setHealth(20);
 		getPlayer().setFoodLevel(20);
@@ -228,7 +249,8 @@ public class User {
 		Inventory inv = getPlayer().getInventory();
 		ItemManager im = Core.getInstance().getItemManager();
 		inv.setItem(0, im.getFFAItem());
-		inv.setItem(8, im.getUnlockableOpener());
+		inv.setItem(1, im.getUnlockableOpener());
+		inv.setItem(8, im.getPathItem());
 	}
 
 	public void openKitSelector() {
@@ -237,6 +259,14 @@ public class User {
 			inv.addItem(loadout.getSelectableIcon());
 		}
 		getPlayer().openInventory(inv);
+	}
+	
+	public void openPathSelector(){
+		Inventory pathSelector = Bukkit.getServer().createInventory(this.getPlayer(), 9, ChatColor.UNDERLINE + "Path Selector");
+		for(Specialty specialty : Specialty.values()){
+			pathSelector.addItem(Specialty.getIcon(specialty));
+		}
+		this.getPlayer().openInventory(pathSelector);
 	}
 
 	public void openKitEditor() {
@@ -314,8 +344,17 @@ public class User {
 	}
 
 	public void addLoadout(Loadout loadout) {
-		if (!this.loadouts.contains(loadout))
+		if (!contains(loadout))
 			this.loadouts.add(loadout);
+	}
+	
+	private boolean contains(Loadout loudout){
+		for(Loadout l : this.loadouts){
+			if(l.getName().equals(loudout.getName())){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public ArrayList<Loadout> getLoadouts() {

@@ -31,6 +31,7 @@ public class BalanceCommand implements CommandExecutor {
 					abilities += user.getOwnedUnlockablesAsHashmap().get(ability);
 				}
 				player.sendMessage(ChatColor.GRAY + "Abilities: " + ChatColor.AQUA + abilities);
+				player.sendMessage(ChatColor.GRAY + "Level: " + ChatColor.DARK_AQUA + user.getLevel());
 			} else {
 				arg0.sendMessage("Command for players only!");
 			}

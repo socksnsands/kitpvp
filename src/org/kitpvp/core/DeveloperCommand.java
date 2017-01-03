@@ -47,6 +47,12 @@ public class DeveloperCommand implements CommandExecutor {
 		        return false;
 			}
 			
+			if(arg3[0].equalsIgnoreCase("debug")){
+		        Core.getInstance().toggleDebug();
+		        arg0.sendMessage("Toggled debug, current state: " + (Core.getInstance().getDebug() ? "on" : "off"));
+		        return false;
+			}
+			
 			if(arg3[0].equalsIgnoreCase("whitelistreason")){
 		        String m = "";
 		        for (int i = 1; i < arg3.length; i++) {

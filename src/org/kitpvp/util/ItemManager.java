@@ -34,6 +34,11 @@ public class ItemManager {
 		return this.createItem(ChatColor.GREEN + "FFA " + ChatColor.GRAY + "(Right click)", Material.COMPASS, (byte) 0,
 				1, null);
 	}
+	
+	public ItemStack getPathItem() {
+		return this.createItem(ChatColor.GREEN + "Path " + ChatColor.GRAY + "(Right click)", Material.APPLE, (byte) 0,
+				1, null);
+	}
 
 	public ItemStack getUnlockableOpener() {
 		return this.createItem(ChatColor.GREEN + "Unlockables " + ChatColor.GRAY + "(Right click)", Material.TRIPWIRE_HOOK,

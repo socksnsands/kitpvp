@@ -2,6 +2,7 @@ package org.kitpvp.loadout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -12,7 +13,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -27,9 +27,9 @@ public class Loadout {
 	final int maxPoints = 30;
 
 	private String name;
-	private ArrayList<Ability> abilities = new ArrayList<Ability>();
+	private HashMap<Ability, Material> abilities = new HashMap<Ability, Material>();
 
-	public Loadout(String name, ArrayList<Ability> abilities) {
+	public Loadout(String name, HashMap<Ability, Material> abilities) {
 		this.name = ChatColor.translateAlternateColorCodes('&', name);
 		this.abilities = abilities;
 	}
@@ -83,11 +83,11 @@ public class Loadout {
 		inv.setItem(0, is);
 		user.getActiveAbilities().clear();
 		user.clearCooldowns();
-		for (Ability ability : this.abilities) {
+		for (Ability ability : this.getAbilities()) {
 			Core.getInstance().getUserManager().getUser(player).getActiveAbilities().add(ability);
-			if (ability.getClickedItem() != null) {
-				inv.addItem(ability.getClickedItem());
-			}
+			ItemStack item = ability.getClickedItem();
+			item.setType(this.abilities.get(ability));
+			inv.addItem(item);
 		}
 		
 		Specialty specialty = user.getSpecialty();
@@ -112,7 +112,7 @@ public class Loadout {
 
 	public int getPointValue() {
 		int value = 0;
-		for (Ability ability : this.abilities) {
+		for (Ability ability : this.getAbilities()) {
 			value += ability.getPoints();
 		}
 		return value;
@@ -124,15 +124,16 @@ public class Loadout {
 
 	public String toDBString() {
 		String s = this.name + "~";
-		for (Ability ability : this.abilities) {
-			s += ability.getName() + "~";
+		for (Ability ability : this.getAbilities()) {
+			s += ability.getName() + "+" + this.abilities.get(ability).getId() + "~";
 		}
 		return s;
 	}
 	
 	private void cleanupList() {
 		boolean runAgain = false;
-		for (Ability ability : this.abilities) {
+		for (Ability ability : this.getAbilities()) {
+			ArrayList<Ability> abilities = this.getAbilities();
 			int index = abilities.lastIndexOf(ability);
 			if (index - 1 != -1) {
 				if (Core.getInstance().getUnlockableManager().isMoreRare(abilities.get(index - 1), ability)) {
@@ -152,27 +153,33 @@ public class Loadout {
 		lore.addAll(Arrays.asList("",
 				ChatColor.GRAY + "Points: " + ChatColor.YELLOW + this.getPointValue() + "/" + this.getMaxPoints(),
 				ChatColor.GRAY + "Active abilities:"));
-		for (Ability ability : this.abilities) {
+		for (Ability ability : this.getAbilities()) {
 			lore.add(ChatColor.GRAY + " - " + ability.getScarcity().getColor() + ability.getName());
 		}
 		return Core.getInstance().getItemManager().createItem(ChatColor.WHITE + this.getName(), Material.PISTON_BASE,
 				(byte) 0, 1, lore);
 	}
+	
+	public void setIcon(Ability ability, Material icon){
+		if(this.abilities.containsKey(ability)){
+			this.abilities.put(ability, icon);
+		}
+	}
 
 	public void openEditScreen(Player player) {
 		Inventory es = Bukkit.getServer().createInventory(player, 54,
 				"Edit kit: " + this.getPointValue() + "/" + this.getMaxPoints() + " " + this.getName());
-		for (int i = 0; i < this.abilities.size(); i++) {
-			ItemStack item = this.abilities.get(i).getIcon();
+		for (Ability ability : this.getAbilities()) {
+			ItemStack item = ability.getIcon();
 			ItemMeta im = item.getItemMeta();
 			List<String> lore = im.getLore();
 			lore.add("");
-			lore.add(ChatColor.AQUA + "Points: " + abilities.get(i).getPoints());
+			lore.add(ChatColor.AQUA + "Points: " + ability.getPoints());
 			lore.add(ChatColor.GREEN + "Activated");
 			im.setLore(lore);
 			item.setItemMeta(im);
 
-			es.setItem(i, item);
+			es.addItem(item);
 
 		}
 		for (int i = 0; i < 18; i++)
@@ -180,7 +187,7 @@ public class Loadout {
 				es.setItem(i, Core.getInstance().getItemManager().createItem(" ", Material.STAINED_GLASS_PANE,
 						(byte) 15, 1, null));
 		for (Ability ability : Core.getInstance().getUserManager().getUser(player).getOwnedAbilities())
-			if (!this.abilities.contains(ability)){
+			if (!getAbilities().contains(ability)){
 				ItemStack icon = ability.getIcon();
 				ItemMeta im = icon.getItemMeta();
 				List<String> lore = im.getLore();
@@ -196,13 +203,13 @@ public class Loadout {
 		this.name = name;
 	}
 
-	public void addAbility(Ability ability) {
-		if (!this.abilities.contains(ability))
-			this.abilities.add(ability);
+	public void addAbility(Ability ability, Material icon) {
+		if (!getAbilities().contains(ability))
+			this.abilities.put(ability, icon);
 	}
 
 	public void removeAbility(Ability ability) {
-		if (this.abilities.contains(ability))
+		if (getAbilities().contains(ability))
 			this.abilities.remove(ability);
 	}
 
@@ -220,7 +227,9 @@ public class Loadout {
 	}
 
 	public ArrayList<Ability> getAbilities() {
-		return this.abilities;
+		ArrayList<Ability> abilities = new ArrayList<Ability>();
+		this.abilities.keySet().forEach(a->abilities.add(a));
+		return abilities;
 	}
 
 }

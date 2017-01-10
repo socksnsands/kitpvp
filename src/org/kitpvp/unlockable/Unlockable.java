@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 //import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,7 +17,8 @@ public abstract class Unlockable {
 
 	public enum Scarcity {
 
-		WHITE("White", ChatColor.WHITE, 1), BLUE("Blue", ChatColor.BLUE, .5), 
+		WHITE("White", ChatColor.WHITE, 1), 
+		BLUE("Blue", ChatColor.BLUE, .5), 
 		PURPLE("Purple", ChatColor.DARK_PURPLE, .2), 
 		RED("Red", ChatColor.RED, .05), 
 		DARK_RED("Dark Red", ChatColor.DARK_RED, .02), 

@@ -10,13 +10,13 @@ import org.kitpvp.core.Core;
 public class Dolphin extends Ability implements Listener {
 	
 	public Dolphin() {
-		super("Dolphin", "Press shift while in water _L_to throw yourself forward!", Material.WATER_BUCKET, Scarcity.RED, 9, 1);
+		super("Dolphin", "Press shift while in liquid _L_to throw yourself forward!", Material.WATER_BUCKET, Scarcity.RED, 9, 1);
 	}
 	
 	@EventHandler
 	public void onShift(PlayerToggleSneakEvent event){
 		if(Core.getInstance().getUserManager().getUser(event.getPlayer()).getActiveAbilities().contains(super.getAbility())){
-				if(event.getPlayer().getLocation().getBlock().getType().equals(Material.WATER) || event.getPlayer().getLocation().getBlock().getType().equals(Material.STATIONARY_WATER)){
+				if(event.getPlayer().getLocation().getBlock().isLiquid()){
 					event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().multiply(2));
 				}
 		}

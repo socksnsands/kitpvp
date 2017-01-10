@@ -152,6 +152,12 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new DistanceLaser(1));
 		unlockables.add(new DistanceLaser(2));
 		unlockables.add(new Timelord());
+		unlockables.add(new Pillar(1));
+		unlockables.add(new Pillar(2));
+		unlockables.add(new Pillar(3));
+		unlockables.add(new Kamakazi(1));
+		unlockables.add(new Kamakazi(2));
+		unlockables.add(new Kamakazi(3));
 
 	}
 
@@ -191,7 +197,6 @@ public class UnlockableManager implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new Noob(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Stomper(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Aphrodite(1), Core.getInstance());
-		Bukkit.getServer().getPluginManager().registerEvents(new Aphrodite(2), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Switcher(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Spiderman(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Pirate(), Core.getInstance());
@@ -201,6 +206,7 @@ public class UnlockableManager implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new Ninja(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Snail(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Timelord(), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Kamakazi(1), Core.getInstance());
 	}
 
 	public Scarcity getRandom() {
@@ -294,7 +300,7 @@ public class UnlockableManager implements Listener {
 				@Override
 				public void run() {
 					tickSeriesInventory(player, inv, series);
-					player.playSound(player.getLocation(), Sound.WOOD_CLICK, 1, 1);
+					player.playSound(player.getLocation().clone().add(0,4,0), Sound.WOOD_CLICK, 1, 1);
 					if (q == t - 1) {
 						String name = inv.getItem(13).getItemMeta().getDisplayName();
 						player.sendMessage(ChatColor.GRAY + "You unlocked " + name + ChatColor.GRAY + "!");
@@ -350,7 +356,7 @@ public class UnlockableManager implements Listener {
 	}
 
 	private void tickSeriesInventory(Player player, Inventory inventory, UnlockableSeries series) {
-		if (player.getOpenInventory() != inventory)
+		if (!player.getOpenInventory().equals(inventory))
 			player.openInventory(inventory);
 		if (inventory.getSize() < 18)
 			return;

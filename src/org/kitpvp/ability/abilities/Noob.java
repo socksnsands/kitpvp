@@ -12,7 +12,7 @@ public class Noob extends Ability implements Listener {
 	private static String name = "Noob";
 
 	public Noob() {
-		super(name, "Prevents you from dropping essentials!", Material.FEATHER, Scarcity.WHITE, 2, 1);
+		super(name, "Prevents you from dropping essentials!", Material.FEATHER, Scarcity.BLUE, 2, 1);
 	}
 
 	@EventHandler
@@ -21,7 +21,9 @@ public class Noob extends Ability implements Listener {
 				.contains(Core.getInstance().getAbilityManager().getAbility(name))) {
 			if (event.getItemDrop().getItemStack().getType().equals(Material.STONE_SWORD)
 					|| event.getItemDrop().getItemStack().getType().equals(Material.MUSHROOM_SOUP) ||
-					event.getItemDrop().getItemStack().getType().equals(Material.POTION)) {
+					event.getItemDrop().getItemStack().getType().equals(Material.POTION) ||
+					event.getItemDrop().getItemStack().getType().equals(Material.COOKIE) || 
+					event.getItemDrop().getItemStack().getType().equals(Material.WOOD_SWORD)) {
 				if (!super.callEvent(event.getPlayer(), Core.getInstance().getAbilityManager().getAbility(name))
 						.isCancelled()) {
 					event.setCancelled(true);

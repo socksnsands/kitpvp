@@ -1,6 +1,7 @@
 package org.kitpvp.loadout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -30,6 +32,22 @@ public class LoadoutManager implements Listener {
 				}
 			}
 		}
+	}
+	
+	private boolean isInteger(String s) {
+	    return isInteger(s,10);
+	}
+
+	private boolean isInteger(String s, int radix) {
+	    if(s.isEmpty()) return false;
+	    for(int i = 0; i < s.length(); i++) {
+	        if(i == 0 && s.charAt(i) == '-') {
+	            if(s.length() == 1) return false;
+	            else continue;
+	        }
+	        if(Character.digit(s.charAt(i),radix) < 0) return false;
+	    }
+	    return true;
 	}
 
 	@EventHandler
@@ -62,6 +80,10 @@ public class LoadoutManager implements Listener {
 										rName = rName.substring(0, 17);
 										player.sendMessage(ChatColor.YELLOW + "Kit name changed to: " + ChatColor.translateAlternateColorCodes('&', rName));
 									}
+									if(rName.equals("")){
+										player.sendMessage(ChatColor.RED + "Your kit name can't be empty!");
+										rName = "random";
+									}
 										
 									name = ChatColor.translateAlternateColorCodes('&', rName);
 								} else {
@@ -89,8 +111,8 @@ public class LoadoutManager implements Listener {
 									player.sendMessage(ChatColor.GRAY + "Kit: \"" + ChatColor.GREEN + name
 											+ ChatColor.GRAY + "\" created!");
 								}
-
-								Loadout loadout = new Loadout(name, new ArrayList<Ability>());
+								HashMap<Ability, Material> map = new HashMap<Ability, Material>();
+								Loadout loadout = new Loadout(name, map);
 								user.addLoadout(loadout);
 
 								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(),
@@ -130,15 +152,63 @@ public class LoadoutManager implements Listener {
 						if (event.getCurrentItem().getItemMeta().getLore() != null)
 							if (event.getCurrentItem().getItemMeta().getLore()
 									.contains(ChatColor.GREEN + "Activated")) {
-								loadout.removeAbility(Core.getInstance().getAbilityManager().getAbility(
-										ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName())));
-								loadout.refreshEditScreen(player);
+								if(!event.getClick().equals(ClickType.RIGHT) && !event.getClick().equals(ClickType.SHIFT_RIGHT)){
+									loadout.removeAbility(Core.getInstance().getAbilityManager().getAbility(
+											ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName())));
+									loadout.refreshEditScreen(player);
+								}else{
+									AnvilGui gui = new AnvilGui(player, new AnvilGui.AnvilClickEventHandler() {
+										@Override
+										public void onAnvilClick(AnvilGui.AnvilClickEvent ev) {
+											String id = "";
+											Material mat = Material.AIR;
+											if (ev.getSlot() == AnvilGui.AnvilSlot.OUTPUT) {
+												ev.setWillClose(true);
+												ev.setWillDestroy(true);
+
+												id = ev.getName();
+											} else {
+												ev.setWillClose(false);
+												ev.setWillDestroy(false);
+											}
+
+											if(isInteger(id)){
+												int i =	Integer.parseInt(id);
+												try{
+													mat = Material.getMaterial(i);
+												}catch(Exception ex){
+													player.sendMessage(ChatColor.RED + "Material not found with ID " + id + "!");
+												}
+											}else{
+												String s = id.replaceAll(" ", "_");
+												s = s.toUpperCase();
+												for(Material m : Material.values()){
+													if(m.toString().equalsIgnoreCase(s)){
+														mat = m;
+														break;
+													}
+												}
+											}
+											Ability ability = Core.getInstance().getAbilityManager().getAbility(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()));
+											if(!mat.equals(Material.AIR)){
+												loadout.setIcon(ability, mat);
+											}else{
+												player.sendMessage(ChatColor.RED + "");
+											}
+
+										}
+									});
+									gui.setSlot(AnvilGui.AnvilSlot.INPUT_LEFT, Core.getInstance().getItemManager()
+											.createItem("Kit Name", Material.NAME_TAG, (byte) 0, 1, null));
+
+									gui.open();
+								}
 							} else if (Core.getInstance().getAbilityManager().isAbility(
 									ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()))) {
 								Ability t2a = Core.getInstance().getAbilityManager().getAbility(
 										ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()));
 								if (loadout.getPointValue() + t2a.getPoints() <= 30) {
-									loadout.addAbility(t2a);
+									loadout.addAbility(t2a, t2a.getClickedItem().getType());
 									loadout.refreshEditScreen(player);
 								} else {
 									player.sendMessage(

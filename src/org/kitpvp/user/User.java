@@ -407,13 +407,15 @@ public class User {
 	public Loadout readLoadoutString(String string) {
 		String name = string.split("~", 2)[0];
 		String rest = string.split("~", 2)[1];
-		ArrayList<Ability> abilities = new ArrayList<Ability>();
+		HashMap<Ability, Material> abilities = new HashMap<Ability, Material>();
 		while (rest.contains("~")) {
-			if (Core.getInstance().getAbilityManager().isAbility(rest.split("~", 2)[0]))
-				abilities.add(Core.getInstance().getAbilityManager().getAbility(rest.split("~", 2)[0]));
+			String s = rest.split("~", 2)[0];
+			if (Core.getInstance().getAbilityManager().isAbility(s.split("+")[0])){
+				abilities.put(Core.getInstance().getAbilityManager().getAbility(s.split("+")[0]), Material.getMaterial(s.split("+")[1]));
+			}
 			rest = rest.split("~", 2)[1];
 		}
-		for (Ability ability : abilities) {
+		for (Ability ability : abilities.keySet()) {
 			if (!this.getOwnedAbilities().contains(ability)) {
 				if (!getPlayer().isOp()) {
 					abilities.remove(ability);

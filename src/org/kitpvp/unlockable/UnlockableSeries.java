@@ -22,12 +22,12 @@ public enum UnlockableSeries {
 			Material.CHEST), 
 	WAR_ABILITY(ChatColor.RED + "War", 
 			"Premium series",
-			Arrays.asList("Jet", "Explosive Grenade", "Flash Grenade", "Totem", "Shotgun", "Pirate"),
+			Arrays.asList("Jet", "Kamakazi", "Explosive Grenade", "Flash Grenade", "Totem", "Shotgun", "Pirate"),
 			Material.CHEST), 
 	HEIGHTS_ABILITY(
 			ChatColor.RED + "Heights", 
 			"Premium series",
-			Arrays.asList("Anti-Stomper", "Stomper"),
+			Arrays.asList("Anti-Stomper", "Stomper", "Pillar"),
 			Material.CHEST), 
 	SUPERHERO_ABILITY(
 			ChatColor.RED + "Superhero", "Premium series",
@@ -50,7 +50,19 @@ public enum UnlockableSeries {
 	UNREAL_ABILITY(ChatColor.RED + "Unreal",
 			"Premium series",
 			Arrays.asList("Black Hole", "Body Shield", "Timelord"),
-			Material.ENDER_CHEST);
+			Material.ENDER_CHEST),
+	ALL_ABILITY(ChatColor.RED + "Ability",
+			"Premium series",
+			Arrays.asList("Black Hole", "Body Shield", "Timelord", "Frost Laser", "Fire Laser",
+					"Paralysis Laser", "Dark Laser",
+					"Mythical Laser", "Damage Laser",
+					"Swap Laser", "Electric Laser",
+					"Earth Laser", "Cooldown Laser",
+					"Omega Laser", "Distance Laser", 
+					"Flash", "Flame Aura", "Bulk Up", "Wind Storm", "Enrage",	"Jedi", "Anvil", "Spiderman", "Ninja", "Ground Slam", "Ice Blockade", "Paralysis Blockade", "Snail",
+					"Anti-Stomper", "Stomper", "Jet", "Explosive Grenade", "Flash Grenade", "Totem", "Shotgun", "Pirate",
+					"Jesus", "Aphrodite", "Poseidon", "Zeus", "Hades", "Hulk", "Monkey", "Dolphin", "Kamakazi", "Pillar"),
+			Material.STORAGE_MINECART);
 
 	private String display;
 	private String description;

@@ -77,8 +77,9 @@ public class AbilityManager implements Listener {
 		if (Core.getInstance().getUserManager().isLoadedUser(event.getPlayer())) {
 			User user = Core.getInstance().getUserManager().getUser(event.getPlayer());
 			for (Ability ability : user.getActiveAbilities()) {
-				if (ability.getClickedItem() != null) {
-					if (ability.getClickedItem().equals(event.getPlayer().getInventory().getItemInHand())) {
+//				if (ability.getClickedItem() != null) {
+//					if (ability.getClickedItem().equals(event.getPlayer().getInventory().getItemInHand())) {
+				if(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(ability.getScarcity().getColor() + ability.getName())){
 						if (!user.isOnCooldown(ability)) {
 							ability.onInteract(event.getPlayer(), event.getAction());
 						} else {
@@ -88,8 +89,9 @@ public class AbilityManager implements Listener {
 											+ this.round((double)user.getRemainingCooldown(ability) / 20.0, 1) + "s"
 											+ ChatColor.GRAY + "!");
 						}
-					}
 				}
+//					}
+//				}
 			}
 		}
 	}

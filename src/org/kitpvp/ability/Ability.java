@@ -60,6 +60,10 @@ public abstract class Ability extends Unlockable {
 	protected void setClickedItem(Material clickedItem) {
 		this.clickedItem = new ItemStack(clickedItem);
 	}
+	
+	public boolean hasClickedItem(){
+		return this.clickedItem != null;
+	}
 
 	final public AbilityUseEvent callEvent(Player player, Ability ability) {
 		if(this.hasCooldown)

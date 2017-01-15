@@ -212,7 +212,7 @@ public class UnlockableManager implements Listener {
 	public Scarcity getRandom() {
 		Random random = new Random();
 		double d = random.nextDouble();
-		Scarcity result = Scarcity.WHITE;
+		Scarcity result = Scarcity.BLUE;
 		for (Scarcity scarcity : Scarcity.values()) {
 			if (scarcity.getChance() > d) {
 				if (!(result.getChance() < scarcity.getChance())) {

@@ -17,12 +17,12 @@ public abstract class Unlockable {
 
 	public enum Scarcity {
 
-		WHITE("White", ChatColor.WHITE, 1), 
-		BLUE("Blue", ChatColor.BLUE, .5), 
-		PURPLE("Purple", ChatColor.DARK_PURPLE, .2), 
-		RED("Red", ChatColor.RED, .05), 
-		DARK_RED("Dark Red", ChatColor.DARK_RED, .02), 
-		GOLD("Gold", ChatColor.GOLD, .005), 
+//		WHITE("White", ChatColor.WHITE, 1), 
+		BLUE("Blue", ChatColor.BLUE, 1), 
+		PURPLE("Purple", ChatColor.DARK_PURPLE, .35), 
+		RED("Red", ChatColor.RED, .08), 
+		DARK_RED("Dark Red", ChatColor.DARK_RED, .03), 
+		GOLD("Gold", ChatColor.GOLD, .004), 
 		BLACK("Black", ChatColor.DARK_GRAY, .001);
 
 		private String display;

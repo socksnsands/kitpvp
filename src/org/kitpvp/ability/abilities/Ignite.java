@@ -17,7 +17,7 @@ import org.kitpvp.ability.Ability;
 public class Ignite extends Ability {
 
 	public Ignite() {
-		super("Ignite", "Ignite your foes!", Material.FIREBALL, Scarcity.WHITE, 5, 1);
+		super("Ignite", "Ignite your foes!", Material.FIREBALL, Scarcity.BLUE, 5, 1);
 		super.setCooldown(15 * 20);
 		super.setClickedItem(new ItemStack(Material.BLAZE_ROD));
 	}

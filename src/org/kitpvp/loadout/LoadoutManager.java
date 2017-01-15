@@ -193,7 +193,7 @@ public class LoadoutManager implements Listener {
 											if(!mat.equals(Material.AIR)){
 												loadout.setIcon(ability, mat);
 											}else{
-												player.sendMessage(ChatColor.RED + "");
+												player.sendMessage(ChatColor.RED + "Item not found!");
 											}
 
 										}
@@ -208,7 +208,7 @@ public class LoadoutManager implements Listener {
 								Ability t2a = Core.getInstance().getAbilityManager().getAbility(
 										ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()));
 								if (loadout.getPointValue() + t2a.getPoints() <= 30) {
-									loadout.addAbility(t2a, t2a.getClickedItem().getType());
+									loadout.addAbility(t2a, t2a.hasClickedItem() ? t2a.getClickedItem().getType() : Material.AIR);
 									loadout.refreshEditScreen(player);
 								} else {
 									player.sendMessage(

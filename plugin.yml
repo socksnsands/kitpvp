@@ -20,3 +20,9 @@ commands:
     description: Reply to a message!
   stats:
     description: Check your stats.
+  v:'
+    description: VANISH
+  vanish:
+    description: VANISH
+  fly:
+    description: FLY AWAY

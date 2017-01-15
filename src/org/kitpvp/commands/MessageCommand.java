@@ -45,7 +45,7 @@ public class MessageCommand implements CommandExecutor {
 		      }
 		    }else{
 		    	if(lbl.equalsIgnoreCase("r")){
-		    		if(reply.containsKey(p.getName())){
+		    		if(reply.get(p) != null){
 		    			Player t = Bukkit.getPlayer(reply.get(p.getName()));
 		    			 String m = "";
 		 		        for (int i = 1; i < args.length; i++) {

@@ -199,7 +199,16 @@ public class UserManager implements Listener {
 					String current = ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName());
 					User user = Core.getInstance().getUserManager().getUser(player);
 					if (user.hasLoadout(current)) {
-						user.getLoadout(current).apply(player);
+						boolean tp = true;
+						if(Core.getInstance().getGameManager().isGameActive()){
+							for(Player p : Core.getInstance().getGameManager().getActiveGame().getPlayers()){
+								if(p.equals(player)){
+									tp = false;
+									break;
+								}
+							}
+						}
+						user.getLoadout(current).apply(player, tp);
 					}
 				}
 				event.setCancelled(true);
@@ -270,6 +279,15 @@ public class UserManager implements Listener {
 
 		event.setDroppedExp(0);
 		
+		if(Core.getInstance().getGameManager().isGameActive()){
+			for(Player p : Core.getInstance().getGameManager().getActiveGame().getPlayers()){
+				if(p.equals(player)){
+					Core.getInstance().getGameManager().getActiveGame().lose(p);
+					break;
+				}
+			}
+		}
+		
 		ArrayList<ItemStack> toRemoveDrops = new ArrayList<>();
 		for(ItemStack drop : event.getDrops()){
 			if(!drop.getType().equals(Material.MUSHROOM_SOUP) && !drop.getType().equals(Material.WOOD_SWORD) && !drop.getType().equals(Material.BOWL) && !drop.getType().equals(Material.POTION) && !drop.getType().equals(Material.COOKIE)){
@@ -290,8 +308,9 @@ public class UserManager implements Listener {
 			//random between 10-20
 			int moneyPerKill = random.nextInt(11) + 10;
 			killer.sendMessage(ChatColor.GRAY + "You have been awarded with " + ChatColor.GOLD + moneyPerKill
-					+ ChatColor.GRAY + " coins and " + ChatColor.DARK_AQUA + "10" + ChatColor.GRAY + " xp!");
-			Core.getInstance().getUserManager().getUser(killer).addExperience(10);
+					+ ChatColor.GRAY + " coins!");
+							// "and " + ChatColor.DARK_AQUA + "10" + ChatColor.GRAY + " xp!");
+//			Core.getInstance().getUserManager().getUser(killer).addExperience(10);
 			Core.getInstance().getUserManager().getUser(killer).addMoney(moneyPerKill);
 			
 			//TODO make random
@@ -416,6 +435,9 @@ public class UserManager implements Listener {
 			event.setJoinMessage(ChatColor.GREEN + "+ " + ChatColor.WHITE + event.getPlayer().getName());
 		else
 			event.setJoinMessage(ChatColor.GREEN + "+ " + ChatColor.WHITE + event.getPlayer().getName() + ChatColor.LIGHT_PURPLE + " (new!)");
+		user.getPlayer().setPlayerListName(user.getRank().getColor() + user.getPlayer().getName());
+		user.getPlayer().setCustomName(user.getRank().getColor() + user.getPlayer().getName());
+		user.getPlayer().setDisplayName(user.getRank().getColor() + user.getPlayer().getName());
 		user.setSafe(true);
 		user.giveSpawnInventory();
 		if(user != null && user.getRank() != null){
@@ -486,8 +508,8 @@ public class UserManager implements Listener {
 				if(Core.getInstance().getUserManager().getUser(event.getPlayer()).getSpecialty().equals(Specialty.COOK)){
 					if (dm.getHealth() != dm.getMaxHealth()) {
 						this.eatCookie(event.getPlayer());
-						if(event.getItem().getAmount() <= 1){
-							event.getItem().setType(Material.AIR);
+						if(event.getPlayer().getItemInHand().getAmount()-1 == 0){
+							event.getPlayer().setItemInHand(new ItemStack(Material.AIR));
 						}else{
 							event.getPlayer().getItemInHand().setAmount(event.getPlayer().getItemInHand().getAmount()-1);
 						}
@@ -537,6 +559,14 @@ public class UserManager implements Listener {
 	}
 
 	private void leave(Player player) {
+		if(Core.getInstance().getGameManager().isGameActive()){
+			for(Player p : Core.getInstance().getGameManager().getActiveGame().getPlayers()){
+				if(p.equals(player)){
+					Core.getInstance().getGameManager().getActiveGame().lose(p);
+					break;
+				}
+			}
+		}
 		PushDataTask pdt = new PushDataTask(player.getUniqueId().toString());
 		pdt.runTaskAsynchronously(Core.getInstance());
 		if (!isLoadedUser(player))

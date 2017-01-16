@@ -11,8 +11,9 @@ public enum Rank {
 	FAMOUS(ChatColor.AQUA, "", 9, 1, 5),
 	JRMOD(ChatColor.LIGHT_PURPLE, "", 9, 1, 6),
 	MOD(ChatColor.DARK_PURPLE, "", 9, 1, 7),
-	ADMIN(ChatColor.RED, "", 9, 5, 8),
-	DEVELOPER(ChatColor.DARK_AQUA, "", 9, 5, 8);
+	SRMOD(ChatColor.DARK_PURPLE, "", 9, 1, 8),
+	ADMIN(ChatColor.RED, "", 9, 5, 9),
+	DEVELOPER(ChatColor.DARK_AQUA, "", 9, 5, 9);
 
 	private ChatColor color;
 	private String prefix;

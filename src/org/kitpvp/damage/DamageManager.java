@@ -27,12 +27,14 @@ public class DamageManager {
 	}
 	
 	public void setVelocity(Player player, Vector velocity){
-		if(Core.getInstance().getUserManager().getUser(player).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil")))
+		if(Core.getInstance().getUserManager().getUser(player).isSafe() || Core.getInstance().getUserManager().getUser(player).getActiveAbilities().contains(Core.getInstance().getAbilityManager().getAbility("Anvil")))
 			return;
 		player.setVelocity(velocity);
 	}
 	
 	public void damage(Player damaged, Player damager, double amount) {
+		if(Core.getInstance().getUserManager().getUser(damaged).isSafe())
+			return;
 		this.setLastDamaged(damaged, damager);
 		if(amount != -1)
 			damaged.damage(amount);

@@ -24,6 +24,7 @@ import org.kitpvp.commands.MessageCommand;
 import org.kitpvp.commands.PayCommand;
 import org.kitpvp.commands.SetRankCommand;
 import org.kitpvp.damage.DamageManager;
+import org.kitpvp.game.GameManager;
 import org.kitpvp.loadout.LoadoutManager;
 import org.kitpvp.tradeup.TradeupManager;
 import org.kitpvp.unlockable.UnlockableManager;
@@ -46,6 +47,7 @@ public class Core extends JavaPlugin implements Listener {
 	private ItemManager itemManager;
 	private DamageManager damageManager;
 	private CheatManager cheatManager;
+	private GameManager gameManager;
 
 
 	public void onEnable() {
@@ -59,6 +61,8 @@ public class Core extends JavaPlugin implements Listener {
 		itemManager = new ItemManager();
 		damageManager = new DamageManager();
 		cheatManager = new CheatManager();
+		gameManager = new GameManager();
+
 		
 		if (!getConfig().contains("con.useConfigConnection")) {
 			getConfig().set("con.useConfigConnection", true);
@@ -198,6 +202,10 @@ public class Core extends JavaPlugin implements Listener {
 
 	public CheatManager getCheatManager() {
 		return this.cheatManager;
+	}
+	
+	public GameManager getGameManager() {
+		return this.gameManager;
 	}
 
 	public static Core getInstance() {

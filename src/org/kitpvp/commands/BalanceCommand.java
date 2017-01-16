@@ -1,7 +1,5 @@
 package org.kitpvp.commands;
 
-import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,7 +29,7 @@ public class BalanceCommand implements CommandExecutor {
 					abilities += user.getOwnedUnlockablesAsHashmap().get(ability);
 				}
 				player.sendMessage(ChatColor.GRAY + "Abilities: " + ChatColor.AQUA + abilities);
-				player.sendMessage(ChatColor.GRAY + "Level: " + ChatColor.DARK_AQUA + user.getLevel());
+				//player.sendMessage(ChatColor.GRAY + "Level: " + ChatColor.DARK_AQUA + user.getLevel());
 			} else {
 				arg0.sendMessage("Command for players only!");
 			}

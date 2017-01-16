@@ -18,6 +18,7 @@ public abstract class Unlockable {
 	public enum Scarcity {
 
 //		WHITE("White", ChatColor.WHITE, 1), 
+		EVENT("Event", ChatColor.YELLOW, 0),
 		BLUE("Blue", ChatColor.BLUE, 1), 
 		PURPLE("Purple", ChatColor.DARK_PURPLE, .35), 
 		RED("Red", ChatColor.RED, .08), 

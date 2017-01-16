@@ -45,12 +45,14 @@ public class Loadout {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void apply(Player player) {
+	public void apply(Player player, boolean tp) {
 		User user = Core.getInstance().getUserManager().getUser(player);
 		player.closeInventory();
 		//TODO change map
-		player.teleport(randomMapLocation());
-		player.sendMessage(ChatColor.GREEN + "This map is temporary!");
+		if(tp){
+			player.teleport(randomMapLocation());
+			player.sendMessage(ChatColor.GREEN + "This map is temporary!");
+		}
 		Core.getInstance().getUserManager().getUser(player).resetInventory();
 		Inventory inv = player.getInventory();
 		net.minecraft.server.v1_7_R4.ItemStack stack = CraftItemStack.asNMSCopy(new ItemStack(Material.WOOD_SWORD));

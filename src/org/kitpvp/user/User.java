@@ -137,6 +137,9 @@ public class User {
 
 	public void setRank(Rank rank) {
 		this.rank = rank;
+		getPlayer().setPlayerListName(rank.getColor() + getPlayer().getName());
+		getPlayer().setCustomName(rank.getColor() + getPlayer().getName());
+		getPlayer().setDisplayName(rank.getColor() + getPlayer().getName());
 	}
 
 	public void setCooldown(Ability ability, int cooldown) {

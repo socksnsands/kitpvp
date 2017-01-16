@@ -158,6 +158,7 @@ public class UnlockableManager implements Listener {
 		unlockables.add(new Kamakazi(1));
 		unlockables.add(new Kamakazi(2));
 		unlockables.add(new Kamakazi(3));
+		unlockables.add(new Fortified());
 
 	}
 
@@ -207,6 +208,8 @@ public class UnlockableManager implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new Snail(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Timelord(), Core.getInstance());
 		Bukkit.getServer().getPluginManager().registerEvents(new Kamakazi(1), Core.getInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(new Fortified(), Core.getInstance());
+
 	}
 
 	public Scarcity getRandom() {

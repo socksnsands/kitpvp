@@ -180,7 +180,9 @@ public abstract class Game {
 		this.state = OVER;
 		player.sendMessage(this.winMessage);
 		this.giveReward(player);
+		Bukkit.broadcastMessage("");
 		Bukkit.broadcastMessage(Core.getInstance().getUserManager().getUser(player).getRank().getColor() + player.getName() + ChatColor.GRAY + " has won " + name + ChatColor.GRAY + "!");
+		Bukkit.broadcastMessage("");
 		ArrayList<Player> pls = new ArrayList<Player>();
 		for(Player p : players){
 			pls.add(p);
@@ -198,6 +200,9 @@ public abstract class Game {
 			player.sendMessage(ChatColor.RED + "You lost " + name + "!");
 			this.exit(player);
 		}else{
+			if(this.state.equals(WAITING) || this.state.equals(STARTING)){
+				this.sendGameMessage(Core.getInstance().getUserManager().getUser(player).getRank().getColor() + player.getName() + ChatColor.GRAY + " has left! (" + this.players.size() + "/" + this.maxPlayers + ")");
+			}
 			player.sendMessage(ChatColor.RED + "You have been removed from the game.");
 			if(this.players.contains(player)){
 				this.players.remove(player);

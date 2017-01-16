@@ -63,7 +63,7 @@ public enum UnlockableSeries {
 					"Anti-Stomper", "Stomper", "Jet", "Explosive Grenade", "Flash Grenade", "Totem", "Shotgun", "Pirate",
 					"Jesus", "Aphrodite", "Poseidon", "Zeus", "Hades", "Hulk", "Monkey", "Dolphin", "Kamakazi", "Pillar"),
 			Material.STORAGE_MINECART),
-	SG(ChatColor.GOLD + "SG", "Unlocked by winning SG", Arrays.asList("Monkey", "Ninja", "Anvil", "Cooldown Laser", "Aphrodite", "Jesus", "Paralysis Blockade", "Paralysis Laser"), Material.WOOD_SWORD);
+	SG(ChatColor.GOLD + "SG", "Unlocked by winning SG", Arrays.asList("Monkey", "Ninja", "Anvil", "Cooldown Laser", "Jesus", "Paralysis Blockade", "Paralysis Laser", "Poseidon", "Stomper", "Black Hole", "Snail", "Jet", "Swap Laser"), Material.WOOD_SWORD);
 
 	private String display;
 	private String description;

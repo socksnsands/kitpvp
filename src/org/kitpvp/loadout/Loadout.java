@@ -87,9 +87,11 @@ public class Loadout {
 		user.clearCooldowns();
 		for (Ability ability : this.getAbilities()) {
 			Core.getInstance().getUserManager().getUser(player).getActiveAbilities().add(ability);
-			ItemStack item = ability.getClickedItem();
-			item.setType(this.abilities.get(ability));
-			inv.addItem(item);
+			if(ability.hasClickedItem() && ability.getClickedItem() != null){
+				ItemStack item = ability.getClickedItem();
+				item.setType(this.abilities.get(ability));
+				inv.addItem(item);
+			}
 		}
 		
 		Specialty specialty = user.getSpecialty();

@@ -181,10 +181,15 @@ public abstract class Game {
 		player.sendMessage(this.winMessage);
 		this.giveReward(player);
 		Bukkit.broadcastMessage(Core.getInstance().getUserManager().getUser(player).getRank().getColor() + player.getName() + ChatColor.GRAY + " has won " + name + ChatColor.GRAY + "!");
-		ArrayList<Player> pls = players;
-		for(Player p : pls){
-			exit(p);
+		ArrayList<Player> pls = new ArrayList<Player>();
+		for(Player p : players){
+			pls.add(p);
 		}
+		for(Player p : pls){
+			this.exit(p);
+		}
+		Core.getInstance().getUserManager().getUser(player).giveSpawnInventory();
+		Core.getInstance().getUserManager().getUser(player).setSafe(true);
 		Core.getInstance().getGameManager().endActiveGame();
 	}
 	
@@ -204,7 +209,7 @@ public abstract class Game {
 		if(this.players.contains(player)){
 			this.players.remove(player);
 		}
-		Core.getInstance().getUserManager().getUser(player).giveSpawnInventory();
+//		Core.getInstance().getUserManager().getUser(player).giveSpawnInventory();
 		if(this.players.size() == 1){
 			this.win(players.get(0));
 		}

@@ -108,7 +108,8 @@ public class Loadout {
 				player.setHealth(140);
 			}
 		}
-		Core.getInstance().getUserManager().getUser(player).setSafe(false);
+		if(tp)
+			Core.getInstance().getUserManager().getUser(player).setSafe(false);
 		Core.getInstance().getUserManager().getUser(player).setActiveLoadout(this);
 	}
 
@@ -132,7 +133,7 @@ public class Loadout {
 		return s;
 	}
 	
-	private void cleanupList() {
+	private void cleanupList(int r) {
 		boolean runAgain = false;
 		for (Ability ability : this.getAbilities()) {
 			ArrayList<Ability> abilities = this.getAbilities();
@@ -145,12 +146,12 @@ public class Loadout {
 				}
 			}
 		}
-		if (runAgain)
-			cleanupList();
+		if (runAgain && r > 400)
+			cleanupList(r+1);
 	}
 
 	public ItemStack getSelectableIcon() {
-		this.cleanupList();
+		this.cleanupList(0);
 		ArrayList<String> lore = new ArrayList<>();
 		lore.addAll(Arrays.asList("",
 				ChatColor.GRAY + "Points: " + ChatColor.YELLOW + this.getPointValue() + "/" + this.getMaxPoints(),

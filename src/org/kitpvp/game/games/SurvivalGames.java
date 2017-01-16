@@ -12,7 +12,7 @@ public class SurvivalGames extends Game {
 	public SurvivalGames() {
 		super("SG", new Location(Bukkit.getWorld("world"), 136, 4, -22), 2, 24);
 		super.addReward(UnlockableSeries.SG, 1);
-		super.addReward(Core.getInstance().getAbilityManager().getAbility("Fotified"), 1);
+		super.addReward(Core.getInstance().getAbilityManager().getAbility("Fortified"), 1);
 		super.setWinMessage(ChatColor.GRAY + "You won: " + ChatColor.GOLD + "1x SG Series" + ChatColor.GRAY + ", " + ChatColor.GOLD + "1x Fortified Ability" + ChatColor.GRAY + "!");
 	}
 

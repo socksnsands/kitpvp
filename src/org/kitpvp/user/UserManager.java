@@ -300,10 +300,12 @@ public class UserManager implements Listener {
 
 		if (Core.getInstance().getDamageManager().hasLastDamaged(player)) {
 			Player killer = Core.getInstance().getDamageManager().getLastDamaged(player);
+			if(Core.getInstance().getUserManager().getUser(killer).getActiveLoadout() != null){
 			deathMessage = ChatColor.RED + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.RED
 					+ killer.getName() + ChatColor.GRAY + " with loadout "
 					+ Core.getInstance().getUserManager().getUser(killer).getActiveLoadout().getName() + ChatColor.GRAY
 					+ "!";
+			}
 			Random random = new Random();
 			//random between 10-20
 			int moneyPerKill = random.nextInt(11) + 10;

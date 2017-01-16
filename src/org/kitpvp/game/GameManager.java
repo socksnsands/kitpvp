@@ -1,5 +1,7 @@
 package org.kitpvp.game;
 
+import org.kitpvp.game.Game.GameState;
+
 public class GameManager {
 
 	private Game activeGame;
@@ -15,9 +17,16 @@ public class GameManager {
 	
 	public void endActiveGame(){
 		this.isGameActive = false;
+		this.activeGame = null;
 	}
 	
 	public boolean isGameActive(){
+		if(this.activeGame != null){
+			if(this.activeGame.getCurrentState().equals(GameState.OVER)){
+				this.isGameActive = false;
+				this.activeGame = null;
+			}
+		}
 		return this.isGameActive;
 	}
 	

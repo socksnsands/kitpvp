@@ -20,9 +20,12 @@ import org.kitpvp.ability.abilities.objects.TotemManager;
 import org.kitpvp.cheat.CheatManager;
 import org.kitpvp.cheat.cheats.detection.PvpListener;
 import org.kitpvp.commands.BalanceCommand;
+import org.kitpvp.commands.FlyCommand;
+import org.kitpvp.commands.JoinCommand;
 import org.kitpvp.commands.MessageCommand;
 import org.kitpvp.commands.PayCommand;
 import org.kitpvp.commands.SetRankCommand;
+import org.kitpvp.commands.VanishCommand;
 import org.kitpvp.damage.DamageManager;
 import org.kitpvp.game.GameManager;
 import org.kitpvp.loadout.LoadoutManager;
@@ -170,6 +173,12 @@ public class Core extends JavaPlugin implements Listener {
 		getCommand("message").setExecutor(new MessageCommand());
 		getCommand("r").setExecutor(new MessageCommand());
 		getCommand("stats").setExecutor(new BalanceCommand());
+		getCommand("fly").setExecutor(new FlyCommand());
+		getCommand("vanish").setExecutor(new VanishCommand());
+		getCommand("v").setExecutor(new VanishCommand());
+		getCommand("join").setExecutor(new JoinCommand());
+		getCommand("host").setExecutor(new JoinCommand());
+
 	}
 
 	public DamageManager getDamageManager() {

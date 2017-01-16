@@ -1,12 +1,16 @@
 package org.kitpvp.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.kitpvp.ability.Ability;
 import org.kitpvp.core.Core;
+import org.kitpvp.loadout.Loadout;
 import org.kitpvp.unlockable.Unlockable;
 import org.kitpvp.unlockable.UnlockableSeries;
 import org.kitpvp.user.User;
@@ -58,6 +62,8 @@ public abstract class Game {
 		Bukkit.broadcastMessage("");
 		Bukkit.broadcastMessage(ChatColor.GRAY + name + ChatColor.GRAY + " is being hosted, type " + ChatColor.GOLD + "/join" + ChatColor.GRAY + " to join!");
 		Bukkit.broadcastMessage("");
+		
+		Core.getInstance().getGameManager().setActiveGame(this);
 	}
 	
 	protected void setWinMessage(String message){
@@ -74,6 +80,10 @@ public abstract class Game {
 		return this.players;
 	}
 	
+	private Loadout getDefault(){
+		return new Loadout("Default", new HashMap<Ability, Material>());
+	}
+	
 	private void second(){
 		time++;
 		if(this.state.equals(PREGAME)){
@@ -82,6 +92,10 @@ public abstract class Game {
 				sendGameMessage(ChatColor.RED + "PVP has been enabled!");
 				for(Player player : this.players){
 					Core.getInstance().getUserManager().getUser(player).setSafe(false);
+					if(!Core.getInstance().getUserManager().getUser(player).hasActiveLoadout()){
+						player.sendMessage(ChatColor.GREEN + "Given default loadout!");
+						getDefault().apply(player, false);
+					}
 				}
 			}else{
 				sendGameMessage(ChatColor.GRAY + "PVP will enable in " + ChatColor.GOLD + (15-time) + "s" + ChatColor.GRAY + "!");
@@ -94,8 +108,13 @@ public abstract class Game {
 				this.state = GameState.PREGAME;
 				for(Player player : this.players){
 					Core.getInstance().getUserManager().getUser(player).setSafe(true);
-					Core.getInstance().getUserManager().getUser(player).openKitSelector();
 					player.teleport(this.spawnPoint);
+					if(Core.getInstance().getUserManager().getUser(player).getLoadouts().size() > 0){
+						Core.getInstance().getUserManager().getUser(player).openKitSelector();
+					}else{
+						player.sendMessage(ChatColor.GREEN + "Given default loadout!");
+						getDefault().apply(player, false);
+					}
 				}
 				time = 0;
 			}
@@ -106,15 +125,21 @@ public abstract class Game {
 		return this.spawnPoint;
 	}
 	
+	public GameState getCurrentState(){
+		return this.state;
+	}
+	
 	public void join(Player player){
 		if(state.equals(WAITING) || state.equals(STARTING)){
 			if(this.players.size() < this.maxPlayers){
 				if(!this.players.contains(player)){
 					this.players.add(player);
 					player.sendMessage(ChatColor.GREEN + "You have joined " + name + "!");
+					this.sendGameMessage(Core.getInstance().getUserManager().getUser(player).getRank().getColor() + player.getName() + ChatColor.GRAY + " has joined! (" + this.players.size() + "/" + this.maxPlayers + ")");
 					if(this.players.size() >= this.minPlayers && this.state.equals(WAITING)){
 						this.state = GameState.STARTING;
 						this.time = 0;
+						Bukkit.broadcastMessage(ChatColor.GRAY + name + ChatColor.GRAY + " is starting in " + ChatColor.GOLD + (START_TIME - time) + "s" + ChatColor.GRAY + "!");
 					}
 				}else{
 					player.sendMessage(ChatColor.RED + "You are already in the game!");
@@ -154,8 +179,10 @@ public abstract class Game {
 		}
 		this.state = OVER;
 		player.sendMessage(this.winMessage);
+		this.giveReward(player);
 		Bukkit.broadcastMessage(Core.getInstance().getUserManager().getUser(player).getRank().getColor() + player.getName() + ChatColor.GRAY + " has won " + name + ChatColor.GRAY + "!");
-		for(Player p : players){
+		ArrayList<Player> pls = players;
+		for(Player p : pls){
 			exit(p);
 		}
 		Core.getInstance().getGameManager().endActiveGame();
@@ -178,6 +205,9 @@ public abstract class Game {
 			this.players.remove(player);
 		}
 		Core.getInstance().getUserManager().getUser(player).giveSpawnInventory();
+		if(this.players.size() == 1){
+			this.win(players.get(0));
+		}
 	}
 	
 	public String getName(){

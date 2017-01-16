@@ -20,9 +20,13 @@ commands:
     description: Reply to a message!
   stats:
     description: Check your stats.
-  v:'
-    description: VANISH
+  v:
+    description: Vanish
   vanish:
-    description: VANISH
+    description: Vanish
   fly:
-    description: FLY AWAY
+    description: Fly
+  join:
+    description: Join current game
+  host:
+    description: Host a game

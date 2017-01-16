@@ -4,6 +4,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.kitpvp.core.Core;
+import org.kitpvp.user.User;
+import org.kitpvp.user.rank.Rank;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -14,13 +17,14 @@ public class FlyCommand implements CommandExecutor {
 		if (lbl.equalsIgnoreCase("fly")) {
 			if (sender instanceof Player) {
 				Player p = (Player) sender;
-				if (p.hasPermission("fly")) {
+				User user = Core.getInstance().getUserManager().getUser(p);
+				if (user.getRank().getValue() >= Rank.JRMOD.getValue()) {
 					if (p.getAllowFlight()) {
-						p.sendMessage(ChatColor.GRAY + "Disabled Flight!");
+						p.sendMessage(ChatColor.RED + "Disabled flight!");
 						p.setFlying(false);
 						p.setAllowFlight(false);
 					} else {
-						p.sendMessage(ChatColor.GRAY + "Enabled Flight!");
+						p.sendMessage(ChatColor.GREEN + "Enabled flight!");
 						p.setAllowFlight(true);
 						p.setFlying(true);
 					}

@@ -137,9 +137,11 @@ public class User {
 
 	public void setRank(Rank rank) {
 		this.rank = rank;
-		getPlayer().setPlayerListName(rank.getColor() + getPlayer().getName());
-		getPlayer().setCustomName(rank.getColor() + getPlayer().getName());
-		getPlayer().setDisplayName(rank.getColor() + getPlayer().getName());
+		if(rank != null && getPlayer() != null){
+			getPlayer().setPlayerListName(rank.getColor() + getPlayer().getName());
+			getPlayer().setCustomName(rank.getColor() + getPlayer().getName());
+			getPlayer().setDisplayName(rank.getColor() + getPlayer().getName());
+		}
 	}
 
 	public void setCooldown(Ability ability, int cooldown) {
@@ -262,6 +264,10 @@ public class User {
 			inv.addItem(loadout.getSelectableIcon());
 		}
 		getPlayer().openInventory(inv);
+	}
+	
+	public boolean hasActiveLoadout(){
+		return this.activeLoadout != null;
 	}
 	
 	public void openPathSelector(){

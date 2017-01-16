@@ -20,10 +20,15 @@ import org.kitpvp.ability.abilities.objects.TotemManager;
 import org.kitpvp.cheat.CheatManager;
 import org.kitpvp.cheat.cheats.detection.PvpListener;
 import org.kitpvp.commands.BalanceCommand;
+import org.kitpvp.commands.ClearChatCommand;
 import org.kitpvp.commands.FlyCommand;
+import org.kitpvp.commands.InvseeCommand;
 import org.kitpvp.commands.JoinCommand;
 import org.kitpvp.commands.MessageCommand;
+import org.kitpvp.commands.MuteChatCommand;
 import org.kitpvp.commands.PayCommand;
+import org.kitpvp.commands.PingCommand;
+import org.kitpvp.commands.ReportCommand;
 import org.kitpvp.commands.SetRankCommand;
 import org.kitpvp.commands.VanishCommand;
 import org.kitpvp.damage.DamageManager;
@@ -87,6 +92,7 @@ public class Core extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new LoadoutManager(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new TradeupManager(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new PvpListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new MuteChatCommand(), this);
 
 		registerCommands();
 	}
@@ -178,6 +184,12 @@ public class Core extends JavaPlugin implements Listener {
 		getCommand("v").setExecutor(new VanishCommand());
 		getCommand("join").setExecutor(new JoinCommand());
 		getCommand("host").setExecutor(new JoinCommand());
+		getCommand("cc").setExecutor(new ClearChatCommand());
+		getCommand("mc").setExecutor(new MuteChatCommand());
+		getCommand("invsee").setExecutor(new InvseeCommand());
+		getCommand("ping").setExecutor(new PingCommand());
+		getCommand("ms").setExecutor(new PingCommand());
+		getCommand("report").setExecutor(new ReportCommand());
 
 	}
 

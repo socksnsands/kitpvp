@@ -30,3 +30,7 @@ commands:
     description: Join current game
   host:
     description: Host a game
+  cc:
+    description: Clear the chat
+  mc:
+    description: Mute Chat.

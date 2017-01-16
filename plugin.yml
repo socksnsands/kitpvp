@@ -34,3 +34,8 @@ commands:
     description: Clear the chat
   mc:
     description: Mute Chat.
+  invsee:
+  heal:
+  ping:
+  ms:
+  report:

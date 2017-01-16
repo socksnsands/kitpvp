@@ -41,7 +41,7 @@ public class ReportCommand implements CommandExecutor {
 						if (user.getRank().getValue() >= Rank.JRMOD.getValue()) {
 							p.sendMessage(ChatColor.GRAY + sender.getName() + " has reported " + target.getName()
 									+ " for the reason: " + reason);
-							;
+							
 						}
 					}
 				}

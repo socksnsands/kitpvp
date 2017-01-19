@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
@@ -236,6 +237,8 @@ public class UserManager implements Listener {
 	@EventHandler
 	public void onPreLogin(AsyncPlayerPreLoginEvent e) {
 		boolean allowed = false;
+		allowed = !Bukkit.hasWhitelist();
+		if(!allowed)
 		for(OfflinePlayer p : Core.getInstance().getServer().getWhitelistedPlayers()){
 			if(p.getUniqueId().toString().equals(e.getUniqueId().toString())){
 				allowed = true;
@@ -425,6 +428,12 @@ public class UserManager implements Listener {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
+		int numb = ((CraftPlayer) event.getPlayer()).getHandle().playerConnection.networkManager.getVersion();
+		if(numb == 47){
+			event.getPlayer().kickPlayer(ChatColor.RED + "Please join using 1.7!");
+			event.setJoinMessage("");
+			return;
+		}
 		User user = Core.getInstance().getUserManager().getUser(event.getPlayer().getUniqueId().toString());
 		if (user == null) {
 			user = new User(event.getPlayer().getUniqueId().toString());

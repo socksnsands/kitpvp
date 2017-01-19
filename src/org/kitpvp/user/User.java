@@ -1,9 +1,12 @@
 package org.kitpvp.user;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -413,6 +416,21 @@ public class User {
 		this.balance = amount;
 	}
 
+	public int getPing() {
+		int ping = new Random(50L).nextInt();
+		try {
+			Method getHandleMethod = getPlayer().getClass().getDeclaredMethod("getHandle", new Class[0]);
+			getHandleMethod.setAccessible(true);
+			Object nmsplayer = getHandleMethod.invoke(getPlayer(), new Object[0]);
+			Field pingField = nmsplayer.getClass().getDeclaredField("ping");
+			pingField.setAccessible(true);
+			ping = pingField.getInt(nmsplayer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ping;
+	}
+	
 	public Loadout readLoadoutString(String string) {
 		String name = string.split("~", 2)[0];
 		String rest = string.split("~", 2)[1];
